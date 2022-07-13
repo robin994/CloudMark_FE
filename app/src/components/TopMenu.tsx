@@ -1,23 +1,34 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 
 export default function TopMenu() {
     return (
         <>
-        <Navbar bg="primary" variant="dark">
-          <Container>
-            <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-            <Nav navbarScroll className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#features">Features</Nav.Link>
-              <Nav.Link href="#pricing">Pricing</Nav.Link>
-            </Nav>
-          </Container>
-        </Navbar>
-        <Outlet />
-      </>
+          <Navbar sticky="top" bg="dark" variant="dark">
+            <Container fluid>
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+              <Navbar.Collapse id="responsive-navbar-nav">
+                <Navbar.Brand href="/">
+                  <img src="statics/cloud.png" className="d-inline-block align-top" width="40" height="40" alt="React Bootstrap logo"/>
+                    Cloudmark
+                </Navbar.Brand>
+              <Nav className="me-auto">
+                <Nav.Link href="calendario">Calendario</Nav.Link>
+                <Nav.Link href="dipendenti">Dipendenti</Nav.Link>
+                <Nav.Link href="commesse">Commesse</Nav.Link>
+              </Nav>
+              <Nav className="d-flex">
+              { sessionStorage.isAuthenticated ? <Nav.Link href="profile">Profile</Nav.Link> : (
+                  <>
+                    <Nav.Link href="login">Login</Nav.Link>
+                    <Nav.Link href="signup">Sign up</Nav.Link>
+                  </>
+              )}
+              </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+          <Outlet />
+        </>
     )
 }
