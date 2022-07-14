@@ -2,6 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import CustomCard from './CustomCard'
+import Spacer from './Spacer';
 
 
 
@@ -23,10 +24,11 @@ export default function Dashboard() {
             </Col>
           </Row>
         </Container>
-        <Container align="center">
-            <Row>
+        <Spacer />
+        <Container className='center'>
+            <Row className='my-5'>
               <Col>
-                <CustomCard />
+                <CustomCard imgSrc='https://www.svgrepo.com/show/73127/list.svg'/>
               </Col>
               <Col>
                 <CustomCard />
@@ -35,7 +37,7 @@ export default function Dashboard() {
                 <CustomCard />
               </Col>
             </Row>
-            <Row>
+            <Row className='my-5'>
               <Col>
                 <CustomCard />
               </Col>
