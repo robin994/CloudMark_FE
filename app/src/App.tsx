@@ -1,5 +1,3 @@
-import React from "react";
-import Registrazione from "./components/Registrazione";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
