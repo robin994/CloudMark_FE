@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Registrazione from "./components/Registrazione";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import TopMenu from "./components/TopMenu";
+import Dashboard from "./components/Dashboard";
 
-function App() {
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route element={<TopMenu />}>
+          <Route path="signup" element={<Registrazione />} />
+          <Route path="dashboard" element={<Dashboard />} />
+         </Route>
+        </Route>
+        <Route path="*" element={<h1>404 page not found</h1>} />{/* when no route match the URL-slug */}
+      </Routes>
+    </BrowserRouter>
+  )
 }
-
-export default App;
