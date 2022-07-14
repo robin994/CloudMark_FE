@@ -1,20 +1,20 @@
-import React,{useEffect,useState,useRef} from 'react'
+import React from 'react'
 
 const Login = () => {
  
 
     
   return (
-    <div>
+    <>
 
        
         <p></p>
         <div className="log-div">
         <h2 className="loggami">Log In</h2>
-            <form>
+            <form action="">
                 <p>
                     
-                    <input type="email" name="username" placeholder="email"required id="email" className="form-control"/>
+                    <input type="email" name="username" placeholder="email"required  className="form-control"/>
                 </p>
                 <p>
                   
@@ -31,7 +31,7 @@ const Login = () => {
         
         
             
-    </div>
+    </>
   )
 }
 
