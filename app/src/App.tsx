@@ -1,21 +1,19 @@
-import React from "react";
-import Registrazione from "./components/Registrazione";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import TopMenu from "./components/TopMenu";
-import Dashboard from "./components/Dashboard";
-
+import * as Comps from "./components";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<TopMenu />}>
-          <Route path="signup" element={<Registrazione />} />
-          <Route path="dashboard" element={<Dashboard />} />
+        <Route element={<Comps.TopMenu />}>
+          <Route path="cercadipendente" element={<Comps.CercaDipendente />} />
+          <Route path="signup" element={<Comps.Registrazione />} />
+          <Route path="dashboard" element={<Comps.Dashboard />} />
+          <Route path="superuser" element={<Comps.SuperUser />} />
+          <Route path="login" element={<Comps.Login />} />
          </Route>
-        </Route>
         <Route path="*" element={<h1>404 page not found</h1>} />{/* when no route match the URL-slug */}
       </Routes>
     </BrowserRouter>
