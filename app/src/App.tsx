@@ -12,8 +12,8 @@ export default function App() {
           <Route path="signup" element={<Comps.Registrazione />} />
           <Route path="dashboard" element={<Comps.Dashboard />} />
           <Route path="superuser" element={<Comps.SuperUser />} />
-          <Route path="login" element={<Comps.Login />} />
-         </Route>
+        </Route>
+        <Route path="login" element={<Comps.Login />} />
         <Route path="*" element={<h1>404 page not found</h1>} />{/* when no route match the URL-slug */}
       </Routes>
     </BrowserRouter>
