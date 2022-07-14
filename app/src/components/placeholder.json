@@ -1,0 +1,12 @@
+
+[
+    {
+        "id": 1,
+        "nome": "Azienda1",
+        "p_iva": "123",
+        "iban": "12345",
+        "indirizzo": "via falsa 123",
+        "telefono": "69696969 lmao",
+        "email": "emalbella@email.com"
+    }
+]
