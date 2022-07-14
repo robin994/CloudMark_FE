@@ -12,7 +12,8 @@ export default function App() {
       <Routes>
         <Route element={<TopMenu />}>
           <Route path="signup" element={<Registrazione />} />
-          <Route />
+          <Route path="dashboard" element={<Dashboard />} />
+         </Route>
         </Route>
         <Route path="*" element={<h1>404 page not found</h1>} />{/* when no route match the URL-slug */}
       </Routes>
