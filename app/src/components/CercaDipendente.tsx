@@ -1,10 +1,14 @@
-import React from 'react'
-//import {Button} from 'react-bootstrap';
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const CercaDipendente = () => {
+  let navigate = useNavigate()
+  useEffect( () => {
+    if (sessionStorage.auth === undefined)
+      navigate("/login", {replace: true})
+  })
   return (
     <>
-  
         <div>
             <p>
             <input type="text" className="form-control cerca"placeholder="Search.."/>
