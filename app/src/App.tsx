@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TopMenu from "./components/TopMenu";
+import Dashboard from "./components/Dashboard";
+
 
 export default function App() {
   return (
@@ -11,6 +13,8 @@ export default function App() {
       <Routes>
         <Route element={<TopMenu />}>
           <Route path="signup" element={<Registrazione />} />
+          <Route path="dashboard" element={<Dashboard />} />
+         </Route>
         </Route>
         <Route path="*" element={<h1>404 page not found</h1>} />{/* when no route match the URL-slug */}
       </Routes>
