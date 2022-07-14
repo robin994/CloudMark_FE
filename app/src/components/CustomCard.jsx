@@ -1,19 +1,37 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
+const cardStyle = {
+  'width': '18rem',
+  'height': '20rem',
+  'padding-top': 'auto',
+  'padding-bottom': 'auto'
+}
+
+const imgStyle = {
+  'width': '25%',
+  'display': 'block',
+  'margin-left': 'auto',
+  'margin-right': 'auto',
+  'object-fit': 'cover'
+}
+
+const buttonStyle = {
+  
+}
+
 export default function CustomCard(props) {
   return (
     <>
-      <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body>
-          <Card.Title>{props.cardTitle}Titolo Card</Card.Title>
-          <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-          </Card.Text>
-          <Button variant="primary">{props.buttonText}Placeholder</Button>
-      </Card.Body>
+      <Card style={cardStyle} className='m y auto'>
+        <Card.Img style={imgStyle} variant="top" src={props.imgSrc} />
+        <Card.Body>
+            <Card.Title>{props.cardTitle}Titolo Card</Card.Title>
+            <Card.Text>
+              Descrizione delle azioni eseguite.
+            </Card.Text>
+            <Button style={buttonStyle} variant="primary">{props.buttonText}Placeholder</Button>
+        </Card.Body>
       </Card>
     </>
   )
