@@ -18,7 +18,7 @@ export default function TopMenu() {
                 <Nav.Link href="commesse">Commesse</Nav.Link>
               </Nav>
               <Nav className="d-flex">
-              { sessionStorage.isAuthenticated ? <Nav.Link href="profile">Profile</Nav.Link> : (
+              { sessionStorage.auth ? <Nav.Link href="profile">{sessionStorage.username}</Nav.Link> : (
                   <>
                     <Nav.Link href="login">Login</Nav.Link>
                     <Nav.Link href="signup">Sign up</Nav.Link>
