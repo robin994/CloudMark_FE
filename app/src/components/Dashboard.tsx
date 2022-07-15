@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import CustomCard from './CustomCard';
 import Spacer from './Spacer';
 
-const textDesc = [];
+const textDesc: string[] = [];
 
 textDesc[0] = "Ricerca singolo dipendente";
 textDesc[1] = "Lista di tutti i dipendenti";
