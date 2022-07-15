@@ -19,7 +19,7 @@ export default function DipendentiLista() {
     return (
         <>
             <Container>
-                <Spacer />
+                <Spacer margin='80px' />
                 <Container>
                 <Row>
                     <Col>
@@ -40,7 +40,7 @@ export default function DipendentiLista() {
                 ))}
                 </Row>
                 </Container>
-                <Spacer />
+                <Spacer margin='80px' />
             </Container>
         </>
     )

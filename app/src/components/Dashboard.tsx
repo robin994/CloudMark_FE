@@ -15,7 +15,7 @@ export default function Dashboard() {
   return (
     <>
       <Container>
-        <Spacer space='100px'/>
+        <Spacer margin='60px' />
         <Container>
           <Row>
             <Col>
@@ -28,7 +28,7 @@ export default function Dashboard() {
             </Col>
           </Row>
         </Container>
-        <Spacer />
+        <Spacer margin='100px' />
         <Container className='center'>
             <Row className='my-5'>
               <Col>
