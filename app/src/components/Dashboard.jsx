@@ -28,7 +28,9 @@ export default function Dashboard() {
         <Container className='center'>
             <Row className='my-5'>
               <Col>
-                <CustomCard imgSrc='https://www.svgrepo.com/show/73127/list.svg'/>
+                <CustomCard
+                  imgSrc='https://www.svgrepo.com/show/73127/list.svg'
+                  navPath='/cercapersone'/>
               </Col>
               <Col>
                 <CustomCard />

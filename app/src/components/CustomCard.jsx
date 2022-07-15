@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Navigate } from 'react-router-dom';
 
 const cardStyle = {
   'width': '18rem',
@@ -30,7 +31,9 @@ export default function CustomCard(props) {
             <Card.Text>
               Descrizione delle azioni eseguite.
             </Card.Text>
-            <Button style={buttonStyle} variant="primary">{props.buttonText}Placeholder</Button>
+            <Button style={buttonStyle} variant="primary" onClick={<Navigate to={props.navPath} replace={true} />}>
+              {props.buttonText}Placeholder
+            </Button>
         </Card.Body>
       </Card>
     </>
