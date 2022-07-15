@@ -4,7 +4,9 @@ import Registrazione from "./Registrazione"
 import TopMenu from "./TopMenu"
 import SuperUser from "./Super_User"
 import Dashboard from "./Dashboard"
-import ListaDipendenti from "./ListaDipendenti"
+import DipendentiLista from "./DipendentiLista"
+import Dipendente from "./Dipendente"
 
-export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dashboard, ListaDipendenti }
+export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dashboard, DipendentiLista,
+         Dipendente }
 
