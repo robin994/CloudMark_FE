@@ -7,5 +7,5 @@ import Dashboard from "./Dashboard"
 import modAziendaAdmin  from "./modAziendaAdmin"
 import addAziendaComponent from "./addAzienda"
 
-export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dashboard, modAziendaAdmin, addAziendaComponent }
+export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dashboard, modAziendaAdmin, addAziendaComponent}
 
