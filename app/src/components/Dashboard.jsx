@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import CustomCard from './CustomCard'
+import CustomCard from './CustomCard';
 import Spacer from './Spacer';
 
 const textDesc = [];
@@ -15,10 +15,13 @@ export default function Dashboard() {
   return (
     <>
       <Container>
-        <Spacer />
+        <Spacer space='100px'/>
         <Container>
           <Row>
             <Col>
+              <h3>
+                Benvenuto Admin
+              </h3>
               <h1>
                 {sessionStorage.azienda_nome}
               </h1>
@@ -32,7 +35,7 @@ export default function Dashboard() {
                 <CustomCard
                 cardTitle='Cerca Dipendente'
                 imgSrc='https://www.svgrepo.com/show/12496/users.svg'
-                navPath='/cercapersone'
+                navPath='/cercadipendente'
                 buttonText='Ricerca'
                 textDesc={textDesc[0]}/>
               </Col>
@@ -54,7 +57,7 @@ export default function Dashboard() {
               </Col>
               <Col>
               <CustomCard
-                cardTitle='Lista CLienti'
+                cardTitle='Lista Clienti'
                 imgSrc='https://www.svgrepo.com/show/40077/briefcase.svg'
                 navPath='/cercapersone'
                 buttonText='Mostra'

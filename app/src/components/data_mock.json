@@ -1,0 +1,10 @@
+[
+    {
+        "id_azienda": 1,
+        "nome_azienda": "microsoft",
+        "iban_azienda": "123456789",
+        "indirizzo": "via Roma 11",
+        "telefono": "+39 123 3456",
+        "email": "email_fittizia@gmail.com"
+    }
+]

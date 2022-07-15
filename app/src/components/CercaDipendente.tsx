@@ -1,7 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect,useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Data from './Data.json'
 
 const CercaDipendente = () => {
+  const [search,setSearch]= useState('')
   let navigate = useNavigate()
   useEffect( () => {
     if (sessionStorage.auth === undefined)
@@ -11,20 +13,29 @@ const CercaDipendente = () => {
     <>
         <div>
             <p>
-            <input type="text" className="form-control cerca"placeholder="Search.."/>
+            <input type="text" className="form-control"placeholder="Search.." onChange={event =>{setSearch(event.target.value)}}/>
             </p>
            
 
-            <p>
-            <input type="text" className="form-control nome"placeholder="Nome"/>
-            </p>
-            <p>
-            <input type="text" className="form-control cognome"placeholder="Cognome"/>
-            </p>
-           <button className = "btn btn-primary" type="submit">Conferma</button>
+         
+          
 
-        </div>
-    </>
+        
+        {Data.filter((val)=> {
+                  if(search === ''){
+                    return val
+                  }
+                  else if(val.first_name.includes(search)){
+                    return val
+                  }
+                }).map((val) => {
+                  return<div>{val.first_name} </div>
+                  })}
+             
+      </div>
+     
+    
+</>
   )
 }
 
