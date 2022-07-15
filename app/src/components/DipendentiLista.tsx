@@ -2,13 +2,15 @@ import { Container, Row, Col } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { getListaDipendenti } from "../data_mock"
 import CustomCard from "./CustomCard"
+import { useEffect } from "react"
 import Spacer from "./Spacer"
 
 export default function DipendentiLista() {
     const navigate = useNavigate()
-    if (sessionStorage.auth !== "true") {
-        navigate("/login")
-    }
+    useEffect(() => {
+        if (sessionStorage.auth === undefined)
+            navigate("/login", {replace: true})
+    }, [navigate])
     let lista_dipendenti = getListaDipendenti()
     let comps_Dipendente = []
     for (const dip of Object.values(lista_dipendenti)) {
@@ -19,7 +21,7 @@ export default function DipendentiLista() {
             <Container>
                 <Spacer />
                 <Container>
-                <Row >
+                <Row>
                     <Col>
                     <h1>
                         {`${sessionStorage.azienda_nome} Dipendenti`}
@@ -39,13 +41,6 @@ export default function DipendentiLista() {
                 </Row>
                 </Container>
                 <Spacer />
-                <Container className='center'>
-                    <Row className='my-5'>
-                    <Col>
-                      {}
-                    </Col>
-                    </Row>
-                </Container>
             </Container>
         </>
     )
