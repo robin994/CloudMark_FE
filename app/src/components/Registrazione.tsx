@@ -14,23 +14,23 @@ function Registrazione() {
             <form action="">
 
                 <div>
-                    <input type="text" name="nome" placeholder="digita nome" />
+                    <input type="text" name="nome" placeholder="digita nome" className="form-control Dim" />
                 </div>
 
                 <div>
-                    <input type="text" name="cogname" placeholder="digita cogname" className="form-control" />
+                    <input type="text" name="cognome" placeholder="digita cognome" className="form-control Dim" />
                 </div>
 
                 <div>
-                    <input type="text" name="codice fiscale" placeholder="digita codice fiscale" className="form-control" />
+                    <input type="text" name="codice fiscale" placeholder="digita codice fiscale" className="form-control Dim" />
                 </div>
 
                 <div>
-                    <input type="text" name="iban" placeholder="digita iban" className="form-control" />
+                    <input type="text" name="iban" placeholder="digita iban" className="form-control Dim" />
                 </div>
 
                 <div>
-                    <input type="email" name="email" placeholder="digita email" id="emailRegistrazione" className="form-control" />
+                    <input type="email" name="email" placeholder="digita email" id="emailRegistrazione" className="form-control Dim" />
                 </div>
 
                 <div>
