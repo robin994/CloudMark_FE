@@ -21,7 +21,7 @@ export default function TopMenu() {
               <Nav className="d-flex">
               { sessionStorage.auth === "true" ? (
                 <>
-                  <Nav.Link href="login" onClick={() => {
+                  <Nav.Link href="/login" onClick={() => {
                     sessionStorage.auth = "false"
                     navigate("/login", {replace: true})
                   }}>logout</Nav.Link> 
