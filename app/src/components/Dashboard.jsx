@@ -10,6 +10,7 @@ export default function Dashboard() {
   return (
     <>
       <Container>
+        <Spacer />
         <Container>
           <Row>
             <Col>
@@ -32,14 +33,6 @@ export default function Dashboard() {
                   imgSrc='https://www.svgrepo.com/show/73127/list.svg'
                   navPath='/cercapersone'/>
               </Col>
-              <Col>
-                <CustomCard />
-              </Col>
-              <Col>
-                <CustomCard />
-              </Col>
-            </Row>
-            <Row className='my-5'>
               <Col>
                 <CustomCard />
               </Col>
