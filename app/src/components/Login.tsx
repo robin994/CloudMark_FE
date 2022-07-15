@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 const Login = () => {
     const navigate = useNavigate()
-    if (sessionStorage.auth !== "true") {
-        navigate("/login")
-    }
+    useEffect(() => {
+        if (sessionStorage.auth === "true")
+            navigate("/", {replace: true})
+    }, [navigate])
     const onSubmit = () => {
         let email = document.getElementById("emailLogin") as HTMLInputElement
         let psw = document.getElementById("pswLogin") as HTMLInputElement
