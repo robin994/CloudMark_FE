@@ -22,3 +22,24 @@
   #main_body h3{
     text-align: center;
   }
+
+#alert_back{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+#alert_container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  padding: 10vh;
+  border: 0.2vh solid black;
+  transform: translate(-50%,-50%);
+  background: white;
+  border-radius: 10%;
+}

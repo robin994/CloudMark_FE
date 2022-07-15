@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import './addAzienda.css'
 
 
 
 
-export function addAziendaComponent(){
+const addAziendaComponent=()=>{
+  const [inv, setInv] = useState(true)
+  function okPop(){
+    if(inv == true){
+      setInv(false)
+    }
+  }
     return(
       <>
         <div className='cont_01 mt-5'>
@@ -18,6 +24,14 @@ export function addAziendaComponent(){
             <input type="text" className="form-control" placeholder='email'/>
           </div>
         </div>
+        <div id="alert_back">
+          <div id="alert_container" hidden={inv}>
+            <h1 onClick={okPop}>Hai sbagliato</h1>
+            <button className="btn btn-primary">Ok</button>
+          </div>
+        </div>
       </>
     )
   }
+
+export default addAziendaComponent

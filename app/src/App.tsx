@@ -8,6 +8,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Comps.TopMenu />}>
+          <Route path="mod-azienda-admin" element={<Comps.modAziendaAdmin/>}/>
+          <Route path="addazienda" element={<Comps.addAziendaComponent/>}/>
           <Route path="cercadipendente" element={<Comps.CercaDipendente />} />
           <Route path="signup" element={<Comps.Registrazione />} />
           <Route path="dashboard" element={<Comps.Dashboard />} />
