@@ -9,7 +9,7 @@ const CercaDipendente = () => {
   
     <div>
         <p>
-        <input type="text" className="form-control"placeholder="Search.."
+        <input type="text" className="form-control"placeholder="Search..Dipendente"
         onChange={event =>{setSearch(event.target.value)}}/>
         </p>
         <div className='box'>
