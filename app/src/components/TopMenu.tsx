@@ -22,8 +22,8 @@ export default function TopMenu() {
               { sessionStorage.auth === "true" ? (
                 <>
                   <Nav.Link href="/login" onClick={() => {
-                    sessionStorage.auth = "false"
-                    navigate("/login", {replace: true})
+                    sessionStorage.removeItem("auth")
+                    navigate("/login")
                   }}>logout</Nav.Link> 
                   <Nav.Link href="profile">{sessionStorage.account_username}</Nav.Link>
                 </>
