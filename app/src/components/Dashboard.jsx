@@ -20,13 +20,8 @@ export default function Dashboard() {
           <Row>
             <Col>
               <h1>
-                Nome Azienda
+                {sessionStorage.azienda_nome}
               </h1>
-            </Col>
-            <Col>
-              <div>
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </div>
             </Col>
           </Row>
         </Container>
