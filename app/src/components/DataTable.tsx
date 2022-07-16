@@ -1,5 +1,7 @@
 import Table from 'react-bootstrap/Table'
 
+/* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS */
+
 interface DataTableProps {
     id: string,
     col: string[],
