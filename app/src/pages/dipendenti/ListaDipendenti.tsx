@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import { Placeholder } from 'react-bootstrap'
 import DataTable from '../../components/DataTable'
 
 let heading = ['Nome', 'Cognome', 'Citta', 'Indirizzo']
@@ -31,36 +32,71 @@ let objects = [
   }
 ]
 
+// PlaceholderJSON API Response Interface
 interface User {
-  id:''
+    id: number,
+    name: string,
+    username: string,
+    email: string,
+    address: Address,
+    phone: string,
+    website: string,
+    company: Company
+    }
+// PlaceholderJSON API Response Interface
+interface Address {
+  street: string,
+  suite: string,
+  city: string,
+  zipcode: string,
+  geo: Geo
 }
-interface GetUsersResponse {
-  data: User[];
+// PlaceholderJSON API Response Interface
+interface Company {
+  name: string,
+  catchPhrase: string,
+  bs: string
+}
+// PlaceholderJSON API Response Interface
+interface Geo {
+  lat: string,
+  lng: string
 }
 
 // Only for testing purpouses, define your interface you twat
-interface DipendenteTest {
+interface DipendentiTest {
   [key: string]: any
 }
-interface GetDipendenteResponse {
-  data: DipendenteTest
+interface GetDipendentiResponse {
+  data: DipendentiTest
 }
 
 export default function ListaDipendenti() {
-  const [dipendenti, setDipendenti] = useState(getDipendenti);
-  // Axios needs to be implemented, waiting for APIs
-  const axios = require('axios');
+  const [dipendenti, setDipendenti] = useState<User[]>([]);
+  
+  async function getDipendenti() {
+    try {
+      const response = await axios.get<User[]>('https://jsonplaceholder.typicode.com/users');
+      setDipendenti(response.data)
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
+  useEffect(()=> {
+    getDipendenti()
+  }, [])
+  
   // Extrapolates the heading from the first data object
   const xtrHeading = (): string[] => {
     return [''] /* Object.keys() */
   }
-
+  
   return (
-      <DataTable id='id' col={heading} rows={objects}/>
-  )
-}
-
-async function getDipendenti() {
-
-}
+    <>
+    {/* <DataTable id='id' col={heading} rows={dipendenti}/> */}
+    </>
+    )
+  }
+  
