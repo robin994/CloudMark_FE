@@ -9,7 +9,7 @@ interface DataTableProps {
 /* In this case can accept any field with a string key and store any value,
 this solution is extremely elegant and can include TypeSafe fields */
 interface DynamicObject {
-    [key: string]: any;
+    [key: string]: any
 }
 
 /* Using maps i populate first all the columns, and then start filling in each row,
@@ -23,7 +23,7 @@ export default function DataTable(props: DataTableProps) {
         // This maps the col[] and returns all the row populated fields
         return(
             <tr>
-                {props.col.map((column: string)=> <td>{element[`${column}`]}</td>)}
+                {props.col.map((column: string)=> <td id={element['id']}>{element[`${column}`]}</td>)}
             </tr>
         )
     }

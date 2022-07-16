@@ -3,28 +3,32 @@ import { useState, useEffect } from 'react'
 import { Placeholder } from 'react-bootstrap'
 import DataTable from '../../components/DataTable'
 
-let heading = ['Nome', 'Cognome', 'Citta', 'Indirizzo']
+let heading = ['id', 'Nome', 'Cognome', 'Citta', 'Indirizzo']
 
 let objects = [
   {
+    'id': '0',
     'Nome': 'Alessandro',
     'Cognome': 'Rocco',
     'Citta': 'Roma',
     'Indirizzo': 'Via Enrico Jovane, 9'
   },
   {
+    'id': '1',
     'Nome': 'Alessandro',
     'Cognome': 'Rocca',
     'Citta': 'Milano',
     'Indirizzo': 'Via Enrico Jovane, 10'
   },
   {
+    'id': '2',
     'Nome': 'Alessandro',
     'Cognome': 'Rocche',
     'Citta': 'Torino',
     'Indirizzo': 'Via Enrico Jovane, 11'
   },
   {
+    'id': '3',
     'Nome': 'Alessandro',
     'Cognome': 'Rocchi',
     'Citta': 'Bologna',
@@ -38,10 +42,10 @@ interface User {
     name: string,
     username: string,
     email: string,
-    address: Address,
+    // address: Address,
     phone: string,
     website: string,
-    company: Company
+    // company: Company
     }
 // PlaceholderJSON API Response Interface
 interface Address {
@@ -90,13 +94,15 @@ export default function ListaDipendenti() {
   
   // Extrapolates the heading from the first data object
   const xtrHeading = (): string[] => {
-    return [''] /* Object.keys() */
+    if (Object.keys(dipendenti).length > 0) {
+      return Object.keys(dipendenti[0])
+    } else {
+      return ['']
+    }
   }
   
   return (
-    <>
-    {/* <DataTable id='id' col={heading} rows={dipendenti}/> */}
-    </>
+    <DataTable id='id' col={/* xtrHeading() */heading} rows={objects/* dipendenti */}/>
     )
   }
   
