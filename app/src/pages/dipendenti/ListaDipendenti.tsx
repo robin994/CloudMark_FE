@@ -1,3 +1,5 @@
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 import DataTable from '../../components/DataTable'
 
 let heading = ['Nome', 'Cognome', 'Citta', 'Indirizzo']
@@ -29,19 +31,36 @@ let objects = [
   }
 ]
 
+interface User {
+  id:''
+}
+interface GetUsersResponse {
+  data: User[];
+}
+
+// Only for testing purpouses, define your interface you twat
+interface DipendenteTest {
+  [key: string]: any
+}
+interface GetDipendenteResponse {
+  data: DipendenteTest
+}
+
 export default function ListaDipendenti() {
+  const [dipendenti, setDipendenti] = useState(getDipendenti);
   // Axios needs to be implemented, waiting for APIs
   const axios = require('axios');
 
-  axios.get('')
-  .then((response: object)=> {
-      console.log(response)
-  })
-  .catch((error: Error)=> {
-      console.log(error)
-  })
+  // Extrapolates the heading from the first data object
+  const xtrHeading = (): string[] => {
+    return [''] /* Object.keys() */
+  }
 
   return (
       <DataTable id='id' col={heading} rows={objects}/>
   )
+}
+
+async function getDipendenti() {
+
 }
