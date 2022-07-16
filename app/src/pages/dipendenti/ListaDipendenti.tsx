@@ -30,17 +30,18 @@ let objects = [
 ]
 
 export default function ListaDipendenti() {
-    const axios = require('axios');
+  // Axios needs to be implemented, waiting for APIs
+  const axios = require('axios');
 
-    axios.get('')
-    .then((response: object)=> {
-        console.log(response)
-    })
-    .catch((error: Error)=> {
-        console.log(error)
-    })
+  axios.get('')
+  .then((response: object)=> {
+      console.log(response)
+  })
+  .catch((error: Error)=> {
+      console.log(error)
+  })
 
-    return (
-        <DataTable id='id' col={heading} rows={objects}/>
-    )
+  return (
+      <DataTable id='id' col={heading} rows={objects}/>
+  )
 }
