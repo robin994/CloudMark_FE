@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Placeholder } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
+import Spacer from '../../components/Spacer'
 import DataTable from '../../components/DataTable'
 
 let heading = ['id', 'Nome', 'Cognome', 'Citta', 'Indirizzo']
@@ -101,8 +102,17 @@ export default function ListaDipendenti() {
     }
   }
   
-  return (
+  const listBlock = (
     <DataTable id='id' col={/* xtrHeading() */heading} rows={objects/* dipendenti */}/>
+  )
+
+  return (
+    <>
+      <Spacer margin='100px'/>
+      <Container>
+        {listBlock}
+      </Container>
+    </>
     )
   }
   
