@@ -1,5 +1,6 @@
 import Table from 'react-bootstrap/Table'
 import Card from 'react-bootstrap/Card'
+import Pagination from 'react-bootstrap/Pagination'
 
 /* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS */
 
@@ -31,20 +32,43 @@ export default function DataTable(props: DataTableProps) {
         )
     }
 
+    const paginationBLock = (
+        <>
+            <Pagination>
+                <Pagination.First />
+                <Pagination.Prev />
+                <Pagination.Item>{1}</Pagination.Item>
+                <Pagination.Ellipsis />
+
+                <Pagination.Item>{10}</Pagination.Item>
+                <Pagination.Item>{11}</Pagination.Item>
+                <Pagination.Item active>{12}</Pagination.Item>
+                <Pagination.Item>{13}</Pagination.Item>
+                <Pagination.Item disabled>{14}</Pagination.Item>
+
+                <Pagination.Ellipsis />
+                <Pagination.Item>{20}</Pagination.Item>
+                <Pagination.Next />
+                <Pagination.Last />
+            </Pagination>
+        </>
+    )
+
     return (
         <>
-            <Card className='px-0 py-0'>
+            <Card>
                 <Card.Body>
-            <Table className='mx-0 my-0' striped bordered hover>
-                <thead>
-                    <tr>
-                        {props.col.map((element)=> <Column element={element} />)}
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.rows.map((element: object)=> <Row element={element} />)}
-                </tbody>
-            </Table>
+                    {paginationBLock}
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                {props.col.map((element)=> <Column element={element} />)}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {props.rows.map((element: object)=> <Row element={element} />)}
+                        </tbody>
+                    </Table>
                 </Card.Body>
             </Card>
         </>
