@@ -3,7 +3,17 @@ import Card from 'react-bootstrap/Card'
 import Pagination from 'react-bootstrap/Pagination'
 
 /* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS!!,
-IT WILL JUST SKIP THEM AND RENDER THE NEXT ONE */
+IT WILL JUST SKIP THEM AND RENDER THE NEXT ONE
+
+Props: (id, col, rows)
+
+    -id : string --> A string that dictates which columns to use as the row ID
+
+    -col: { string : string } --> An object containing { propertyName : columnName }
+
+    -rows: [{}, {}, {},...] --> An array of equal objects, each element being a row
+    
+*/
 
 interface DataTableProps {
     id: string,
@@ -23,7 +33,6 @@ export default function DataTable(props: DataTableProps) {
 
     // Returns a table column populated with the column name from col[]
     const Column = ({element}: {element: string})=> <th>{element}</th>
-    
     // Returns a row corrisponding to the element being mapped
     const Row = ({element}: {element: DynamicObject})=> {
         // If the current value is an object skip! (Could be more elegant)
