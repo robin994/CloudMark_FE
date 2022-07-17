@@ -63,6 +63,7 @@ export default function ListaDipendenti() {
       <Container>
         {listBlock}
       </Container>
+      <Spacer margin='120px'/>
     </>
     )
   }
