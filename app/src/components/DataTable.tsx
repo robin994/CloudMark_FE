@@ -2,11 +2,12 @@ import Table from 'react-bootstrap/Table'
 import Card from 'react-bootstrap/Card'
 import Pagination from 'react-bootstrap/Pagination'
 
-/* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS */
+/* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS!!,
+IT WILL JUST SKIP THEM AND RENDER THE NEXT ONE */
 
 interface DataTableProps {
     id: string,
-    col: string[],
+    col: DynamicObject,
     rows: DynamicObject
 }
 
@@ -22,12 +23,20 @@ export default function DataTable(props: DataTableProps) {
 
     // Returns a table column populated with the column name from col[]
     const Column = ({element}: {element: string})=> <th>{element}</th>
+    
     // Returns a row corrisponding to the element being mapped
     const Row = ({element}: {element: DynamicObject})=> {
-        // This maps the col[] and returns all the row populated fields
+        // If the current value is an object skip! (Could be more elegant)
+        const Item = ({item}: any)=> {
+            if(!(typeof item === 'string')) return <></>
+            // Otherwise return the populated field
+            return (<td>{element[`${item}`]}</td>)
+        }
+
+        // This maps the col{keys} and calls <Item> to populate each column
         return(
-            <tr>
-                {props.col.map((column: string)=> <td id={element['id']}>{element[`${column}`]}</td>)}
+            <tr key={element['id']}>
+                {Object.keys(props.col).map((item: any)=> <Item item={item}/>)}
             </tr>
         )
     }
@@ -54,6 +63,7 @@ export default function DataTable(props: DataTableProps) {
         </>
     )
 
+    // This return needs to be cleaned up for readability
     return (
         <>
             <Card>
@@ -62,7 +72,7 @@ export default function DataTable(props: DataTableProps) {
                     <Table striped bordered hover>
                         <thead>
                             <tr>
-                                {props.col.map((element)=> <Column element={element} />)}
+                                {Object.values(props.col).map((element: string)=> <Column element={element} />)}
                             </tr>
                         </thead>
                         <tbody>
