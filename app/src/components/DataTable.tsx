@@ -1,4 +1,5 @@
 import Table from 'react-bootstrap/Table'
+import Card from 'react-bootstrap/Card'
 
 /* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS */
 
@@ -32,7 +33,9 @@ export default function DataTable(props: DataTableProps) {
 
     return (
         <>
-            <Table>
+            <Card className='px-0 py-0'>
+                <Card.Body>
+            <Table className='mx-0 my-0' striped bordered hover>
                 <thead>
                     <tr>
                         {props.col.map((element)=> <Column element={element} />)}
@@ -42,6 +45,8 @@ export default function DataTable(props: DataTableProps) {
                     {props.rows.map((element: object)=> <Row element={element} />)}
                 </tbody>
             </Table>
+                </Card.Body>
+            </Card>
         </>
   )
 }
