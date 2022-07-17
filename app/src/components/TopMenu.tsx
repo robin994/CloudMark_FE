@@ -15,7 +15,7 @@ export default function TopMenu() {
                 </Navbar.Brand>
               <Nav className="me-auto">
                 <Nav.Link href="/calendario">Calendario</Nav.Link>
-                <Nav.Link href="/lista_dipendenti">Dipendenti</Nav.Link>
+                <Nav.Link href="/dipendenti">Dipendenti</Nav.Link>
                 <Nav.Link href="/commesse">Commesse</Nav.Link>
               </Nav>
               <Nav className="d-flex">
