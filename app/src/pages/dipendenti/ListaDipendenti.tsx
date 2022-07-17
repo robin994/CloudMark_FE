@@ -43,7 +43,7 @@ export default function ListaDipendenti() {
     getDipendenti()
   }, [])
   
-  // TO BE DEPRECATED!
+  // TO BE DEPRECATED! Does not account for nesting
 /*   // Extrapolates the heading from the first data object
   const xtrHeading = (): string[] => {
     if (Object.keys(dipendenti).length > 0) {
