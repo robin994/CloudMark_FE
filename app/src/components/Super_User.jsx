@@ -2,6 +2,9 @@ import React,{useState} from 'react'
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Spacer from "./Spacer";
 import './css_components/SuperUser.css'
 
 
@@ -35,13 +38,21 @@ const SuperUser = ({placeholder,data}) => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [showDelete, setShowDelete] = useState(false);
+
+    const handleCloseDelete = () => setShowDelete(false);
+    const handleShowDelete = () => setShowDelete(true);
     return (
     <>
-
-
-
-<div className="search">
-<p className="hello">Ciao</p>
+    <Spacer margin="20px"/>
+    <Container>
+      <Card style={{ width: '24rem' }} className="mx-auto">
+      <Card.Header className="text-center">
+        <h1>Super User</h1>
+      </Card.Header>
+      <Card.Body className="mycard">
+      <div className="search">
       <div className="searchInputs">
         <input
           type="text"
@@ -79,67 +90,63 @@ const SuperUser = ({placeholder,data}) => {
         <form action="">
             <p>
                     
-                    <input type="text"  placeholder="id_azienda"  className="form-control"/>
-                </p>
-                <p>
-                  
-                    <input type="text"  placeholder="p_iva" className="form-control"/>
-                </p>
-
-                <p>
-                    
-                    <input type="text"  placeholder="iban"  className="form-control"/>
-                </p>
-                <p>
-                  
-                    <input type="text"  placeholder="indirizzo" className="form-control"/>
-                </p>
-
-                <p>
-                    
-                    <input type="tel"  placeholder="telefono"  className="form-control"/>
-                </p>
-                <p>
-                  
-                    <input type="email"  placeholder="email" className="form-control"/>
-                </p>
-                <p>
-                    
-                    <input type="email"  placeholder="pec" className="form-control"/>
-                </p>
-                <p>
-                  
-                    <input type="tel" placeholder="fax" className="form-control"/>
-                </p>
+                    <input type="text"  placeholder="id_azienda"  className="form-control my-1"/>
+                    <input type="text"  placeholder="p_iva" className="form-control my-1" />
+                    <input type="text"  placeholder="iban"  className="form-control my-1"/>
+                    <input type="text"  placeholder="indirizzo" className="form-control my-1"/>
+                    <input type="tel"  placeholder="telefono"  className="form-control my-1"/>
+                    <input type="email"  placeholder="email" className="form-control my-1"/>
+                    <input type="email"  placeholder="pec" className="form-control my-1"/>
+                    <input type="tel" placeholder="fax" className="form-control my-1"/>
+               </p>
                 
-              
                 <p>
                 <Button variant="primary" onClick={handleShow}>
                     Conferma Modifica
                 </Button>
+                
+                
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Modifica Azienda</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Sicuro di modificare l'azienda?
+                        Sicuro di modificare l'Azienda?
                    
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="success" onClick={handleClose}>
                             Sì
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button variant="danger" onClick={handleClose}>
+                            No
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+
+                <Button variant="danger" onClick={handleShowDelete}>
+                    Elimina Azienda
+                </Button>
+                <Modal show={showDelete} onHide={handleCloseDelete}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Elimina Azienda</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Sicuro di Eliminare l'Azienda?
+                   
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="success" onClick={handleCloseDelete}>
+                            Sì
+                        </Button>
+                        <Button variant="danger" onClick={handleCloseDelete}>
                             No
                         </Button>
                     </Modal.Footer>
                 </Modal>
                 </p>
 
-                <p>
-             
-                    
-                </p>
                 
             </form>
 
@@ -147,6 +154,13 @@ const SuperUser = ({placeholder,data}) => {
             
         </div>
     </div>
+      </Card.Body>
+      </Card>
+    </Container>
+
+
+
+
     
     </>
   )
