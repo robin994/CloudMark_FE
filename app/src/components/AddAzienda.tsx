@@ -14,7 +14,7 @@ const AddAziendaComponent=()=>{
             <Container>
                 <Card style={{ width: '24rem' }} className="mx-auto">
                     <Card.Header className="text-center">
-                        <h1>Aggiungi Azienda</h1>
+                        <h1>Modifica Azienda</h1>
                     </Card.Header>
                     <Card.Body>
 
@@ -44,7 +44,7 @@ const AddAziendaComponent=()=>{
                             </div>
                            
 
-                            <button type="submit" className="btn btn-outline-primary">Conferma </button>
+                            <button type="submit" className="btn btn-outline-primary">Conferma Modifica</button>
 
                         </form>
                     </Card.Body>
