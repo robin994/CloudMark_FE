@@ -1,9 +1,19 @@
-import React from "react";
-import './modAziendaAdmin.css'
+import React, {useState} from "react";
+import './ModAziendaAdmin.css'
 
 
-export default function modAziendaAdmin(){
-
+function ModAziendaAdmin(){
+  const [nome, setNome] = useState('')
+  const [p_iva, setP_iva] = useState('')
+  const [iban, setIban] = useState('')
+  const [indirizzo, setIndirizzo] = useState('')
+  const [telefono, setTelefono] = useState('')
+  const [email, setEmail] = useState('')
+  const [pop, setPop] = useState(true)
+  const [error, setError] = useState("")
+  function controlInfo(){
+    
+  }
   return(
     <>
 
@@ -19,16 +29,23 @@ export default function modAziendaAdmin(){
         </div>
         <div id='main_body'>
           <h3>Modifica Azienda</h3>
-          <input type="text" className="form-control" placeholder='nome'/>
-          <input type="text" className="form-control" placeholder='p_iva'/>
-          <input type="text" className="form-control" placeholder='iban'/>
-          <input type="text" className="form-control" placeholder='indirizzo'/>
-          <input type="text" className="form-control" placeholder='telefono'/>
-          <input type="text" className="form-control" placeholder='email'/>
-          <button>Modifica Azienda</button>
+          <input type="text" className="form-control" placeholder='nome' id="nome" onChange={(val)=>{setNome(val.target.value)}}/>
+          <input type="text" className="form-control" placeholder='p_iva' id="p_iva" onChange={(val)=>{setP_iva(val.target.value)}}/>
+          <input type="text" className="form-control" placeholder='iban' id="iban" onChange={(val)=>{setIban(val.target.value)}}/>
+          <input type="text" className="form-control" placeholder='indirizzo' id="indirizzo" onChange={(val)=>{setIndirizzo(val.target.value)}}/>
+          <input type="text" className="form-control" placeholder='telefono' id="telefono" onChange={(val)=>{setTelefono(val.target.value)}}/>
+          <input type="text" className="form-control" placeholder='email' id="email" onChange={(val)=>{setEmail(val.target.value)}}/>
+          <button className="btn btn-primary" onClick={controlInfo}>Modifica Azienda</button>
         </div>
-        
+        <div id="pop_back" hidden={pop}>
+          <div id="pop_body">
+            <h1>Errore: {error}</h1>
+            <button className="btn btn-primary">ok</button>
+          </div>
+        </div>
       </div>
     </>
   )
 }
+
+export default ModAziendaAdmin

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './addAzienda.css'
+import './AddAzienda.css'
 
 const AddAziendaComponent=()=>{
   const [inv, setInv] = useState(true)
