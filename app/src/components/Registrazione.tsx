@@ -25,34 +25,36 @@ function Registrazione() {
                         <form action="">
 
                             <div>
-                                <input type="text" name="nome" placeholder="Nome" className="form-control my-3" />
+                                <input type="text" name="nome" placeholder="Nome" className="form-control my-3" required/>
                             </div>
 
                             <div>
-                                <input type="text" name="cognome" placeholder="Cognome" className="form-control my-3" />
+                                <input type="text" name="cognome" placeholder="Cognome" className="form-control my-3" required/>
+                            </div>
+                            
+                            <div>
+                                <input type="password" placeholder="Password" id="pswRegistrazione" className="form-control my-3" required/>
                             </div>
 
                             <div>
-                                <input type="text" name="codice fiscale" placeholder="Codice Fiscale" className="form-control my-3" />
+                                <input type="text" name="codice fiscale" placeholder="Codice Fiscale" className="form-control my-3" required />
                             </div>
 
                             <div>
-                                <input type="text" name="iban" placeholder="Iban" className="form-control my-3" />
+                                <input type="text" name="iban" placeholder="Iban" className="form-control my-3" required />
                             </div>
 
                             <div>
-                                <input type="email" name="email" placeholder="Email" id="emailRegistrazione" className="form-control my-3" />
+                                <input type="email" name="email" placeholder="Email" id="emailRegistrazione" className="form-control my-3" required/>
                             </div>
 
                             <div>
-                                <input type="tel" name="telefono" placeholder="Telefono" className="form-control my-3" />
+                                <input type="tel" name="telefono" placeholder="Telefono" className="form-control my-3" required/>
                             </div>
                             <div>
-                                <input type="text" name="indirizzo" placeholder="Indirizzo" className="form-control my-3" />
+                                <input type="text" name="indirizzo" placeholder="Indirizzo" className="form-control my-3" required />
                             </div>
-                            <div>
-                                <input type="password" placeholder="Password" id="pswRegistrazione" className="form-control my-3" />
-                            </div>
+                           
 
                             <button type="submit" className="btn btn-outline-primary" onClick={() => submit()}>registrati</button>
 
