@@ -2,7 +2,7 @@ import { Card, ListGroup } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { getListaDipendenti } from "../data_mock";
 import { useEffect } from "react";
-import "./components/Dipendente.css"
+import './css_components/Dipendente.css'
 
 export default function Dipendente() {
     const navigate = useNavigate()

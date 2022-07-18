@@ -1,5 +1,5 @@
 import React from "react";
-import './components/modAziendaAdmin.css'
+import './css_components/modAziendaAdmin.css'
 
 
 export default function modAziendaAdmin(){
