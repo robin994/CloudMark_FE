@@ -78,7 +78,7 @@ export default function DataTable(props: DataTableProps) {
             <Card>
                 <Card.Body>
                     {paginationBLock}
-                    <Table striped bordered hover>
+                    <Table striped bordered hover responsive>
                         <thead>
                             <tr>
                                 {Object.values(props.col).map((element: string)=> <Column element={element} />)}
