@@ -1,8 +1,16 @@
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
+
 const Login = () => {
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (sessionStorage.auth === "true")
+            navigate("/", {replace: true})
+    }, [navigate])
     const onSubmit = () => {
         let email = document.getElementById("emailLogin") as HTMLInputElement
         let psw = document.getElementById("pswLogin") as HTMLInputElement
-        sessionStorage.auth = true
+        sessionStorage.auth = "true"
         sessionStorage.account_id = '1'
         sessionStorage.account_psw = psw.value
         sessionStorage.account_username = "TestAuthenticatedUser"
@@ -17,6 +25,7 @@ const Login = () => {
         sessionStorage.azienda_fax = "+063923334444"
         sessionStorage.azienda_email = "info.mail@visioture.com"
         sessionStorage.azienda_pec = "info.pec@visioture.com"
+        navigate("/", {replace: true})
     }
     return (
     <>

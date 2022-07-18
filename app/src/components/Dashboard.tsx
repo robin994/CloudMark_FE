@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import CustomCard from './CustomCard';
 import Spacer from './Spacer';
 
-const textDesc = [];
+const textDesc: string[] = [];
 
 textDesc[0] = "Ricerca singolo dipendente";
 textDesc[1] = "Lista di tutti i dipendenti";
@@ -15,7 +15,7 @@ export default function Dashboard() {
   return (
     <>
       <Container>
-        <Spacer space='100px'/>
+        <Spacer margin='60px' />
         <Container>
           <Row>
             <Col>
@@ -23,17 +23,12 @@ export default function Dashboard() {
                 Benvenuto Admin
               </h3>
               <h1>
-                Nome Azienda
+                {sessionStorage.azienda_nome}
               </h1>
-            </Col>
-            <Col>
-              <div>
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </div>
             </Col>
           </Row>
         </Container>
-        <Spacer />
+        <Spacer margin='100px' />
         <Container className='center'>
             <Row className='my-5'>
               <Col>
@@ -48,7 +43,7 @@ export default function Dashboard() {
               <CustomCard
                 cardTitle='Lista Dipendenti'
                 imgSrc='https://www.svgrepo.com/show/73127/list.svg'
-                navPath='/cercapersone'
+                navPath='/lista_dipendenti'
                 buttonText='Mostra'
                 textDesc={textDesc[1]}/>
               </Col>
