@@ -1,6 +1,6 @@
 import { useEffect,useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Data from './Data.json'
+import Data from './Azienda.json'
 
 const CercaDipendente = () => {
   const [search,setSearch]= useState('')
@@ -25,11 +25,11 @@ const CercaDipendente = () => {
                   if(search === ''){
                     return val
                   }
-                  else if(val.first_name.includes(search)){
+                  else if(val.azienda.includes(search)){
                     return val
                   }
                 }).map((val) => {
-                  return<div>{val.first_name} </div>
+                  return<div>{val.azienda} </div>
                   })}
              
       </div>
