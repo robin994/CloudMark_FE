@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
+import Card from "react-bootstrap/Card"
+import Container from "react-bootstrap/Container"
+import Spacer from "./Spacer"
 
 const Login = () => {
     const navigate = useNavigate()
@@ -29,22 +32,37 @@ const Login = () => {
     }
     return (
     <>
-        <p></p>
-        <div className="log-div">
-        <h2 className="loggami">Log In</h2>
-            <form action="">
-                <p>
-                    <input type="email" placeholder="email" required className="form-control" id="emailLogin" />
-                </p>
-                <p>
-                    <input type="password" placeholder="password" required className="form-control" id="pswLogin" />
-                </p>
-                <p>
-                    <button id="sub_btn" type="submit" className="btn btn-outline-primary logbtn" onClick={() => onSubmit()} >Log In</button>
-                </p>
-                
-            </form>
-        </div>
+     <Spacer margin="20vh" />
+            <Container>
+                <Card style={{ width: '24rem' }} className="mx-auto">
+                    <Card.Header className="text-center">
+                        <h1>Log In</h1>
+                    </Card.Header>
+                    <Card.Body>
+
+                      
+
+                    <div className="log-div">
+                            
+                            <form action="">
+                                <p>
+                                    <input type="email" placeholder="email" required className="form-control" id="emailLogin" />
+                                </p>
+                                <p>
+                                    <input type="password" placeholder="password" required className="form-control" id="pswLogin" />
+                                </p>
+                                <p>
+                                    <button id="sub_btn" type="submit" className="btn btn-outline-primary logbtn" onClick={() => onSubmit()} >Log In</button>
+                                </p>
+                        </form>
+                    </div>
+                        
+                    </Card.Body>
+                </Card>
+            </Container>
+    
+        
+      
 
      
         
