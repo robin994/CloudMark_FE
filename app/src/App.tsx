@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as Comps from "./components";
-import AziendaData from "./components/Lorenzo.json";
+import AziendaData from "./components/Azienda.json";
 
 
 export default function App() {

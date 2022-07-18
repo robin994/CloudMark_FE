@@ -1,6 +1,6 @@
 import { useEffect,useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Data from './Lorenzo.json'
+import Data from './Azienda.json'
 
 const CercaDipendente = () => {
   const [search,setSearch]= useState('')
