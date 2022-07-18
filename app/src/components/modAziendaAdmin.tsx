@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import './ModAziendaAdmin.css'
+import './css_components/ModAziendaAdmin.css'
+
 
 
 function ModAziendaAdmin(){

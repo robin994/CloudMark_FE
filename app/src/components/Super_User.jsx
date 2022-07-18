@@ -1,42 +1,77 @@
 import React,{useState} from 'react'
-import AziendaData from './DataAzienda.json'
+
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import './css_components/SuperUser.css'
 
 
 
 
 
-const SuperUser = () => {
-    const [search,setSearch]= useState('')
+
+
+const SuperUser = ({placeholder,data}) => {
+  
+
+    const [filteredData, setFilteredData] = useState([]);
+    const [wordEntered, setWordEntered] = useState("");
+
+    const Filter = (event) => {
+        const searchWord = event.target.value;
+        setWordEntered(searchWord);
+        const newFilter = data.filter((value) => {
+          return value.azienda.toLowerCase().includes(searchWord.toLowerCase());
+        });
+    
+        if (searchWord === "") {
+          setFilteredData([]);
+        } else {
+          setFilteredData(newFilter);
+        }
+      };
+
+ 
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     return (
     <>
-    <div className="mybox">
-    <div className="search">
-        <div className="searchInputs">
-         <input type="text" className="form-control cerca_azienda"placeholder="Search.."  onChange={event =>{setSearch(event.target.value)}}/>
-          
-        </div>
+
+
+
+<div className="search">
+<p className="hello">Ciao</p>
+      <div className="searchInputs">
+        <input
+          type="text"
+          placeholder={placeholder}
+          value={wordEntered}
+          onChange={Filter}
+        />
+      
+      </div>
+      {filteredData.length != 0 && (
         <div className="dataResult">
-           
-            {AziendaData.filter((val)=> {
-                  if(search === ''){
-                    return val
-                  }
-                  else if(val.nome_azienda.includes(search)){
-                    return val
-                  }
-                }).map((val) => {
-                  return<div>{val.nome_azienda} </div>
-            })}
-          
-          
+          {filteredData.slice(0, 15).map((value, key) => {
+            return (
+              
+                <p className="azienda_p">{value.azienda} </p>
+              
+            );
+          })}
         </div>
+      )}
     </div>
+
+
+
+
+
+
+
+    <div className="mybox">
+  
        
         <div>
         <h2 className="modify_azienda">Modifica Azienda</h2>
