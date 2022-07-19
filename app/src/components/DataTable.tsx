@@ -1,6 +1,7 @@
 import Table from 'react-bootstrap/Table'
 import Card from 'react-bootstrap/Card'
 import Pagination from 'react-bootstrap/Pagination'
+import { Button, InputGroup, Form, Container, Row, Col } from 'react-bootstrap'
 
 /* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS!!,
 IT WILL JUST SKIP THEM AND RENDER THE NEXT ONE
@@ -32,11 +33,11 @@ mapping each {} in rows[] to its own row, and subsequently filling in each field
 export default function DataTable(props: DataTableProps) {
 
     // Returns a table column populated with the column name from col[]
-    const Column = ({element}: {element: string})=> <th>{element}</th>
+    const DataColumn = ({element}: {element: string})=> <th>{element}</th>
     // Returns a row corrisponding to the element being mapped
-    const Row = ({element}: {element: DynamicObject})=> {
+    const DataRow = ({element}: {element: DynamicObject})=> {
         // If the current value is an object skip! (Could be more elegant)
-        const Item = ({item}: any)=> {
+        const DataItem = ({item}: any)=> {
             if(!(typeof item === 'string')) return <></>
             // Otherwise return the populated field
             return (<td>{element[`${item}`]}</td>)
@@ -45,7 +46,7 @@ export default function DataTable(props: DataTableProps) {
         // This maps the col{keys} and calls <Item> to populate each column
         return(
             <tr key={element['id']}>
-                {Object.keys(props.col).map((item: any)=> <Item item={item}/>)}
+                {Object.keys(props.col).map((item: any)=> <DataItem item={item}/>)}
             </tr>
         )
     }
@@ -76,18 +77,31 @@ export default function DataTable(props: DataTableProps) {
     return (
         <>
             <Card>
+                <Card.Header>
+                    <InputGroup>
+                        <Form.Control/>
+                        <Button variant="outline-secondary" id="button-addon1">
+                            Cerca
+                        </Button>
+                    </InputGroup>
+                </Card.Header>
                 <Card.Body>
-                    {paginationBLock}
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                {Object.values(props.col).map((element: string)=> <Column element={element} />)}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {props.rows.map((element: object)=> <Row element={element} />)}
-                        </tbody>
-                    </Table>
+                    <Container className='d-flex justify-content-between align-items-center' fluid >
+                        {paginationBLock}
+                        <Button variant="primary">
+                            + Aggiungi
+                        </Button>
+                    </Container>
+                        <Table striped bordered hover responsive>
+                            <thead>
+                                <tr>
+                                    {Object.values(props.col).map((element: string)=> <DataColumn element={element} />)}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {props.rows.map((element: object)=> <DataRow element={element} />)}
+                            </tbody>
+                        </Table>
                 </Card.Body>
             </Card>
         </>

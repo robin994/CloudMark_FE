@@ -33,7 +33,7 @@ export default function Dashboard() {
             <Row className='my-5'>
               <Col>
                 <CustomCard
-                cardTitle='Cerca Dipendente'
+                cardTitle='Dipendenti'
                 imgSrc='https://www.svgrepo.com/show/12496/users.svg'
                 navPath='/cercadipendente'
                 buttonText='Ricerca'
@@ -41,7 +41,7 @@ export default function Dashboard() {
               </Col>
               <Col>
               <CustomCard
-                cardTitle='Lista Dipendenti'
+                cardTitle='Presenze'
                 imgSrc='https://www.svgrepo.com/show/73127/list.svg'
                 navPath='/lista_dipendenti'
                 buttonText='Mostra'
@@ -49,7 +49,7 @@ export default function Dashboard() {
               </Col>
               <Col>
               <CustomCard
-                cardTitle='Cerca Cliente'
+                cardTitle='Clienti'
                 imgSrc='https://www.svgrepo.com/show/74282/search.svg'
                 navPath='/cercapersone'
                 buttonText='Ricerca'
@@ -57,7 +57,7 @@ export default function Dashboard() {
               </Col>
               <Col>
               <CustomCard
-                cardTitle='Lista Clienti'
+                cardTitle='Commesse'
                 imgSrc='https://www.svgrepo.com/show/40077/briefcase.svg'
                 navPath='/cercapersone'
                 buttonText='Mostra'
