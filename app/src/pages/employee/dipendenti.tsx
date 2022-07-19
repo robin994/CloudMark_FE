@@ -33,9 +33,6 @@ export default function ListaDipendenti() {
   
   async function getDipendenti() {
     try {
-      const params = new URLSearchParams({
-        firstName: inputField
-      })
       const response = await axios.get<any>(`https://dummyjson.com/users/search`, { params: { q: inputField }});
       setDipendenti(response.data.users)
     } catch (error) {
@@ -69,7 +66,7 @@ export default function ListaDipendenti() {
 
   return (
     <>
-      <Spacer margin='100px'/>
+      <Spacer margin='40px'/>
       <Container>
         {listBlock}
       </Container>

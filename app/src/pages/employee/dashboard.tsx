@@ -1,12 +1,12 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import CustomCard from './CustomCard';
-import Spacer from './Spacer';
+import CustomCard from '../../components/CustomCard';
+import Spacer from '../../components/Spacer';
 
 const textDesc: string[] = [];
 
-textDesc[0] = "Ricerca singolo dipendente";
+textDesc[0] = "Operazioni sui Dipendenti";
 textDesc[1] = "Lista di tutti i dipendenti";
 textDesc[2] = "Ricerca di un singolo cliente";
 textDesc[3] = "Lista di tutti i clienti";
@@ -35,7 +35,7 @@ export default function Dashboard() {
                 <CustomCard
                 cardTitle='Dipendenti'
                 imgSrc='https://www.svgrepo.com/show/12496/users.svg'
-                navPath='/cercadipendente'
+                navPath='/lista_dipendenti'
                 buttonText='Ricerca'
                 textDesc={textDesc[0]}/>
               </Col>
