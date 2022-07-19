@@ -29,14 +29,23 @@ interface DipendentiTest {
 
 export default function ListaDipendenti() {
   const [dipendenti, setDipendenti] = useState<DummyJSONresponse[]>([]);
+  const [inputField, setInputField] = useState<string>('');
   
   async function getDipendenti() {
     try {
-      const response = await axios.get<any>('https://dummyjson.com/users');
+      const params = new URLSearchParams({
+        firstName: inputField
+      })
+      const response = await axios.get<any>(`https://dummyjson.com/users/search`, { params: { q: inputField }});
       setDipendenti(response.data.users)
     } catch (error) {
       console.log(error)
     }
+  }
+
+  async function callSetInputField({ str }: { str : string }) {
+    setInputField(str)
+    getDipendenti()
   }
 
   useEffect(()=> {
@@ -54,7 +63,7 @@ export default function ListaDipendenti() {
   } */
   
   const listBlock = (
-    <DataTable id='id' col={heading} rows={dipendenti}/>
+    <DataTable id='id' col={heading} rows={dipendenti} setInputField={callSetInputField}/>
   )
 
   return (
