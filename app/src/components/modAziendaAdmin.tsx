@@ -4,7 +4,7 @@ import datafake from './data_mock.json'
 
 
 
-function ModAziendaAdmin(){
+function ModAziendaAdmin() {
   const [oggetto, setOggetto] = useState([{nome:""},{p_iva:""},{iban:""},{indirizzo:""},{cap:""},{telefono:""},{email:""}, {pec:""}, {fax:""}])
   const [pop, setPop] = useState(true)
   const [error, setError] = useState("")
@@ -55,4 +55,4 @@ function ModAziendaAdmin(){
   )
 }
 
-export default ModAziendaAdmin
+export default ModAziendaAdmin;
