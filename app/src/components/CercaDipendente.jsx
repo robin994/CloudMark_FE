@@ -1,8 +1,9 @@
 import { useEffect,useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Data from './Azienda.json'
+import { getAziendaData } from './data_mock'
 
 const CercaDipendente = () => {
+  let data = getAziendaData()
   const [search,setSearch]= useState('')
   let navigate = useNavigate()
   useEffect( () => {
@@ -21,7 +22,7 @@ const CercaDipendente = () => {
           
 
         
-        {Data.filter((val)=> {
+        {data.filter((val)=> {
                   if(search === ''){
                     return val
                   }
