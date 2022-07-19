@@ -43,6 +43,7 @@ export default function ListaDipendenti() {
     }
   }
 
+  // CallBack to retrieve data from Child component
   async function callSetInputField({ str }: { str : string }) {
     setInputField(str)
     getDipendenti()
