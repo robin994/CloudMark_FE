@@ -2,6 +2,12 @@ import Table from 'react-bootstrap/Table'
 import Card from 'react-bootstrap/Card'
 import Pagination from 'react-bootstrap/Pagination'
 import { Button, InputGroup, Form, Container, Row, Col } from 'react-bootstrap'
+import React from 'react'
+/* TODO!!!! Every React Child Component should contain all of the html,
+every child components can be made in a separate block for ease of reading and wrapped in a React.Fragment
+
+TO ADD: HREF LINKS TO EACH ROW, CREATE A CUSTOM PAGE TO MODIFY DATA ABOUT THE EMPLOYEE
+*/
 
 /* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS!!,
 IT WILL JUST SKIP THEM AND RENDER THE NEXT ONE
@@ -46,7 +52,7 @@ export default function DataTable(props: DataTableProps) {
         // This maps the col{keys} and calls <Item> to populate each column
         return(
         <tr>
-            {Object.keys(props.col).map((item: any)=> <td><div key={`item-${element['id']}-${item}`}><DataItem item={item}/></div></td>)}
+            {Object.keys(props.col).map((item: any)=> <td><React.Fragment key={`item-${element['id']}-${item}`}><DataItem item={item}/></React.Fragment></td>)}
         </tr>
         )
     }
@@ -95,11 +101,11 @@ export default function DataTable(props: DataTableProps) {
                         <Table striped bordered hover responsive>
                             <thead>
                                 <tr>
-                                    {Object.values(props.col).map((element: string)=> <th><div key={`col-${element}`}><DataColumn element={element} /></div></th>)}
+                                    {Object.values(props.col).map((element: string)=> <th><React.Fragment key={`col-${element}`}><DataColumn element={element} /></React.Fragment></th>)}
                                 </tr>
                             </thead>
                             <tbody>
-                                {props.rows.map((element: { [key: string]: any })=> <DataRow element={element} />)}
+                                {props.rows.map((element: { [key: string]: any })=> <React.Fragment key={`item-${element['id']}`}><DataRow element={element} /></React.Fragment>)}
                             </tbody>
                         </Table>
                 </Card.Body>
