@@ -3,6 +3,7 @@
   justify-content: center;
   width: 80%;
   margin-left: 10%;
+  margin-bottom: 10vh;
 }
 
 #main_body h3{
@@ -34,8 +35,9 @@
     flex-direction: row;
   }
   .cont_01 #azienda_temp{
-    margin: 5vw;
-  }
+    margin-right: 0;
+    margin-bottom: 5vh;
+  } 
 }
 #pop_back{
   position: fixed;
