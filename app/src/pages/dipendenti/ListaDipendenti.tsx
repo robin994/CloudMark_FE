@@ -50,7 +50,7 @@ export default function ListaDipendenti() {
 
   useEffect(()=> {
     getDipendenti()
-  }, [])
+  }, [inputField])
   
   // TO BE DEPRECATED! Does not account for nesting
 /*   // Extrapolates the heading from the first data object
