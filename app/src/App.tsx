@@ -22,6 +22,7 @@ export default function App() {
           <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
           <Route path="/signup" element={<Comps.Registrazione />} />
           <Route path="/dashboard" element={<Comps.Dashboard />} />
+          <Route path="/tab" element={<Comps.Tab/>} />
         
         </Route>
         <Route path="/signup" element={<Comps.Registrazione />} />
