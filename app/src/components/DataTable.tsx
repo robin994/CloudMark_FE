@@ -52,7 +52,7 @@ export default function DataTable(props: DataTableProps) {
         // This maps the col{keys} and calls <Item> to populate each column
         return(
         <tr>
-            {Object.keys(props.col).map((item: any)=> <td><React.Fragment key={`item-${element['id']}-${item}`}><DataItem item={item}/></React.Fragment></td>)}
+            {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element['id']}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
         </tr>
         )
     }
@@ -98,10 +98,10 @@ export default function DataTable(props: DataTableProps) {
                             + Aggiungi
                         </Button>
                     </Container>
-                        <Table striped bordered hover responsive>
+                        <Table striped hover responsive>
                             <thead>
                                 <tr>
-                                    {Object.values(props.col).map((element: string)=> <th><React.Fragment key={`col-${element}`}><DataColumn element={element} /></React.Fragment></th>)}
+                                    {Object.values(props.col).map((element: string)=> <React.Fragment key={`col-${element}`}><th><DataColumn element={element} /></th></React.Fragment>)}
                                 </tr>
                             </thead>
                             <tbody>
