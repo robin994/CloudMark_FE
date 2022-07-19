@@ -6,16 +6,16 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Spacer from "./Spacer";
 import './css_components/SuperUser.css'
+import { getAziendaData } from './data_mock';
 
 
 
 
 
 
-
-const SuperUser = ({placeholder,data}) => {
+const SuperUser = () => {
   
-
+    let data = getAziendaData()
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
 
@@ -56,7 +56,7 @@ const SuperUser = ({placeholder,data}) => {
       <div className="searchInputs">
         <input
           type="text"
-          placeholder={placeholder}
+          placeholder={"Cerca Azienda"}
           value={wordEntered}
           onChange={Filter}
         />
