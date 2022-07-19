@@ -32,22 +32,22 @@ interface DynamicObject {
 mapping each {} in rows[] to its own row, and subsequently filling in each field */
 export default function DataTable(props: DataTableProps) {
 
-    // Returns a table column populated with the column name from col[]
-    const DataColumn = ({element}: {element: string})=> <th>{element}</th>
+    // Returns a table column populated with the column name from col{}
+    const DataColumn = ({element}: {element: string})=> <>{element}</>
     // Returns a row corrisponding to the element being mapped
     const DataRow = ({element}: {element: DynamicObject})=> {
         // If the current value is an object skip! (Could be more elegant)
         const DataItem = ({item}: any)=> {
             if(!(typeof item === 'string')) return <></>
             // Otherwise return the populated field
-            return (<td>{element[`${item}`]}</td>)
+            return (<>{element[`${item}`]}</>)
         }
 
         // This maps the col{keys} and calls <Item> to populate each column
         return(
-            <tr key={element['id']}>
-                {Object.keys(props.col).map((item: any)=> <DataItem item={item}/>)}
-            </tr>
+        <tr>
+            {Object.keys(props.col).map((item: any)=> <td><div key={`item-${element['id']}-${item}`}><DataItem item={item}/></div></td>)}
+        </tr>
         )
     }
 
@@ -95,11 +95,11 @@ export default function DataTable(props: DataTableProps) {
                         <Table striped bordered hover responsive>
                             <thead>
                                 <tr>
-                                    {Object.values(props.col).map((element: string)=> <DataColumn element={element} />)}
+                                    {Object.values(props.col).map((element: string)=> <th><div key={`col-${element}`}><DataColumn element={element} /></div></th>)}
                                 </tr>
                             </thead>
                             <tbody>
-                                {props.rows.map((element: object)=> <DataRow element={element} />)}
+                                {props.rows.map((element: { [key: string]: any })=> <DataRow element={element} />)}
                             </tbody>
                         </Table>
                 </Card.Body>
