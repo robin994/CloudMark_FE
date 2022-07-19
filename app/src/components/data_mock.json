@@ -1,10 +1,12 @@
-[
-    {
-        "id_azienda": 1,
-        "nome_azienda": "microsoft",
-        "iban_azienda": "123456789",
-        "indirizzo": "via Roma 11",
-        "telefono": "+39 123 3456",
-        "email": "email_fittizia@gmail.com"
-    }
-]
+{ 
+    "id_azienda": 1,
+    "nome_azienda": "microsoft",
+    "p_iva_azienda": "ivabella",
+    "iban_azienda": "1234567891011",
+    "indirizzo": "via Roma 11",
+    "cap_azienda": "42069lmao",
+    "telefono": "+39 123 3456",
+    "email": "email_fittizia@gmail.com",
+    "pec": "pecmock@pec.it",
+    "fax": "123456"
+}

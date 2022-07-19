@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './css_components/addAzienda.css'
+import './css_components/AddAzienda.css'
 import Card from "react-bootstrap/Card"
 import Container from "react-bootstrap/Container"
 import Spacer from "./Spacer"
@@ -9,8 +9,7 @@ const AddAziendaComponent=()=>{
  
   return(
     <>
-
-<Spacer margin="20px" />
+        <Spacer margin="20px" />
             <Container>
                 <Card style={{ width: '24rem' }} className="mx-auto">
                     <Card.Header className="text-center">
@@ -19,7 +18,7 @@ const AddAziendaComponent=()=>{
                     <Card.Body>
 
                         <form action="">
-                   
+                    
                             <div>
                                 <input type="text" placeholder="Nome" className="form-control my-3" required/>
                             </div>
@@ -42,7 +41,7 @@ const AddAziendaComponent=()=>{
                             <div>
                                 <input type="text" name="indirizzo" placeholder="Indirizzo" className="form-control my-3" required />
                             </div>
-                           
+                            
 
                             <button type="submit" className="btn btn-outline-primary">Conferma Modifica</button>
 
@@ -50,7 +49,7 @@ const AddAziendaComponent=()=>{
                     </Card.Body>
                 </Card>
             </Container>
- 
+
     </>
   )
 }
