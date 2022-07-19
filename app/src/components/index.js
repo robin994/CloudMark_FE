@@ -10,7 +10,7 @@ import ModAziendaAdmin  from "./ModAziendaAdmin"
 import addAziendaComponent from "./AddAzienda"
 // New separe index should be created for root pages
 import ListaDipendenti from "../pages/dipendenti/ListaDipendenti"
-import Tab from './Table'
+import TableDipendenti from './TableDipendenti'
 
 export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dashboard, DipendentiLista,
-         Dipendente, ModAziendaAdmin, addAziendaComponent, ListaDipendenti, Tab }
+         Dipendente, ModAziendaAdmin, addAziendaComponent, ListaDipendenti, TableDipendenti }
