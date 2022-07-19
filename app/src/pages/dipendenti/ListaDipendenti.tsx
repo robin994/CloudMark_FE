@@ -29,19 +29,29 @@ interface DipendentiTest {
 
 export default function ListaDipendenti() {
   const [dipendenti, setDipendenti] = useState<DummyJSONresponse[]>([]);
+  const [inputField, setInputField] = useState<string>('');
   
   async function getDipendenti() {
     try {
-      const response = await axios.get<any>('https://dummyjson.com/users');
+      const params = new URLSearchParams({
+        firstName: inputField
+      })
+      const response = await axios.get<any>(`https://dummyjson.com/users/search`, { params: { q: inputField }});
       setDipendenti(response.data.users)
     } catch (error) {
       console.log(error)
     }
   }
 
+  // CallBack to retrieve data from Child component
+  async function callSetInputField({ str }: { str : string }) {
+    setInputField(str)
+    getDipendenti()
+  }
+
   useEffect(()=> {
     getDipendenti()
-  }, [])
+  }, [inputField])
   
   // TO BE DEPRECATED! Does not account for nesting
 /*   // Extrapolates the heading from the first data object
@@ -54,7 +64,7 @@ export default function ListaDipendenti() {
   } */
   
   const listBlock = (
-    <DataTable id='id' col={heading} rows={dipendenti}/>
+    <DataTable id='id' col={heading} rows={dipendenti} setInputField={callSetInputField}/>
   )
 
   return (
