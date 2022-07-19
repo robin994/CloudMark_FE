@@ -19,9 +19,9 @@ Props: (id, col, rows)
 interface DataTableProps {
     id: string,
     col: DynamicObject,
-    rows: DynamicObject
+    rows: DynamicObject,
+    setInputField: Function
 }
-
 /* In this case can accept any field with a string key and store any value,
 this solution is extremely elegant and can include TypeSafe fields */
 interface DynamicObject {
@@ -79,7 +79,7 @@ export default function DataTable(props: DataTableProps) {
             <Card>
                 <Card.Header>
                     <InputGroup>
-                        <Form.Control/>
+                        <Form.Control onChange={(str)=> props.setInputField({ str: str.target.value })}/>
                         <Button variant="outline-secondary" id="button-addon1">
                             Cerca
                         </Button>
