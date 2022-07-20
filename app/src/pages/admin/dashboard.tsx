@@ -35,7 +35,7 @@ export default function Dashboard() {
                 <CustomCard
                 cardTitle='Dipendenti'
                 imgSrc='https://www.svgrepo.com/show/12496/users.svg'
-                navPath='/lista_dipendenti'
+                navPath='/dipendenti'
                 buttonText='Ricerca'
                 textDesc={textDesc[0]}/>
               </Col>

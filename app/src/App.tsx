@@ -13,7 +13,7 @@ export default function App() {
           <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
           <Route path="/dashboard" element={<Comps.Dashboard />} />
           <Route path="/superuser" element={<Comps.SuperUser />} />
-          <Route path="/dipendenti" element={<Comps.DipendentiLista />} />
+          <Route path="/dipendenticard" element={<Comps.DipendentiLista />} />
           <Route path="/lista_dipendenti" element={<Comps.ListaDipendenti />} />
           <Route path="/dipendente/:id_dipendente" element={<Comps.Dipendente />} />
           <Route path="/mod-azienda-admin" element={<Comps.ModAziendaAdmin/>}/>
@@ -21,6 +21,7 @@ export default function App() {
           <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
           <Route path="/dashboard" element={<Comps.Dashboard />} />
           <Route path="/tabledipendenti" element={<Comps.TableDipendenti/>} />
+          <Route path="/dipendenti" element={<Comps.Dipendenti/>} />
         </Route>
         <Route path="/signup" element={<Comps.Registrazione />} />
         <Route path="/login" element={<Comps.Login />} />

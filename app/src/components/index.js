@@ -1,4 +1,16 @@
+// Pages for: pages/superuser
+import Aziende from "../pages/superuser/aziende"
+import Utenti from "../pages/superuser/utenti"
+
+// Pages for: pages/admin
 import Dashboard from "../pages/admin/dashboard"
+import Dipendenti from "../pages/admin/dipendenti"
+import Presenze from "../pages/admin/presenze"
+import Clienti from "../pages/admin/clienti"
+import Commesse from "../pages/admin/commesse"
+
+// Pages for: pages/employee
+/* import Presenze from "../pages/employee/presenze" */
 
 import CercaDipendente from "./CercaDipendente"
 import Login from "./Login"
@@ -13,5 +25,5 @@ import addAziendaComponent from "./AddAzienda"
 import ListaDipendenti from "../pages/admin/dipendenti"
 import TableDipendenti from './TableDipendenti'
 
-export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dashboard, DipendentiLista,
+export { Dashboard, Dipendenti, Presenze, Clienti, Commesse, CercaDipendente, Login, Registrazione, TopMenu, SuperUser, DipendentiLista,
          Dipendente, ModAziendaAdmin, addAziendaComponent, ListaDipendenti, TableDipendenti }
