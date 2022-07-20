@@ -22,8 +22,6 @@ export default function App() {
           <Route path="/signup" element={<Comps.Registrazione />} />
           <Route path="/dashboard" element={<Comps.Dashboard />} />
           <Route path="/tabledipendenti" element={<Comps.TableDipendenti/>} />
-        
-        
         </Route>
         <Route path="/signup" element={<Comps.Registrazione />} />
         <Route path="/login" element={<Comps.Login />} />
