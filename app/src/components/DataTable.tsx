@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table'
 import Card from 'react-bootstrap/Card'
 import Pagination from 'react-bootstrap/Pagination'
-import { Button, InputGroup, Form, Container, Row, Col } from 'react-bootstrap'
+import { Button, InputGroup, Form, Container } from 'react-bootstrap'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 /* TODO!!!! Every React Child Component should contain all of the html,
