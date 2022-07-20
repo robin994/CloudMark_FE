@@ -9,11 +9,16 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Comps.TopMenu />}>
+          <Route path="/dashboard" element={<Comps.Dashboard />} />
+          <Route path="/dipendenti" element={<Comps.Dipendenti/>} />
+          <Route path="/presenze" element={<Comps.Presenze/>} />
+          <Route path="/clienti" element={<Comps.Clienti/>} />
+          <Route path="/commesse" element={<Comps.Commesse/>} />
+
           <Route path="/" element={<Comps.Dashboard />} />
           <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
-          <Route path="/dashboard" element={<Comps.Dashboard />} />
           <Route path="/superuser" element={<Comps.SuperUser />} />
-          <Route path="/dipendenti" element={<Comps.DipendentiLista />} />
+          <Route path="/dipendenticard" element={<Comps.DipendentiLista />} />
           <Route path="/lista_dipendenti" element={<Comps.ListaDipendenti />} />
           <Route path="/dipendente/:id_dipendente" element={<Comps.Dipendente />} />
           <Route path="/mod-azienda-admin" element={<Comps.ModAziendaAdmin/>}/>

@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Pagination from 'react-bootstrap/Pagination'
 import { Button, InputGroup, Form, Container, Row, Col } from 'react-bootstrap'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 /* TODO!!!! Every React Child Component should contain all of the html,
 every child components can be made in a separate block for ease of reading and wrapped in a React.Fragment
 
@@ -26,6 +27,7 @@ interface DataTableProps {
     id: string,
     col: DynamicObject,
     rows: DynamicObject,
+    baseSlug?: string,
     setInputField: Function
 }
 /* In this case can accept any field with a string key and store any value,
@@ -34,24 +36,27 @@ interface DynamicObject {
     [key: string]: any
 }
 
-/* Using maps i populate first all the columns, and then start filling in each row,
-mapping each {} in rows[] to its own row, and subsequently filling in each field */
+/* Maps col[] as the Heading of the table, then maps every row in rows[{} */
 export default function DataTable(props: DataTableProps) {
+    const navigate = useNavigate();
+
+    async function handleRowClick(slug: string) {
+        navigate(slug);
+    }
 
     // Returns a table column populated with the column name from col{}
     const DataColumn = ({element}: {element: string})=> <>{element}</>
-    // Returns a row corrisponding to the element being mapped
+    // Returns a single row corrisponding to the element being mapped
     const DataRow = ({element}: {element: DynamicObject})=> {
-        // If the current value is an object skip! (Could be more elegant)
+        // If the current value is not string skip! (Could be more elegant)
         const DataItem = ({item}: any)=> {
             if(!(typeof item === 'string')) return <></>
             // Otherwise return the populated field
             return (<>{element[`${item}`]}</>)
         }
 
-        // This maps the col{keys} and calls <Item> to populate each column
         return(
-        <tr>
+        <tr onClick={()=> handleRowClick(`${props.baseSlug}/${element[props.id]}`)}>
             {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element['id']}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
         </tr>
         )
