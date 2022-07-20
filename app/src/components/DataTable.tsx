@@ -56,7 +56,7 @@ export default function DataTable(props: DataTableProps) {
         }
 
         return(
-        <tr onClick={()=> console.log(`${props.baseSlug}/${element[props.id]}`)}>
+        <tr onClick={()=> handleRowClick(`${props.baseSlug}/${element[props.id]}`)}>
             {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element['id']}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
         </tr>
         )
