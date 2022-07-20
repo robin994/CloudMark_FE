@@ -31,9 +31,9 @@ export default function ListaDipendenti() {
   const [dipendenti, setDipendenti] = useState<DummyJSONresponse[]>([]);
   const [inputField, setInputField] = useState<string>('');
   
-  async function getDipendenti() {
+  async function getDipendenti(str?: string) {
     try {
-      const response = await axios.get<any>(`https://dummyjson.com/users/search`, { params: { q: inputField }});
+      const response = await axios.get<any>(`https://dummyjson.com/users/search`, { params: { q: str }});
       setDipendenti(response.data.users)
     } catch (error) {
       console.log(error)
@@ -42,13 +42,13 @@ export default function ListaDipendenti() {
 
   // CallBack to retrieve data from Child component
   async function callSetInputField({ str }: { str : string }) {
-    setInputField(str)
-    getDipendenti()
+    /* setInputField(str) */
+    getDipendenti(str)
   }
 
   useEffect(()=> {
-    getDipendenti()
-  }, [inputField])
+    getDipendenti('')
+  }, [])
   
   // TO BE DEPRECATED! Does not account for nesting
 /*   // Extrapolates the heading from the first data object
