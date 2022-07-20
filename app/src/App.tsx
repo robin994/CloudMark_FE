@@ -19,7 +19,6 @@ export default function App() {
           <Route path="/mod-azienda-admin" element={<Comps.ModAziendaAdmin/>}/>
           <Route path="/addazienda" element={<Comps.addAziendaComponent/>}/>
           <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
-          <Route path="/signup" element={<Comps.Registrazione />} />
           <Route path="/dashboard" element={<Comps.Dashboard />} />
           <Route path="/tabledipendenti" element={<Comps.TableDipendenti/>} />
         
