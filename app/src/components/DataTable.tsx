@@ -57,7 +57,7 @@ export default function DataTable(props: DataTableProps) {
 
         return(
         <tr onClick={()=> handleRowClick(`${props.baseSlug}/${element[props.id]}`)}>
-            {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element['id']}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
+            {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element[props.id]}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
         </tr>
         )
     }
@@ -110,7 +110,7 @@ export default function DataTable(props: DataTableProps) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {props.rows.map((element: { [key: string]: any })=> <React.Fragment key={`item-${element['id']}`}><DataRow element={element} /></React.Fragment>)}
+                                {props.rows.map((element: { [key: string]: any })=> <React.Fragment key={`item-${element[props.id]}`}><DataRow element={element} /></React.Fragment>)}
                             </tbody>
                         </Table>
                 </Card.Body>
