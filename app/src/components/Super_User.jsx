@@ -1,36 +1,35 @@
-import React,{useState} from 'react'
-
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import Spacer from "./Spacer";
+import Container from "react-bootstrap/Container"
+import { getAziendaData } from './data_mock'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import Card from "react-bootstrap/Card"
 import './css_components/SuperUser.css'
-import { getAziendaData } from './data_mock';
+import {useState} from 'react'
+import Spacer from "./Spacer"
 
 export default function SuperUser() {
     let data = getAziendaData()
-    const [filteredData, setFilteredData] = useState([]);
-    const [wordEntered, setWordEntered] = useState("");
-    const [showDelete, setShowDelete] = useState(false);
-    const [show, setShow] = useState(false);
+    const [filteredData, setFilteredData] = useState([])
+    const [wordEntered, setWordEntered] = useState("")
+    const [showDelete, setShowDelete] = useState(false)
+    const [show, setShow] = useState(false)
     const Filter = (event) => {
-        const searchWord = event.target.value;
-        setWordEntered(searchWord);
+        const searchWord = event.target.value
+        setWordEntered(searchWord)
         const newFilter = data.filter((value) => {
           return value.azienda.toLowerCase().includes(searchWord.toLowerCase());
-        });
+        })
         if (searchWord === "") {
-          setFilteredData([]);
+          setFilteredData([])
         } else {
-          setFilteredData(newFilter);
+          setFilteredData(newFilter)
         }
-      };
+      }
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const handleCloseDelete = () => setShowDelete(false);
-    const handleShowDelete = () => setShowDelete(true);
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
+    const handleCloseDelete = () => setShowDelete(false)
+    const handleShowDelete = () => setShowDelete(true)
 
     return (
     <>
