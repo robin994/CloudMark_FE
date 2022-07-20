@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function commesse() {
+export default function Commesse() {
   return (
     <h1>Commesse</h1>
   )

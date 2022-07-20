@@ -2,29 +2,26 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as Comps from "./components";
-
+import * as Admin from "./pages/admin"
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Comps.TopMenu />}>
-          <Route path="/dashboard" element={<Comps.Dashboard />} />
-          <Route path="/dipendenti" element={<Comps.Dipendenti/>} />
-          <Route path="/presenze" element={<Comps.Presenze/>} />
-          <Route path="/clienti" element={<Comps.Clienti/>} />
-          <Route path="/commesse" element={<Comps.Commesse/>} />
+          <Route path="/dipendenti" element={<Admin.ListaDipendenti/>} />
+          <Route path="/presenze" element={<Admin.Presenze/>} />
+          <Route path="/clienti" element={<Admin.Clienti/>} />
+          <Route path="/commesse" element={<Admin.Commesse/>} />
 
-          <Route path="/" element={<Comps.Dashboard />} />
+          <Route path="/" element={<Admin.Dashboard />} />
           <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
           <Route path="/superuser" element={<Comps.SuperUser />} />
-          <Route path="/dipendenticard" element={<Comps.DipendentiLista />} />
           <Route path="/lista_dipendenti" element={<Comps.ListaDipendenti />} />
           <Route path="/dipendente/:id_dipendente" element={<Comps.Dipendente />} />
           <Route path="/mod-azienda-admin" element={<Comps.ModAziendaAdmin/>}/>
           <Route path="/addazienda" element={<Comps.addAziendaComponent/>}/>
           <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
-          <Route path="/dashboard" element={<Comps.Dashboard />} />
           <Route path="/tabledipendenti" element={<Comps.TableDipendenti/>} />
         </Route>
         <Route path="/test_verify" element={<Comps.TestVerify />} />
