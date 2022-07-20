@@ -1,7 +1,8 @@
 import Clienti from "./clienti";
 import Commesse from "./commesse";
 import Presenze from "./presenze"
-import ListaDipendenti from "./ListaDipendenti";
+import ListaDipendenti from "./dipendenti";
 import Dashboard from "./dashboard";
+import Cliente from "./cliente"
 
-export { Clienti, Commesse, Presenze, ListaDipendenti, Dashboard }
+export { Clienti, Cliente, Commesse, Presenze, ListaDipendenti, Dashboard }

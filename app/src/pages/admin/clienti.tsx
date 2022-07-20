@@ -2,20 +2,38 @@ import { Container, Row, Col } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { getListaDipendenti } from "../../data_mock"
 import CustomCard from "../../components/CustomCard"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Spacer from "../../components/Spacer"
+import axios from 'axios'
+
+interface Clients {
+    [key: string]: Client
+}
+
+interface Client {
+    [ key: string]: any
+}
 
 export default function Clienti() {
     const navigate = useNavigate()
+    const [customers, setCustomers] = useState<Clients>({})
     useEffect(() => {
         if (sessionStorage.auth === undefined)
             navigate("/login", {replace: true})
     }, [navigate])
-    let lista_dipendenti = getListaDipendenti()
-    let comps_Dipendente = []
-    for (const dip of Object.values(lista_dipendenti)) {
-        comps_Dipendente.push(dip)
-    }
+    
+    async function getDipendenti() {
+        try {
+          const response = await axios.get<any>(`http://localhost:8000/customer`);
+          setCustomers(response.data)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    useEffect( () => {
+        getDipendenti()
+    }, [])
+    let customers_obj = Object.values(customers)
     return (
         <>
             <Container>
@@ -29,13 +47,13 @@ export default function Clienti() {
                     </Col>
                 </Row>
                 <Row>
-                {comps_Dipendente.map(dip => (
+                {customers_obj.map(cust => (
                     <Col>
-                        <CustomCard cardTitle={`${dip.nome} ${dip.cognome}`}
-                        imgSrc='https://www.svgrepo.com/show/12496/users.svg'
-                        navPath={`/dipendente/${dip.id_employee}`}
+                        <CustomCard cardTitle={`${cust.name}`}
+                        imgSrc='/statics/customer.jpg'
+                        navPath={`/cliente/${cust.id_customer}`}
                         buttonText='Dettagli'
-                        textDesc={dip.telefono}/>
+                        textDesc={cust.phone}/>
                     </Col>
                 ))}
                 </Row>
