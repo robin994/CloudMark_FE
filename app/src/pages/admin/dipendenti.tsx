@@ -29,7 +29,6 @@ interface DipendentiTest {
 
 export default function ListaDipendenti() {
   const [dipendenti, setDipendenti] = useState<DummyJSONresponse[]>([]);
-  const [inputField, setInputField] = useState<string>('');
   
   async function getDipendenti(str?: string) {
     try {
@@ -42,26 +41,16 @@ export default function ListaDipendenti() {
 
   // CallBack to retrieve data from Child component
   async function callSetInputField({ str }: { str : string }) {
-    /* setInputField(str) */
     getDipendenti(str)
   }
 
+  // Initializes the employee list on the first render
   useEffect(()=> {
     getDipendenti('')
   }, [])
   
-  // TO BE DEPRECATED! Does not account for nesting
-/*   // Extrapolates the heading from the first data object
-  const xtrHeading = (): string[] => {
-    if (Object.keys(dipendenti).length > 0) {
-      return Object.keys(dipendenti[0])
-    } else {
-      return ['']
-    }
-  } */
-  
   const listBlock = (
-    <DataTable id='id' col={heading} rows={dipendenti} setInputField={callSetInputField}/>
+    <DataTable id='id' col={heading} rows={dipendenti} setInputField={callSetInputField} baseSlug='/dipendente'/>
   )
 
   return (
