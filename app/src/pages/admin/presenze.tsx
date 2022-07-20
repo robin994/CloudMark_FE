@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function presenze() {
   return (
-    <div>presenze</div>
+    <h1>Presenze</h1>
   )
 }
