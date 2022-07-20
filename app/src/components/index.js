@@ -24,6 +24,8 @@ import addAziendaComponent from "./AddAzienda"
 // New separe index should be created for root pages
 import ListaDipendenti from "../pages/admin/dipendenti"
 import TableDipendenti from './TableDipendenti'
+import TestVerify from "./TestVerify"
 
-export { Dashboard, Dipendenti, Presenze, Clienti, Commesse, CercaDipendente, Login, Registrazione, TopMenu, SuperUser, DipendentiLista,
-         Dipendente, ModAziendaAdmin, addAziendaComponent, ListaDipendenti, TableDipendenti }
+export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dashboard, DipendentiLista,
+         Dipendente, ModAziendaAdmin, addAziendaComponent, ListaDipendenti, TableDipendenti,
+         TestVerify }
