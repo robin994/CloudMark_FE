@@ -7,14 +7,13 @@ import DataTable from '../../components/DataTable'
 // Heading declaration is strictly necessary
 // Syntax: { attributeName : displayName }
 let heading = {
-  id: 'ID',
-  firstName: 'Nome',
-  lastName: 'Cognome',
-  age: 'Età',
-  gender: 'Genere',
-  birthDate: 'Data di Nascita',
+  id_employee: 'ID',
+  first_name: 'Nome',
+  last_name: 'Cognome',
+  cf: 'Codice FIscale',
+  iban: 'IBAN',
   email: 'Indirizzo E-mail',
-  phone: 'Telefono'
+  phoneNumber: 'Telefono'
 }
 
 // PlaceholderJSON API Response Interface
@@ -30,10 +29,13 @@ interface DipendentiTest {
 export default function ListaDipendenti() {
   const [dipendenti, setDipendenti] = useState<DummyJSONresponse[]>([]);
   
+  console.log(dipendenti)
+
   async function getDipendenti(str?: string) {
     try {
-      const response = await axios.get<any>(`https://dummyjson.com/users/search`, { params: { q: str }});
-      setDipendenti(response.data.users)
+      const response = await axios.get<any>(`http://localhost:8000/employee`, /* { params: { q: str }} */);
+      console.log(response.data.users)
+      setDipendenti(Object.values(response.data))
     } catch (error) {
       console.log(error)
     }
@@ -50,7 +52,7 @@ export default function ListaDipendenti() {
   }, [])
   
   const listBlock = (
-    <DataTable id='id' col={heading} rows={dipendenti} setInputField={callSetInputField} baseSlug='/dipendente'/>
+    <DataTable id='id_employee' col={heading} rows={dipendenti} setInputField={callSetInputField} baseSlug='/dipendente'/>
   )
 
   return (

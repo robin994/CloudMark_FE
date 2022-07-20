@@ -1,3 +1,5 @@
+import Dipendenti from "./dipendenti";
+import Presenze from "./presenze"
 import Clienti from "./clienti";
 import Commesse from "./commesse";
 import Presenze from "./presenze"
