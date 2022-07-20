@@ -26,6 +26,6 @@ import ListaDipendenti from "../pages/admin/dipendenti"
 import TableDipendenti from './TableDipendenti'
 import TestVerify from "./TestVerify"
 
-export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dashboard, DipendentiLista,
+export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, DipendentiLista,
          Dipendente, ModAziendaAdmin, addAziendaComponent, ListaDipendenti, TableDipendenti,
          TestVerify }
