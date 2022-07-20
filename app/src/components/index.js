@@ -1,6 +1,6 @@
 // Pages for: pages/superuser
-import Aziende from "../pages/superuser/aziende"
-import Utenti from "../pages/superuser/utenti"
+/* import Aziende from "../pages/superuser/aziende"
+import Utenti from "../pages/superuser/utenti" */
 
 // Pages for: pages/admin
 import Dashboard from "../pages/admin/dashboard"
