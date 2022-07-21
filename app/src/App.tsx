@@ -27,6 +27,7 @@ export default function App() {
           <Route path="/tabledipendenti" element={<Comps.TableDipendenti/>} />
           <Route path="/superuser" element={<Superuser.Dashboard />} />
           <Route path="/employee" element={<Employee.Dashboard />} />
+          <Route path="/tcalendar" element={<Employee.MyCalendar />} />
         </Route>
         <Route path="/test_verify" element={<Comps.TestVerify />} />
         <Route path="/signup" element={<Comps.Registrazione />} />
