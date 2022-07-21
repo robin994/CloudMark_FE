@@ -184,3 +184,99 @@ let lista_dipendenti = {
 export function getListaDipendenti() {
     return lista_dipendenti
 }
+
+// employee
+
+const mockPresenzeHeading = {
+    presenze: 'Presenza',
+    ferie: 'Ferie',
+    malattia: 'Malattia',
+    permessi: 'Permessi',
+    straordinari: 'Straordinari',
+    totale: 'Totale Ore',
+    cliente: 'Cliente',
+    note: 'Note'
+  }
+  
+  export function getMockPresenzeHeading() {
+    return mockPresenzeHeading
+  }
+  
+  const mockPresenzeDate = [
+    {
+        date: '01/06/22',
+        presenze: '4',
+        ferie: '3',
+        malattia: '0',
+        permessi: '1',
+        straordinari: '2',
+        totale: '10',
+        cliente: 'Plenitude',
+      note: 'Giornataccia?'
+    },
+    {
+        date: '27/05/22',
+        presenze: '4',
+        ferie: '1',
+        malattia: '0',
+        permessi: '3',
+        straordinari: '1',
+        totale: '9',
+        cliente: 'Plenitude',
+        note: 'Giornataccia?'
+    },
+    {
+        date: '26/05/22',
+        presenze: '1',
+        ferie: '11',
+        malattia: '2',
+        permessi: '2',
+        straordinari: '2',
+        totale: '18',
+        cliente: 'Plenitude',
+        note: 'Giornataccia?'
+    },
+    {
+        date: '25/05/22',
+        presenze: '4',
+        ferie: '3',
+        malattia: '0',
+        permessi: '1',
+        straordinari: '2',
+        totale: '10',
+        cliente: 'Accenture',
+        note: 'Giornataccia?'
+    },
+    {
+        date: '022/05/22',
+        presenze: '4',
+        ferie: '3',
+        malattia: '0',
+        permessi: '1',
+        straordinari: '2',
+        totale: '10',
+        cliente: 'Accenture',
+        note: 'Giornataccia?'
+    },
+    {
+        date: '021/05/22',
+        presenze: '4',
+        ferie: '3',
+        malattia: '0',
+        permessi: '1',
+        straordinari: '2',
+        totale: '10',
+        cliente: 'Plenitude',
+        note: 'Giornataccia?'
+    }
+]
+  
+  export function getMockPresenzeDate() {
+    return mockPresenzeDate
+  }
+  
+  const mockCommesseData = [
+    {
+      id_commessa: '',
+    }
+  ]
