@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Card from "react-bootstrap/Card"
 import Container from "react-bootstrap/Container"
 import Spacer from "./Spacer"
@@ -7,13 +7,26 @@ import Axios from "axios"
 
 export default function Login() {
     const navigate = useNavigate()
-    // useEffect(() => {
-    //     if (sessionStorage.auth === "true")
-    //         navigate("/", {replace: true})
-    // }, [navigate])
+    const [firstTry, setFirstTry] = useState(true)
     const onSubmit = () => {
         let user = document.getElementById("userLogin") as HTMLInputElement
         let psw = document.getElementById("pswLogin") as HTMLInputElement
+        Axios("http://localhost:8000/account/login", {
+            method: 'POST',
+            headers: { "accept": "application/json", 'Content-Type': 'application/json' },
+            data: {
+              user: user.value,
+              password: psw.value
+            }
+        }).then( resp => {
+            if (resp.data === { response: "id o password errati"} && (firstTry)) {
+                setFirstTry(false)
+                return
+            }
+            sessionStorage.bearer = resp.data
+        }).catch(err => {
+            throw err
+        })
         sessionStorage.auth = "true"
         sessionStorage.account_id = '1'
         sessionStorage.account_psw = psw.value
@@ -29,17 +42,6 @@ export default function Login() {
         sessionStorage.azienda_fax = "+063923334444"
         sessionStorage.azienda_email = "info.mail@visioture.com"
         sessionStorage.azienda_pec = "info.pec@visioture.com"
-        Axios("http://localhost:8000/account/login", {
-            method: 'POST',
-            headers: { "accept": "application/json", 'Content-Type': 'application/json' },
-            data: {
-              user: user.value,
-              password: psw.value
-            }
-        }).then( resp => {
-            console.log(user.value, psw.value, "\n", resp)
-            sessionStorage.bearer = resp.data
-        })
     }
     return (
     <>
