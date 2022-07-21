@@ -1,8 +1,10 @@
 import DatePicker from 'sassy-datepicker';
 
 export default function MyCalendar() {
-  const onChange = (date) => {
-    console.log(date.toString());
+  const onChange = (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    console.log(year, month)
   };
 
   return (
