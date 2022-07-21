@@ -12,10 +12,10 @@ import TopMenu from "../pages/navbar"
 import SuperUser from "./Super_User"
 import Dipendente from "./Dipendente"
 import ModAziendaAdmin  from "./ModAziendaAdmin"
-import addAziendaComponent from "./AddAzienda"
+import AddAzienda from "./AddAzienda"
 // New separe index should be created for root pages
 import TableDipendenti from './TableDipendenti'
 import TestVerify from "./TestVerify"
 
 export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dipendente, 
-         ModAziendaAdmin, addAziendaComponent, TableDipendenti, TestVerify }
+         ModAziendaAdmin, AddAzienda, TableDipendenti, TestVerify }

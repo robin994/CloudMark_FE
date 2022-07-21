@@ -3,8 +3,7 @@ import Card from "react-bootstrap/Card"
 import Container from "react-bootstrap/Container"
 import Spacer from "./Spacer"
 
-const AddAziendaComponent=()=>{
- 
+export default function AddAzienda() {
     return(
         <>
             <Spacer margin="20px" />
@@ -41,5 +40,3 @@ const AddAziendaComponent=()=>{
         </>
     )
 }
-
-export default AddAziendaComponent
