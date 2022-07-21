@@ -22,12 +22,13 @@ export default function App() {
 
           <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
           <Route path="/mod-azienda-admin" element={<Comps.ModAziendaAdmin/>}/>
-          <Route path="/addazienda" element={<Comps.addAziendaComponent/>}/>
+          <Route path="/addazienda" element={<Comps.AddAzienda/>}/>
           <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
           <Route path="/tabledipendenti" element={<Comps.TableDipendenti/>} />
           <Route path="/superuser" element={<Superuser.Dashboard />} />
           <Route path="/employee" element={<Employee.Dashboard />} />
           <Route path="/tcalendar" element={<Employee.MyCalendar />} />
+          <Route path="/tcommessa" element={<Comps.CardCommessa />} />
         </Route>
         <Route path="/test_verify" element={<Comps.TestVerify />} />
         <Route path="/signup" element={<Comps.Registrazione />} />

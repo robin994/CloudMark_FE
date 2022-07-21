@@ -40,7 +40,7 @@ interface DynamicObject {
 export default function DataTable(props: DataTableProps) {
     const navigate = useNavigate();
 
-    async function handleRowClick(slug: string) {
+    async function handleRowClick( slug: string ) {
         navigate(slug);
     }
 
@@ -56,9 +56,9 @@ export default function DataTable(props: DataTableProps) {
         }
 
         return(
-        <tr onClick={()=> handleRowClick(`${props.baseSlug}/${element[props.id]}`)}>
-            {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element[props.id]}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
-        </tr>
+            <tr onClick = {()=> props.baseSlug ? handleRowClick(`${props.baseSlug}/${element[props.id]}`) : undefined}>
+                {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element[props.id]}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
+            </tr>
         )
     }
 
