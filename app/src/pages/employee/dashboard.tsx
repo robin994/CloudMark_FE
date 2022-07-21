@@ -13,12 +13,15 @@ export default function Dashboard() {
 
   return (
     <>
-      <Container>
-        <Col>
+      <Container fluid>
+        <Row>
+        <Col xs={8}>
           {tableWidget}
         </Col>
-        <Col>
+        <Col xs={4}>
+          {tableWidget}
         </Col>
+        </Row>
       </Container>
     </>
   )
