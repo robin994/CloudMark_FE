@@ -7,14 +7,13 @@ import DataTable from '../../components/DataTable'
 // Heading declaration is strictly necessary
 // Syntax: { attributeName : displayName }
 let heading = {
-  id: 'ID',
-  firstName: 'Nome',
-  lastName: 'Cognome',
-  age: 'Età',
-  gender: 'Genere',
-  birthDate: 'Data di Nascita',
+  id_employee: 'ID',
+  first_name: 'Nome',
+  last_name: 'Cognome',
+  cf: 'Codice FIscale',
+  iban: 'IBAN',
   email: 'Indirizzo E-mail',
-  phone: 'Telefono'
+  phoneNumber: 'Telefono'
 }
 
 // PlaceholderJSON API Response Interface
@@ -29,12 +28,14 @@ interface DipendentiTest {
 
 export default function ListaDipendenti() {
   const [dipendenti, setDipendenti] = useState<DummyJSONresponse[]>([]);
-  const [inputField, setInputField] = useState<string>('');
   
-  async function getDipendenti() {
+  console.log(dipendenti)
+
+  async function getDipendenti(str?: string) {
     try {
-      const response = await axios.get<any>(`https://dummyjson.com/users/search`, { params: { q: inputField }});
-      setDipendenti(response.data.users)
+      const response = await axios.get<any>(`http://localhost:8000/employee`, /* { params: { q: str }} */);
+      console.log(response.data.users)
+      setDipendenti(Object.values(response.data))
     } catch (error) {
       console.log(error)
     }
@@ -42,26 +43,16 @@ export default function ListaDipendenti() {
 
   // CallBack to retrieve data from Child component
   async function callSetInputField({ str }: { str : string }) {
-    setInputField(str)
-    getDipendenti()
+    getDipendenti(str)
   }
 
+  // Initializes the employee list on the first render
   useEffect(()=> {
-    getDipendenti()
-  }, [inputField])
-  
-  // TO BE DEPRECATED! Does not account for nesting
-/*   // Extrapolates the heading from the first data object
-  const xtrHeading = (): string[] => {
-    if (Object.keys(dipendenti).length > 0) {
-      return Object.keys(dipendenti[0])
-    } else {
-      return ['']
-    }
-  } */
+    getDipendenti('')
+  }, [])
   
   const listBlock = (
-    <DataTable id='id' col={heading} rows={dipendenti} setInputField={callSetInputField}/>
+    <DataTable id='id_employee' col={heading} rows={dipendenti} setInputField={callSetInputField} baseSlug='/dipendente'/>
   )
 
   return (
