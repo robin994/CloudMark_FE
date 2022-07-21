@@ -1,4 +1,8 @@
+import Container from "react-bootstrap/Container"
+import{ Row, Col } from "react-bootstrap"
 import DataTable from "../../components/DataTable"
+
+// Mock imports (For development purpouses)
 import { getMockPresenzeHeading, getMockPresenzeDate } from "../../data_mock.js"
 
 export default function Dashboard() {
@@ -9,7 +13,13 @@ export default function Dashboard() {
 
   return (
     <>
-      {tableWidget}
+      <Container>
+        <Col>
+          {tableWidget}
+        </Col>
+        <Col>
+        </Col>
+      </Container>
     </>
   )
 }
