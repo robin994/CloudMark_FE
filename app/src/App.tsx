@@ -31,6 +31,7 @@ export default function App() {
         <Route path="/test_verify" element={<Comps.TestVerify />} />
         <Route path="/signup" element={<Comps.Registrazione />} />
         <Route path="/login" element={<Comps.Login />} />
+        <Route path="/tCommessa" element={<Comps.CardCommesse />} />
         <Route path="*" element={<h1>404 page not found</h1>} /> {/* when no route match the URL-slug */}
       </Routes>
     </BrowserRouter>
