@@ -6,4 +6,4 @@ import Dashboard from "./dashboard"
 import Cliente from "./components/cliente"
 import Dipendente from "./components/dipendente"
 
-export { Dipendenti, Presenze, Clienti, Commesse, Dashboard, Cliente, Dipendente, Add }
+export { Dipendenti, Presenze, Clienti, Commesse, Dashboard, Cliente, Dipendente }
