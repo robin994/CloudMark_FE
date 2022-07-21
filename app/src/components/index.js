@@ -16,6 +16,7 @@ import addAziendaComponent from "./AddAzienda"
 // New separe index should be created for root pages
 import TableDipendenti from './TableDipendenti'
 import TestVerify from "./TestVerify"
+import CardCommesse from "./CardCommesse"
 
 export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dipendente, 
-         ModAziendaAdmin, addAziendaComponent, TableDipendenti, TestVerify }
+         ModAziendaAdmin, addAziendaComponent, TableDipendenti, TestVerify, CardCommesse }
