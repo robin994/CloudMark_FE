@@ -6,6 +6,6 @@ import { getMockPresenzeHeading, getMockPresenzeDate } from "../../../data_mock.
 
 export default function Presenze() {
   return (
-    <DataTable id='date' col={getMockPresenzeHeading()} rows={getMockPresenzeDate()} setInputField={()=> false}/>
+    <DataTable id='date' col={getMockPresenzeHeading()} rows={getMockPresenzeDate()} />
   )
 }
