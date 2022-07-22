@@ -8,6 +8,16 @@ import Axios from "axios"
 export default function Login() {
     const navigate = useNavigate()
     const [firstTry, setFirstTry] = useState(true)
+    if (sessionStorage.bearer)
+        Axios("http://localhost:8000/account/verify_account", {
+            method: "POST",
+            params: {token: sessionStorage.bearer}
+        }).then(resp => {
+            if (resp.data.data === "True")
+                navigate("/", {replace: true})
+        }).catch(err => {
+            throw err
+        })
     const onSubmit = () => {
         let user = document.getElementById("userLogin") as HTMLInputElement
         let psw = document.getElementById("pswLogin") as HTMLInputElement
@@ -19,29 +29,25 @@ export default function Login() {
               password: psw.value
             }
         }).then( resp => {
-            if (resp.data === { response: "id o password errati"} && (firstTry)) {
+            console.log(resp.data)
+            if (resp.data.data === null && resp.data.error === "BAD REQUEST") {
                 setFirstTry(false)
                 return
+            } else if (resp.data.data && !resp.data.error) {
+                sessionStorage.bearer = resp.data.data
+                sessionStorage.account_username = user.value
+                navigate("/", {replace: true})
             }
-            sessionStorage.bearer = resp.data
+            // {
+            //     "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZF9hY2NvdW50IjoiZTU1OTE3ZTEtMGU5Zi00MGIyLTkyYWUtYzg4MDMyOGFhMTEwIiwidXNlciI6ImJydW5vIiwiYWJpbGl0YXRlIjpudWxsLCJhY2NvdW50VHlwZSI6bnVsbH0.FlUAPay6Lf7hij-3eB1lhLLPpVi3wMpTEkxEoPH71WA",
+            //     "length": 220,
+            //     "description": null,
+            //     "error": null
+            //   }
+            
         }).catch(err => {
             throw err
         })
-        sessionStorage.auth = "true"
-        sessionStorage.account_id = '1'
-        sessionStorage.account_psw = psw.value
-        sessionStorage.account_username = "TestAuthenticatedUser"
-        sessionStorage.account_data = "2022/08/19 18:10:59:345" // datetime stringified
-        sessionStorage.dipendente_email = user.value
-        sessionStorage.azienda_nome = "TestAzienda"
-        sessionStorage.azienda_id = "1"
-        sessionStorage.azienda_p_iva = "12345687901"
-        sessionStorage.azienda_indirizzo = "Via Sardegna, 29"
-        sessionStorage.azienda_iban = "123123123123123123123123123"
-        sessionStorage.azienda_telefono = "+3923334444"
-        sessionStorage.azienda_fax = "+063923334444"
-        sessionStorage.azienda_email = "info.mail@visioture.com"
-        sessionStorage.azienda_pec = "info.pec@visioture.com"
     }
     return (
     <>
