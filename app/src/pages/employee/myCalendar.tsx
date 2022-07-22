@@ -1,4 +1,7 @@
+import Card from 'react-bootstrap/Card';
 import DatePicker from 'sassy-datepicker';
+import { Container } from 'react-bootstrap';
+
 
 export default function MyCalendar() {
   const onChange = (date: Date) => {
@@ -8,6 +11,17 @@ export default function MyCalendar() {
   };
 
   return (
-    <DatePicker onChange={onChange} />
+    <>
+    <Container>
+      <Card>
+        <Card.Body>
+        <DatePicker onChange={onChange} style={{width: '100%',height: '100%'}}/>
+        </Card.Body>
+      </Card>
+    </Container>
+    
+   
+    </>
+
   );
 }
