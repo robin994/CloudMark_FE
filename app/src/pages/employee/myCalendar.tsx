@@ -12,15 +12,11 @@ export default function MyCalendar() {
 
   return (
     <>
-    <Container>
-      <Card>
+      <Card style={{ height: '40%' }}>
         <Card.Body>
-        <DatePicker onChange={onChange} style={{width: '100%',height: '100%'}}/>
+          <DatePicker onChange={onChange} style={{width: '100%', height: '100%'}}/>
         </Card.Body>
       </Card>
-    </Container>
-    
-   
     </>
 
   );

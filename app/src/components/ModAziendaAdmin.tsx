@@ -1,7 +1,7 @@
-import React, {useState, Component} from "react";
+import React, {useState, Component, useEffect} from "react";
 import './css_components/ModAziendaAdmin.css'
 import datafake from './data_mock.json'
-import axios from "axios";
+import axios, {Axios, AxiosResponse} from "axios";
 
 
 
@@ -11,8 +11,8 @@ function ModAziendaAdmin() {
   const [pop, setPop] = useState(true)
   const [error, setError] = useState("")
   const [countErr, setCountErr] = useState(0)
-  const [data, setData] = useState()
-  const[controlledData, setControlledData] = useState()
+  const [data, setData] = useState({})
+
   function controlInfo(){
     if(oggetto[0].nome !== undefined && oggetto[1].p_iva !== undefined && oggetto[2].iban !== undefined && oggetto[3].indirizzo !== undefined && oggetto[4].cap !== undefined && oggetto[5].telefono !== undefined && oggetto[6].email !== undefined && oggetto[7] !== undefined && oggetto[8].fax !== undefined){
       if(oggetto[2].iban.trim().length < 15){
@@ -24,34 +24,23 @@ function ModAziendaAdmin() {
         setError("ci sono " +countErr+ " errori")
       }
     }
-
   }
-  const getAziendaData = async ()=>{
-    try{let sus = await axios({
-      url:"http://127.0.0.1:8000/business",
-      method:"get",
-      timeout:8000,
-      headers:{
-        "content-type": "json"
-      }
+  const GetAziendaData = async ()=>{
+    useEffect(()=>{
+    axios.get('http://127.0.0.1:8000/business')
+    .then((res: AxiosResponse)=>{
+      let dat = res.data
+      setData(dat)
     })
-    if(sus.status=200){
-      console.log(sus.status)
-    }
-    return sus.data
-    }catch(err){
-      console.log(err)
-    }
+  },[])
   }
-
-  getAziendaData()
+  GetAziendaData()
 
   return(
     <>
       <div className='cont_01 mt-5'>
         <div id="azienda_temp">
           <h3>Info Azienda</h3>
-          <div>{}</div>
           <div className="form-control">{datafake.nome_azienda}</div>
           <div className="form-control">{datafake.p_iva_azienda}</div>
           <div className="form-control">{datafake.iban_azienda}</div>
