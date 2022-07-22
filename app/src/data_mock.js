@@ -275,8 +275,45 @@ const mockPresenzeHeading = {
     return mockPresenzeDate
   }
   
-  const mockCommesseData = [
+  const mockCommesse = [
     {
-      id_commessa: '',
-    }
+      codice_commessa: "AB123",
+      data_inizio:"14/04/1997",
+      data_fine:"11/09/2001",
+      nome_cliente:"Lillo"
+
+    },
+    {
+      codice_commessa: "DC231",
+      data_inizio:"25/12/2011",
+      data_fine:"11/01/2011",
+      nome_cliente:"Alessandro"
+
+    },
+    {
+      codice_commessa: "BG432",
+      data_inizio:"12/12/2012",
+      data_fine:"13/12/2012",
+      nome_cliente:"Iacopo"
+
+    },
+    {
+      codice_commessa: "LO254",
+      data_inizio:"22/02/2022",
+      data_fine:"22/07/2022",
+      nome_cliente:"Regina"
+
+    },
+    {
+        codice_commessa: "NM657",
+        data_inizio:"04/10/2018",
+        data_fine:"09/12/2019",
+        nome_cliente:"Sara"
+  
+      },
+      
   ]
+
+  export function getMockCommesse(){
+    return mockCommesse
+  }

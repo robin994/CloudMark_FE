@@ -1,24 +1,51 @@
-import { Container } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import { Col, Container, Row } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import './css_components/CardCommessa.css';
+import { getMockCommesse } from "../data_mock";
+
+interface InputData {
+    codice_commessa: string,
+    data_inizio: string,
+    data_fine: string,
+    nome_cliente: string
+}
 
 export default function CardCommessa() {
 
-    return (
-            <Card style={{ width: '100', textAlign: 'center', height: '60%' }}>
-                <Container className='containerHeight'>
-                <Card.Body>
-                    <Card.Title>Commessa</Card.Title>
-                    <Card.Text>nome  cliente</Card.Text>
-                    <Card.Text>data inizio</Card.Text>
-                    <Card.Text>data fine</Card.Text>
-                    <Button className="btn btn-outline-danger">Elimina</Button>
-                    <tr></tr>
-                    <Button className="btn btn-outline-danger">salva</Button>
-                </Card.Body>
+    const RenderListElements = (element: InputData) => {
+        return (
+            <Card>
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <Card.Text>{element.codice_commessa}</Card.Text>
+                        </Col>
+                        <Col>
+                            <Card.Text>{element.data_inizio}</Card.Text>
+                        </Col>
+                        <Col>
+                            <Card.Text>{element.data_fine}</Card.Text>
+                        </Col>
+                        {/* <Col>
+                            <Card.Text>{element.nome_cliente}</Card.Text>
+                        </Col> */}
+                    </Row>
                 </Container>
             </Card>
+        )
+    }
+
+    return (
+        <Card style={{ width: '100', textAlign: 'center', height: '60%' }}>
+            <Container className='containerHeight'>
+                <Card.Header>
+                    <Card.Title>Commessa</Card.Title>
+                </Card.Header>
+                <Card.Body>
+                    {getMockCommesse().map((element: InputData, key: number) => RenderListElements(element))}
+                </Card.Body>
+            </Container>
+        </Card>
     );
 }
 
