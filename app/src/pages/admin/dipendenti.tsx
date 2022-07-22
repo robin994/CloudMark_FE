@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Container } from 'react-bootstrap'
+import { Card, Container } from 'react-bootstrap'
 import Spacer from '../../components/Spacer'
 import DataTable from '../../components/DataTable'
+import DataSearchbar from '../../components/DataSearchbar'
 
 // Heading declaration is strictly necessary
 // Syntax: { attributeName : displayName }
@@ -33,7 +34,7 @@ export default function ListaDipendenti() {
 
   async function getDipendenti(str?: string) {
     try {
-      const response = await axios.get<any>(`http://localhost:8000/employee`, /* { params: { q: str }} */);
+      const response = await axios.get<any>(`http://localhost:8000/employee`);
       console.log(response.data.users)
       setDipendenti(Object.values(response.data))
     } catch (error) {
@@ -41,25 +42,30 @@ export default function ListaDipendenti() {
     }
   }
 
-  // CallBack to retrieve data from Child component
   async function callSetInputField({ str }: { str : string }) {
     getDipendenti(str)
   }
 
-  // Initializes the employee list on the first render
   useEffect(()=> {
     getDipendenti('')
   }, [])
   
   const listBlock = (
-    <DataTable id='id_employee' col={heading} rows={dipendenti} setInputField={callSetInputField} baseSlug='/dipendente'/>
+    <DataTable id='id_employee' col={heading} rows={dipendenti} baseSlug='/dipendente'/>
   )
 
   return (
     <>
       <Spacer margin='40px'/>
       <Container>
-        {listBlock}
+        <Card>
+          <Card.Body>
+            <DataSearchbar setInputField={callSetInputField}/>
+          </Card.Body>
+          <Card.Body>
+            {listBlock}
+          </Card.Body>
+        </Card>
       </Container>
       <Spacer margin='120px'/>
     </>
