@@ -1,16 +1,12 @@
-import Table from 'react-bootstrap/Table'
-import Card from 'react-bootstrap/Card'
-import Pagination from 'react-bootstrap/Pagination'
-import { Button, InputGroup, Form, Container } from 'react-bootstrap'
 import React from 'react'
+import { Card, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
 interface DataTableProps {
     id: string,
     col: DynamicObject,
     rows: DynamicObject,
-    baseSlug?: string,
-    setInputField: Function
+    baseSlug?: string
 }
 /* In this case can accept any field with a string key and store any value,
 this solution is extremely elegant and can include TypeSafe fields */
@@ -44,47 +40,11 @@ export default function DataTable(props: DataTableProps) {
         )
     }
 
-    const paginationBLock = (
-        <>
-            <Pagination>
-                <Pagination.First />
-                <Pagination.Prev />
-                <Pagination.Item>{1}</Pagination.Item>
-                <Pagination.Ellipsis />
-
-                <Pagination.Item>{10}</Pagination.Item>
-                <Pagination.Item>{11}</Pagination.Item>
-                <Pagination.Item active>{12}</Pagination.Item>
-                <Pagination.Item>{13}</Pagination.Item>
-                <Pagination.Item disabled>{14}</Pagination.Item>
-
-                <Pagination.Ellipsis />
-                <Pagination.Item>{20}</Pagination.Item>
-                <Pagination.Next />
-                <Pagination.Last />
-            </Pagination>
-        </>
-    )
-
     // This return needs to be cleaned up for readability
     return (
         <>
             <Card className="vh-100">
-                <Card.Header>
-                    <InputGroup>
-                        <Form.Control onChange={(str)=> props.setInputField({ str: str.target.value })}/>
-                        <Button variant="outline-secondary" id="button-addon1">
-                            Cerca
-                        </Button>
-                    </InputGroup>
-                </Card.Header>
                 <Card.Body>
-                    <Container className='d-flex justify-content-between align-items-center' fluid >
-                        {paginationBLock}
-                        <Button variant="primary">
-                            + Aggiungi
-                        </Button>
-                    </Container>
                         <Table striped hover responsive>
                             <thead>
                                 <tr>
