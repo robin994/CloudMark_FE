@@ -17,6 +17,7 @@ import AddAzienda from "./AddAzienda"
 import TableDipendenti from './TableDipendenti'
 import TestVerify from "./TestVerify"
 import CardCommessa from "./CardCommessa"
+import Pagination from "./Pagination"
 
 export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dipendente, 
-         ModAziendaAdmin, AddAzienda, TableDipendenti, TestVerify, CardCommessa }
+         ModAziendaAdmin, AddAzienda, TableDipendenti, TestVerify, CardCommessa,Pagination }
