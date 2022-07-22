@@ -87,7 +87,7 @@ export default function DataTable(props: DataTableProps) {
     // This return needs to be cleaned up for readability
     return (
         <>
-            <Card>
+            <Card className="vh-100">
                 <Card.Header>
                     <InputGroup>
                         <Form.Control onChange={(str)=> props.setInputField({ str: str.target.value })}/>
