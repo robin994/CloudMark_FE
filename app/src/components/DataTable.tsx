@@ -4,24 +4,6 @@ import Pagination from 'react-bootstrap/Pagination'
 import { Button, InputGroup, Form, Container } from 'react-bootstrap'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-/* TODO!!!! Every React Child Component should contain all of the html,
-every child components can be made in a separate block for ease of reading and wrapped in a React.Fragment
-
-TO ADD: HREF LINKS TO EACH ROW, CREATE A CUSTOM PAGE TO MODIFY DATA ABOUT THE EMPLOYEE
-*/
-
-/* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS!!,
-IT WILL JUST SKIP THEM AND RENDER THE NEXT ONE
-
-Props: (id, col, rows)
-
-    -id : string --> A string that dictates which columns to use as the row ID
-
-    -col: { string : string } --> An object containing { propertyName : columnName }
-
-    -rows: [{}, {}, {},...] --> An array of equal objects, each element being a row
-    
-*/
 
 interface DataTableProps {
     id: string,
