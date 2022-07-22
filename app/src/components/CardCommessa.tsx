@@ -6,7 +6,7 @@ import './css_components/CardCommessa.css';
 export default function CardCommessa() {
 
     return (
-            <Card border="danger" style={{ width: '100', textAlign: 'center' }}>
+            <Card style={{ width: '100', textAlign: 'center', height: '60%' }}>
                 <Container className='containerHeight'>
                 <Card.Body>
                     <Card.Title>Commessa</Card.Title>

@@ -22,10 +22,11 @@ export default function TopMenu() {
                 <Nav.Link href="/superuser">Superuser</Nav.Link>
               </Nav>
               <Nav className="d-flex">
-              { sessionStorage.auth === "true" ? (
+              { sessionStorage.bearer ? (
                 <>
                   <Nav.Link href="/login" onClick={() => {
-                    sessionStorage.removeItem("auth")
+                    sessionStorage.removeItem("bearer")
+                    sessionStorage.removeItem("account_username")
                     navigate("/login")
                   }}>logout</Nav.Link> 
                   <Nav.Link href="profile">{sessionStorage.account_username}</Nav.Link>

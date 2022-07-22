@@ -25,10 +25,10 @@ export default function Dashboard() {
     <>
       <Container fluid>
         <Row>
-        <Col xs={8}>
+        <Col xs={9}>
           {tableWidget}
         </Col>
-        <Col xs={4}>
+        <Col xs={3}>
           {calendarWidget}
           {commesseWidget}
         </Col>
