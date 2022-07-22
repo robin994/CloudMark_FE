@@ -36,6 +36,7 @@ export default function Login() {
             } else if (resp.data.data && !resp.data.error) {
                 sessionStorage.bearer = resp.data.data
                 sessionStorage.account_username = user.value
+                sessionStorage.id_employee = "124e4567-e85b-1fd3-a456-333322233412"
                 navigate("/", {replace: true})
             }
             // {
