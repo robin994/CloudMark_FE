@@ -2,23 +2,47 @@ import React,{useState,useEffect} from "react"
 
 import axios from "axios";
 import _ from "lodash";
+import Card from 'react-bootstrap/Card';
+
+import { Container } from 'react-bootstrap';
 
 
-const pageSize = 10;
+const pageSize = 20;
 export default function Pagination() {
 
-  const[posts,setposts] = useState()
+
+    const[value,setValue]=useState('');
+   
+    const[tableFilter,setTableFilter]=useState([]);
+
+    const filterData = (e)=>{
+        if(e.target.value !== ""){
+            setValue(e.target.value);
+            const filterTable = posts.filter(o=>Object.keys(o).some(k=>
+            String(o[k]).toLowerCase().includes(e.target.value.toLowerCase())
+            ));
+            setTableFilter([...filterTable])
+        }else{
+            setValue(e.target.value);
+            setposts([...posts])
+        }
+    }
+
+  const[posts,setposts] = useState([])
   const[paginatedPosts,setpaginatedPosts] = useState()
   const [currentPage,setcurrentPage] = useState(1)
 
   useEffect(()=>{
-    axios.get('https://jsonplaceholder.typicode.com/todos')
+    axios.get('https://jsonplaceholder.typicode.com/comments')
     .then(res=>{
       console.log(res.data)
       setposts(res.data);
+      
       setpaginatedPosts(_(res.data).slice(0).take(pageSize).value());
     })
   },[]);
+
+
 
   const pageCount = posts? Math.ceil(posts.length/ pageSize) :0; // page count = 20 perchè fa 200:10=20
 
@@ -35,9 +59,14 @@ export default function Pagination() {
 
   return (
    <>
-   <div>
+
+
+<Container>
+      <Card>
+        <Card.Body>
+        <div>
    <div className="mytop">
-    <input className="form-control" placeholder="search"></input>
+    <input className="form-control" placeholder="search" value={value} onChange={filterData}></input>
     <div className="form-check">
   <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
   </div>
@@ -50,29 +79,37 @@ export default function Pagination() {
               <th>Id</th>
               <th>Nome</th>
               <th>Cognome</th>
-              <th>Email</th>
-              <th>Contratto</th>
-              <th>Assunzione</th>
-              <th>Commessa</th>
+             
+           
             </tr>
           </thead>
           <tbody>
             {
-              paginatedPosts.map((post,index)=>(
-                <tr key={index}>
-                  <td>{post.id}</td>
-                  <td>{post.userId}</td>
-                  <td>{post.title}</td>
-                  <td>
-                    <p className={post.completed ? "btn btn-success" :"btn btn-danger"}>
-                      {post.completed ? "completed":"pending"}
-                    </p>
-                  </td>
-                  
-                </tr>
-
-              ))
+                value.length > 0 ? tableFilter.map((post,ind)=>{
+                    return(
+                        <tr key={ind}>
+                            <td>{post.postId}</td>
+                            <td>{post.id}</td>
+                            <td>{post.name}</td>
+                           
+                        </tr>
+                    )
+                })
+                :
+                paginatedPosts.map((post,index)=>(
+                    <tr key={index}>
+                      <td>{post.postId}</td>
+                      <td>{post.id}</td>
+                      <td>{post.name}</td>
+                      <td>
+                      
+                      </td>
+                      
+                    </tr>
+    
+                  ))
             }
+            
             
           </tbody>
         </table>
@@ -98,6 +135,10 @@ export default function Pagination() {
     </nav>
    </div>
 
+        </Card.Body>
+      </Card>
+    </Container>
+   
  
    </>
   );
