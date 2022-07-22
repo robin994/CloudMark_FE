@@ -1,16 +1,13 @@
 import Container from "react-bootstrap/Container"
 import{ Row, Col } from "react-bootstrap"
-import DataTable from "../../components/DataTable"
 import MyCalendar from "./myCalendar"
 import Commesse from "./commesse"
-
-// Mock imports (For development purpouses)
-import { getMockPresenzeHeading, getMockPresenzeDate } from "../../data_mock.js"
+import Presenze from "./components/presenze"
 
 export default function Dashboard() {
 
-  const tableWidget = (
-    <DataTable id='date' col={getMockPresenzeHeading()} rows={getMockPresenzeDate()} setInputField={()=> false}/>
+  const presenzeWidget = (
+    <Presenze />
   )
 
   const calendarWidget = (
@@ -26,7 +23,7 @@ export default function Dashboard() {
       <Container fluid>
         <Row>
         <Col xs={9}>
-          {tableWidget}
+          {presenzeWidget}
         </Col>
         <Col xs={3}>
           {calendarWidget}

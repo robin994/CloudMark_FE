@@ -1,34 +1,12 @@
-import Table from 'react-bootstrap/Table'
-import Card from 'react-bootstrap/Card'
-import Pagination from 'react-bootstrap/Pagination'
-import { Button, InputGroup, Form, Container } from 'react-bootstrap'
 import React from 'react'
+import { Card, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-/* TODO!!!! Every React Child Component should contain all of the html,
-every child components can be made in a separate block for ease of reading and wrapped in a React.Fragment
-
-TO ADD: HREF LINKS TO EACH ROW, CREATE A CUSTOM PAGE TO MODIFY DATA ABOUT THE EMPLOYEE
-*/
-
-/* DOESN'T CURRENTLY SUPPORT NESTED OBJECTS!!,
-IT WILL JUST SKIP THEM AND RENDER THE NEXT ONE
-
-Props: (id, col, rows)
-
-    -id : string --> A string that dictates which columns to use as the row ID
-
-    -col: { string : string } --> An object containing { propertyName : columnName }
-
-    -rows: [{}, {}, {},...] --> An array of equal objects, each element being a row
-    
-*/
 
 interface DataTableProps {
     id: string,
     col: DynamicObject,
     rows: DynamicObject,
-    baseSlug?: string,
-    setInputField: Function
+    baseSlug?: string
 }
 /* In this case can accept any field with a string key and store any value,
 this solution is extremely elegant and can include TypeSafe fields */
@@ -62,47 +40,11 @@ export default function DataTable(props: DataTableProps) {
         )
     }
 
-    const paginationBLock = (
-        <>
-            <Pagination>
-                <Pagination.First />
-                <Pagination.Prev />
-                <Pagination.Item>{1}</Pagination.Item>
-                <Pagination.Ellipsis />
-
-                <Pagination.Item>{10}</Pagination.Item>
-                <Pagination.Item>{11}</Pagination.Item>
-                <Pagination.Item active>{12}</Pagination.Item>
-                <Pagination.Item>{13}</Pagination.Item>
-                <Pagination.Item disabled>{14}</Pagination.Item>
-
-                <Pagination.Ellipsis />
-                <Pagination.Item>{20}</Pagination.Item>
-                <Pagination.Next />
-                <Pagination.Last />
-            </Pagination>
-        </>
-    )
-
     // This return needs to be cleaned up for readability
     return (
         <>
             <Card className="vh-100">
-                <Card.Header>
-                    <InputGroup>
-                        <Form.Control onChange={(str)=> props.setInputField({ str: str.target.value })}/>
-                        <Button variant="outline-secondary" id="button-addon1">
-                            Cerca
-                        </Button>
-                    </InputGroup>
-                </Card.Header>
                 <Card.Body>
-                    <Container className='d-flex justify-content-between align-items-center' fluid >
-                        {paginationBLock}
-                        <Button variant="primary">
-                            + Aggiungi
-                        </Button>
-                    </Container>
                         <Table striped hover responsive>
                             <thead>
                                 <tr>
