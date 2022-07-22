@@ -26,9 +26,6 @@ export default function CardCommessa() {
                         <Col>
                             <Card.Text>{element.data_fine}</Card.Text>
                         </Col>
-                        {/* <Col>
-                            <Card.Text>{element.nome_cliente}</Card.Text>
-                        </Col> */}
                     </Row>
                 </Container>
             </Card>
