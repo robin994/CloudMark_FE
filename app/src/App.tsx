@@ -29,6 +29,7 @@ export default function App() {
           <Route path="/employee" element={<Employee.Dashboard />} />
           <Route path="/tcalendar" element={<Employee.MyCalendar />} />
           <Route path="/tcommessa" element={<Comps.CardCommessa />} />
+          <Route path="/pagination" element={<Comps.Pagination />} />
         </Route>
         <Route path="/test_verify" element={<Comps.TestVerify />} />
         <Route path="/signup" element={<Comps.Registrazione />} />
