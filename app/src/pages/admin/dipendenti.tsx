@@ -35,7 +35,7 @@ export default function ListaDipendenti() {
   async function getDipendenti(str?: string) {
     try {
       const response = await axios.get<any>(`http://localhost:8000/employee`);
-      setDipendenti(Object.values(response.data))
+      setDipendenti(Object.values(response.data.data))
     } catch (error) {
       console.log(error)
     }
