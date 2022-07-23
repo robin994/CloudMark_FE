@@ -6,10 +6,6 @@ import Axios from 'axios'
 export default function Cliente() {
     const [customer, setCustomer] = useState<any>({})
     const navigate = useNavigate()
-    // useEffect(() => {
-    //     if (sessionStorage.bearer === undefined)
-    //         navigate("/login", {replace: true})
-    // }, [navigate])
     let params = useParams()
     let id_customer = params.id_customer
     useEffect( () => {
