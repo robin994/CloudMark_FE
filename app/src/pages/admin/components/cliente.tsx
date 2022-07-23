@@ -6,17 +6,17 @@ import Axios from 'axios'
 export default function Cliente() {
     const [customer, setCustomer] = useState<any>({})
     const navigate = useNavigate()
-    useEffect(() => {
-        if (sessionStorage.auth === undefined)
-            navigate("/login", {replace: true})
-    }, [navigate])
+    // useEffect(() => {
+    //     if (sessionStorage.bearer === undefined)
+    //         navigate("/login", {replace: true})
+    // }, [navigate])
     let params = useParams()
     let id_customer = params.id_customer
     useEffect( () => {
          Axios(`http://localhost:8000/customer/${id_customer}`, {
         method: "POST"
     }).then( resp => {
-        setCustomer(resp.data)
+        setCustomer(resp.data.data)
     }).catch( err => {
         setCustomer(err)
     })}, [])
