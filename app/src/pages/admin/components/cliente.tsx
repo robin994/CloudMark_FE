@@ -1,11 +1,10 @@
 import { Card, ListGroup } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Axios from 'axios'
 
 export default function Cliente() {
     const [customer, setCustomer] = useState<any>({})
-    const navigate = useNavigate()
     let params = useParams()
     let id_customer = params.id_customer
     useEffect( () => {
@@ -15,7 +14,7 @@ export default function Cliente() {
         setCustomer(resp.data.data)
     }).catch( err => {
         setCustomer(err)
-    })}, [])
+    })}, [id_customer])
 
     return (
         <div className="mycentereddiv">
