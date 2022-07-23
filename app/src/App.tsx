@@ -30,7 +30,6 @@ export default function App() {
             <Route path="/employee" element={<Employee.Dashboard />} />
             <Route path="/pagination" element={<Comps.Pagination />} />
           </Route>
-          <Route path="/test_verify" element={<Comps.TestVerify />} />
           <Route path="/signup" element={<Comps.Registrazione />} />
           <Route path="/login" element={<Comps.Login />} />
         </Route>
