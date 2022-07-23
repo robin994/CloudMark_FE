@@ -15,11 +15,10 @@ import ModAziendaAdmin  from "./ModAziendaAdmin"
 import AddAzienda from "./AddAzienda"
 // New separe index should be created for root pages
 import TableDipendenti from './TableDipendenti'
-import TestVerify from "./TestVerify"
 import CardCommessa from "./CardCommessa"
 import Pagination from "./Pagination"
-import BearerCheck from "../BearerCheck"
+import BearerCheck from "./BearerCheck"
 
 export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dipendente, 
-         ModAziendaAdmin, AddAzienda, TableDipendenti, TestVerify, CardCommessa, 
-         Pagination, BearerCheck }
+         ModAziendaAdmin, AddAzienda, TableDipendenti, CardCommessa, Pagination, 
+         BearerCheck }
