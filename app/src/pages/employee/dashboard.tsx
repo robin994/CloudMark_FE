@@ -7,7 +7,7 @@ import Presenze from "./components/presenze"
 export default function Dashboard() {
 
   const presenzeWidget = (
-    <Presenze />
+    <Presenze id_employee='b867b283-38a0-4eb3-8df1-55ccb5f310df' year='2022' month='01'/>
   )
 
   const calendarWidget = (

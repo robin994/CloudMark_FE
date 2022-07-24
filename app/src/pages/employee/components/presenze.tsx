@@ -1,11 +1,42 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import DataTable from "../../../components/DataTable"
+import axios from 'axios'
 
-// Mock imports (For development purpouses)
-import { getMockPresenzeHeading, getMockPresenzeDate } from "../../../data_mock.js"
+interface PresenzeProps {
+  id_employee: string,
+  year: string,
+  month: string
+}
 
-export default function Presenze() {
+const heading = {
+  
+}
+
+export default function Presenze(props: PresenzeProps) {
+  const [presenze, setPresenze] = useState({})
+
+  async function getPresenze() {
+    try {
+      const response = await axios.post('http://localhost:8000/presence/',
+      { params:
+        {
+          id_employee: props.id_employee,
+          year: props.year,
+          month: props.month
+        }
+      })
+      console.log(response.data)
+      setPresenze(response.data)
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(()=> {
+    getPresenze()
+  }, [])
+
   return (
-    <DataTable id='date' col={getMockPresenzeHeading()} rows={getMockPresenzeDate()} />
+    <DataTable id='date' col={presenze} rows={heading} />
   )
 }
