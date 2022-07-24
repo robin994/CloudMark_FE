@@ -16,10 +16,14 @@ export default function Presenze() {
   const [presenze, setPresenze] = useState([])
 
   async function getPresenze() {
+
     try {
-      const response = await axios.get('http://localhost:8000/presence/all')
-      console.log(response.data.data)
-      setPresenze(response.data.data)
+      let payload =  "124e4567-e85b-1fd3-a456-333322233412";
+      let res = await axios.get('http://localhost:8000/presence/load_employee='+ payload)
+      console.log(res);
+      setPresenze(res.data.data);
+
+      
     } catch(error) {
       throw error
     }
