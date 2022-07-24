@@ -41,6 +41,6 @@ export default function Presenze(props: PresenzeProps) {
   }, [])
 
   return (
-    <DataTable id='date' col={heading} rows={presenze} />
+    <DataTable id='id_presence' col={heading} rows={presenze} />
   )
 }
