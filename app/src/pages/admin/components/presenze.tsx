@@ -32,7 +32,7 @@ export default function Presenze() {
   return (
     <Card>
       <Card.Body>
-        <DataTable id='date' col={heading} rows={presenze} />
+        <DataTable id='id_presence' col={heading} rows={presenze} />
       </Card.Body>
     </Card>
   )
