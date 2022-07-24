@@ -23,9 +23,9 @@ export default function Presenze(props: PresenzeProps) {
   async function getPresenze() {
     try {
       const response = await axios.post('http://localhost:8000/presence/load',{
-        id_employee: "2275eb94-4fa1-438c-b663-c429787c2f42",
+        id_employee: sessionStorage.id_employee,
         year: 2022,
-        month: 2
+        month: 1
       }, { 
         headers: {accept: "application/json", "Content-Type": "application/json" }
       })
