@@ -1,5 +1,5 @@
 import Dipendenti from "./dipendenti";
-import Presenze from "./presenze"
+import Presenze from "./components/presenze"
 import Clienti from "./clienti";
 import Commesse from "./commesse";
 import Dashboard from "./dashboard"
