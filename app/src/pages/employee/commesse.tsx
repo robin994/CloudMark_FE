@@ -4,7 +4,7 @@ import CardCommessa from '../../components/CardCommessa'
 export default function Commesse() {
   return (
     <>
-        <CardCommessa />
+        <CardCommessa id_lavoro={sessionStorage.id_employee} />
     </>
   )
 }

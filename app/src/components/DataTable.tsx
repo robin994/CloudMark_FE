@@ -1,12 +1,13 @@
 import React from 'react'
-import { Card, Table } from 'react-bootstrap'
+import { Button, Card, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
 interface DataTableProps {
     id: string,
     col: DynamicObject,
     rows: DynamicObject,
-    baseSlug?: string
+    baseSlug?: string,
+    btnCallback?: Function
 }
 /* In this case can accept any field with a string key and store any value,
 this solution is extremely elegant and can include TypeSafe fields */
@@ -34,9 +35,11 @@ export default function DataTable(props: DataTableProps) {
         }
 
         return(
-            <tr onClick = {()=> props.baseSlug ? handleRowClick(`${props.baseSlug}/${element[props.id]}`) : undefined}>
+            <>
+            {/* <tr onClick = {()=> props.baseSlug ? handleRowClick(`${props.baseSlug}/${element[props.id]}`) : undefined}> */}
                 {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element[props.id]}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
-            </tr>
+            {/* </tr> */}
+            </>
         )
     }
 
@@ -52,7 +55,18 @@ export default function DataTable(props: DataTableProps) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {props.rows.map((element: { [key: string]: any })=> <React.Fragment key={`item-${element[props.id]}`}><DataRow element={element} /></React.Fragment>)}
+                                {props.rows.map((element: { [key: string]: any })=> {
+                                    return(
+                                        <>
+                                            <React.Fragment key={`item-${element[props.id]}`}>
+                                                    <tr>
+                                                        <DataRow element={element} />
+                                                        {props.btnCallback && <td><Button onClick={()=> props.btnCallback?.(element[props.id])} variant="outline-primary">Modifica</Button></td>}
+                                                    </tr>
+                                            </React.Fragment>
+                                        </>
+                                    )})
+                                }
                             </tbody>
                         </Table>
                 </Card.Body>
