@@ -8,6 +8,7 @@ import Axios from "axios"
 export default function Login() {
     const navigate = useNavigate()
     const [firstTry, setFirstTry] = useState(true)
+    const [netErr, setNetErr] = useState(false)
     if (sessionStorage.bearer)
         Axios("http://localhost:8000/account/verify_account", {
             method: "POST",
@@ -30,7 +31,7 @@ export default function Login() {
             }
         }).then( resp => {
             console.log(resp.data)
-            if (resp.data.data === null && resp.data.error === "BAD REQUEST") {
+            if (resp.data.data === null && resp.data.status === "BAD_REQUEST") {
                 setFirstTry(false)
                 return
             } else if (resp.data.data && !resp.data.error) {
@@ -39,15 +40,10 @@ export default function Login() {
                 sessionStorage.id_employee = "124e4567-e85b-1fd3-a456-333322233412"
                 navigate("/", {replace: true})
             }
-            // {
-            //     "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZF9hY2NvdW50IjoiZTU1OTE3ZTEtMGU5Zi00MGIyLTkyYWUtYzg4MDMyOGFhMTEwIiwidXNlciI6ImJydW5vIiwiYWJpbGl0YXRlIjpudWxsLCJhY2NvdW50VHlwZSI6bnVsbH0.FlUAPay6Lf7hij-3eB1lhLLPpVi3wMpTEkxEoPH71WA",
-            //     "length": 220,
-            //     "description": null,
-            //     "error": null
-            //   }
-            
         }).catch(err => {
-            throw err
+            if (err.code === "ERR_NETWORK") {
+                setNetErr(true)
+            }
         })
     }
     return (
@@ -60,20 +56,22 @@ export default function Login() {
             </Card.Header>
             <Card.Body>
             <div className="log-div">
-                    {/* <form action=""> */}
-                        <p>
-                            <input type="username" placeholder="username" required className="form-control" id="userLogin" />
-                        </p>
-                        <p>
-                            <input type="password" placeholder="password" required className="form-control" id="pswLogin" />
-                        </p>
-                        <p>
-                            <button id="sub_btn" type="submit" className="btn btn-outline-primary logbtn" onClick={() => onSubmit()} >Log In</button>
-                        </p>
+                {/* <form action=""> */}
+                    <p>
+                        <input type="username" placeholder="username" required className="form-control" id="userLogin" />
+                    </p>
+                    <p>
+                        <input type="password" placeholder="password" required className="form-control" id="pswLogin" />
+                    </p>
+                    <p>
+                        <button id="sub_btn" type="submit" className="btn btn-outline-primary logbtn" onClick={() => onSubmit()} >Log In</button>
+                    </p>
                 {/* </form> */}
             </div>
             </Card.Body>
         </Card>
+        { firstTry || <h4 className="text-danger">Credentials mismatch</h4>}
+        { netErr && <h4 className="text-danger">Unable to reach the server<br/>you may have internet issues or the network might be down...</h4>}
     </Container>
     </>
   )

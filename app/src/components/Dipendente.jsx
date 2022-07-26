@@ -6,10 +6,6 @@ import './css_components/Dipendente.css'
 
 export default function Dipendente() {
     const navigate = useNavigate()
-    useEffect(() => {
-        if (sessionStorage.auth === undefined)
-            navigate("/login", {replace: true})
-    }, [navigate])
     let params = useParams()
     let lista_dipendenti = getListaDipendenti()
     // Axios("api/dipendentebyid", {GET})

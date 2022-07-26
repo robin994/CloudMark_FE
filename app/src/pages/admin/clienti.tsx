@@ -17,15 +17,11 @@ interface Client {
 export default function Clienti() {
     const navigate = useNavigate()
     const [customers, setCustomers] = useState<Clients>({})
-    useEffect(() => {
-        if (sessionStorage.auth === undefined)
-            navigate("/login", {replace: true})
-    }, [navigate])
     
     async function getDipendenti() {
         try {
           const response = await axios.get<any>(`http://localhost:8000/customer`);
-          setCustomers(response.data)
+          setCustomers(response.data.data)
         } catch (error) {
           console.log(error)
         }
@@ -42,7 +38,7 @@ export default function Clienti() {
                 <Row>
                     <Col>
                     <h1>
-                        {`${sessionStorage.azienda_nome} Dipendenti`}
+                        {`Clienti`}
                     </h1>
                     </Col>
                 </Row>

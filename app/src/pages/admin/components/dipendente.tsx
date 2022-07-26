@@ -4,33 +4,34 @@ import { useEffect, useState } from "react";
 import Axios from 'axios'
 
 export default function Dipendente() {
-    const [customer, setCustomer] = useState<any>({})
+    const [dipendente, setDipendente] = useState<any>({})
 
     let params = useParams()
-    let id_customer = params.id_customer
+    let id_dipendente = params.id_dipendente
     
     useEffect( () => {
-         Axios(`http://localhost:8000/customer/${id_customer}`, {
-        method: "POST"
+         Axios(`http://localhost:8000/employee/${id_dipendente}`, {
+        method: "GET"
     }).then( resp => {
-        setCustomer(resp.data)
+        let dipendenti = resp.data.data
+        const dip = Object.values(dipendenti)[0]
+        console.log(dip)
+        setDipendente(dip)
     }).catch( err => {
-        setCustomer(err)
+        setDipendente(err)
     })}, [])
 
     return (
         <div className="mycentereddiv">
             <Card style={{ width: '18rem' }}>
-            <Card.Header className="text-center"><h3>{`${customer.name}`}</h3></Card.Header>
-                <Card.Img src="/statics/customer.jpg" />
+            <Card.Header className="text-center"><h3>{`${dipendente.first_name} ${dipendente.last_name}`}</h3></Card.Header>
+                <Card.Img src="/statics/dipendente.jpg" />
                 <ListGroup variant="flush">
-                    <ListGroup.Item>{`IVA: ${customer.p_iva}`}</ListGroup.Item>
-                    <ListGroup.Item>{`Address: ${customer.address}`}</ListGroup.Item>
-                    <ListGroup.Item>{`CAP: ${customer.cap}`}</ListGroup.Item>
-                    <ListGroup.Item>{`IBAN: ${customer.iban}`}</ListGroup.Item>
-                    <ListGroup.Item>{`Email: ${customer.email}`}</ListGroup.Item>
-                    <ListGroup.Item>{`PEC: ${customer.pec}`}</ListGroup.Item>
-                    <ListGroup.Item>{`FAX: ${customer.fax}`}</ListGroup.Item>
+                    <ListGroup.Item>{`Codice Fiscale: ${dipendente.cf}`}</ListGroup.Item>
+                    <ListGroup.Item>{`IBAN: ${dipendente.iban}`}</ListGroup.Item>
+                    <ListGroup.Item>{`ID tipo contratto: ${dipendente.id_contractType}`}</ListGroup.Item>
+                    <ListGroup.Item>{`Email: ${dipendente.email}`}</ListGroup.Item>
+                    <ListGroup.Item>{`Telefono: ${dipendente.phoneNumber}`}</ListGroup.Item>
                 </ListGroup>
             </Card>
         </div>

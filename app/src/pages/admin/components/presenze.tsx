@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react'
 import DataTable from "../../../components/DataTable"
 import axios from 'axios'
-
-interface PresenzeProps {
-  id_employee: string,
-  year: string,
-  month: string
-}
+import Card from 'react-bootstrap/esm/Card'
 
 const heading = {
   id_employee: "ID dipendente",
@@ -17,18 +12,12 @@ const heading = {
   id_presence: "ID presenza"
 }
 
-export default function Presenze(props: PresenzeProps) {
+export default function Presenze() {
   const [presenze, setPresenze] = useState([])
 
   async function getPresenze() {
     try {
-      const response = await axios.post('http://localhost:8000/presence/load',{
-        id_employee: sessionStorage.id_employee,
-        year: 2022,
-        month: 1
-      }, { 
-        headers: {accept: "application/json", "Content-Type": "application/json" }
-      })
+      const response = await axios.get('http://localhost:8000/presence/all')
       console.log(response.data.data)
       setPresenze(response.data.data)
     } catch(error) {
@@ -40,11 +29,11 @@ export default function Presenze(props: PresenzeProps) {
     getPresenze()
   }, [])
 
-  function callAlert(msg: string) {
-    alert(msg)
-  }
-
   return (
-    <DataTable id='date' col={heading} rows={presenze} btnCallback={callAlert} />
+    <Card>
+      <Card.Body>
+        <DataTable id='id_presence' col={heading} rows={presenze} />
+      </Card.Body>
+    </Card>
   )
 }

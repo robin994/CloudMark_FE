@@ -5,11 +5,6 @@ import { getAziendaData } from './data_mock'
 const CercaDipendente = () => {
   let data = getAziendaData()
   const [search,setSearch]= useState('')
-  let navigate = useNavigate()
-  useEffect( () => {
-    if (sessionStorage.auth === undefined)
-      navigate("/login", {replace: true})
-  })
   return (
     <>
         <div>

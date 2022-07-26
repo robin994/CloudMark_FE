@@ -188,6 +188,7 @@ export function getListaDipendenti() {
 // employee
 
 const mockPresenzeHeading = {
+    date: 'Data',
     presenze: 'Presenza',
     ferie: 'Ferie',
     malattia: 'Malattia',

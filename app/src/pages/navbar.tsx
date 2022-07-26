@@ -22,8 +22,7 @@ export default function TopMenu() {
               { sessionStorage.bearer ? (
                 <>
                   <Nav.Link href="/login" onClick={() => {
-                    sessionStorage.removeItem("bearer")
-                    sessionStorage.removeItem("account_username")
+                    sessionStorage.clear()
                     navigate("/login")
                   }}>logout</Nav.Link> 
                   <Nav.Link href="profile">{sessionStorage.account_username}</Nav.Link>
