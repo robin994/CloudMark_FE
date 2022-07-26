@@ -40,11 +40,12 @@ export default function Presenze(props: PresenzeProps) {
     getPresenze()
   }, [])
 
-  function callAlert(msg: string) {
-    alert(msg)
+  // Trigger EDIT BUTTON
+  function callEdit(id_presence: string) {
+    alert(id_presence)
   }
 
   return (
-    <DataTable id='date' col={heading} rows={presenze} btnCallback={callAlert} />
+    <DataTable id='id_presence' col={heading} rows={presenze} btnCallback={callEdit} />
   )
 }
