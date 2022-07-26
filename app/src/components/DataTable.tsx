@@ -61,7 +61,7 @@ export default function DataTable(props: DataTableProps) {
                                             <React.Fragment key={`item-${element[props.id]}`}>
                                                     <tr>
                                                         <DataRow element={element} />
-                                                        {props.btnCallback && <td><Button onClick={props.btnCallback(element[props.id])} variant="outline-primary">Modifica</Button></td>}
+                                                        {props.btnCallback && <td><Button onClick={()=> props.btnCallback?.(element[props.id])} variant="outline-primary">Modifica</Button></td>}
                                                     </tr>
                                             </React.Fragment>
                                         </>
