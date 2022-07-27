@@ -10,7 +10,7 @@ export default function Dipendente() {
     let id_dipendente = params.id_dipendente
     
     useEffect( () => {
-         Axios(`http://localhost:8000/employee/${id_dipendente}`, {
+         Axios(`${process.env.REACT_APP_FASTAPI_URL}/employee/${id_dipendente}`, {
         method: "GET"
     }).then( resp => {
         let dipendenti = resp.data.data
