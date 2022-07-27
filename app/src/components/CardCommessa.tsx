@@ -23,7 +23,7 @@ export default function CardCommessa(props:CardCommessaProps) {
     let id_lavoro = params.id_lavoro
 
     useEffect(() => {
-        Axios(`http://localhost:8000/orders/employee/${props.id_lavoro}`, {
+        Axios(`${process.env.REACT_APP_FASTAPI_URL}/orders/employee/${props.id_lavoro}`, {
             method: "GET"
         }).then(resp => {
             console.log("COMMESSE",Object.values(resp.data.data))

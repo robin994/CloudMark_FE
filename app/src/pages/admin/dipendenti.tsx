@@ -34,7 +34,7 @@ export default function ListaDipendenti() {
 
   async function getDipendenti(str?: string) {
     try {
-      const response = await axios.get<any>(`http://localhost:8000/employee`);
+      const response = await axios.get<any>(`${process.env.REACT_APP_FASTAPI_URL}/employee`);
       setDipendenti(Object.values(response.data.data))
     } catch (error) {
       console.log(error)
