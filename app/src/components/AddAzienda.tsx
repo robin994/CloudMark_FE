@@ -17,7 +17,7 @@ export default function AddAzienda() {
     const[fax, setFax]= useState('')
 
     function MandaDati(){
-        axios.post('http://127.0.0.1:8000/business/create/', {
+        axios.post(`${process.env.REACT_APP_FASTAPI_URL}/business/create/`, {
             name: nome,
             p_iva: p_iva,
             address: indirizzo,
