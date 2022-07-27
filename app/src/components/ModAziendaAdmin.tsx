@@ -1,6 +1,5 @@
 import React, {useState, Component, useEffect} from "react";
 import './css_components/ModAziendaAdmin.css'
-import datafake from './data_mock.json'
 import axios, {Axios, AxiosResponse} from "axios";
 
 
@@ -54,7 +53,7 @@ function ModAziendaAdmin() {
   return(
     <>
       <div className='cont_01 mt-5'>
-        <div id="azienda_temp">
+{/*         <div id="azienda_temp">
           <h3>Info Azienda</h3>
           <div className="form-control">{datafake.nome_azienda}</div>
           <div className="form-control">{datafake.p_iva_azienda}</div>
@@ -65,7 +64,7 @@ function ModAziendaAdmin() {
           <div className="form-control">{datafake.email}</div>
           <div className="form-control">{datafake.pec}</div>
           <div className="form-control">{datafake.fax}</div>
-        </div>
+        </div> */}
         <div id='main_body'>
           <h3>Modifica Azienda</h3>
           <input type="text" className="form-control" placeholder='nome' required onChange={(val)=>{setOggetto([{nome:val.target.value}])}}/>

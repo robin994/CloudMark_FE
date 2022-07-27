@@ -1,5 +1,4 @@
 import Container from "react-bootstrap/Container"
-import { getAziendaData } from './data_mock'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Card from "react-bootstrap/Card"
