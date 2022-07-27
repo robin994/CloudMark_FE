@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DataTable from '../../components/DataTable'
-import axios from 'axios'
+import Axios from 'axios'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 
@@ -22,7 +22,7 @@ export default function Commesse() {
   const [commesse, setCommesse] = useState([])
 
   useEffect( () => {
-    axios(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then( resp => {
+    Axios(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then( resp => {
       const data = resp.data.data
       setCommesse(Object.values(data))
   }).catch( err => { throw err })
@@ -37,7 +37,7 @@ export default function Commesse() {
 
   function postData (){
    
-    axios.post(`${process.env.REACT_APP_FASTAPI_URL}orders/create/`,{
+    Axios.post(`${process.env.REACT_APP_FASTAPI_URL}orders/create/`,{
       customer:id_customer,
       business:id_business,
       descrizione:description,
