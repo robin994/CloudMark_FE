@@ -1,7 +1,6 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import './css_components/CardCommessa.css';
-import { getMockCommesse } from "../data_mock";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Axios from 'axios'
