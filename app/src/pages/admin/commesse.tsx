@@ -37,7 +37,7 @@ export default function Commesse() {
 
   function postData (){
    
-    Axios.post(`${process.env.REACT_APP_FASTAPI_URL}orders/create/`,{
+    Axios.post(`${process.env.REACT_APP_FASTAPI_URL}/orders/create/`,{
       customer:id_customer,
       business:id_business,
       descrizione:description,

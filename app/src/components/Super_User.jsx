@@ -7,7 +7,7 @@ import {useState} from 'react'
 import Spacer from "./Spacer"
 
 export default function SuperUser() {
-    let data = getAziendaData()
+    let data = []
     const [filteredData, setFilteredData] = useState([])
     const [wordEntered, setWordEntered] = useState("")
     const [showDelete, setShowDelete] = useState(false)
