@@ -20,7 +20,7 @@ export default function Presenze() {
 
   async function getPresenze() {
     try {
-      const response = await axios.get('http://localhost:8000/presence/all')
+      const response = await axios.get(`${process.env.REACT_APP_FASTAPI_URL}/presence/all`)
       console.log(response.data.data)
       setPresenze(response.data.data)
     } catch(error) {
@@ -42,7 +42,6 @@ export default function Presenze() {
 
   return (
     <Card>
-      <ModalePresenza/>
       <Card.Body>
         <DataTable id='id_presence' col={heading} rows={presenze} btnCallback={callbackEdit} />
       </Card.Body>
