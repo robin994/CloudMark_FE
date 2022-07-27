@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Card from "react-bootstrap/Card"
 import Container from "react-bootstrap/Container"
 import Spacer from "./Spacer"
@@ -10,7 +10,7 @@ export default function Login() {
     const [firstTry, setFirstTry] = useState(true)
     const [netErr, setNetErr] = useState(false)
     if (sessionStorage.bearer)
-        Axios("http://localhost:8000/account/verify_account", {
+        Axios(`${process.env.REACT_APP_FASTAPI_URL}account/verify_account`, {
             method: "POST",
             params: {token: sessionStorage.bearer}
         }).then(resp => {
@@ -22,7 +22,7 @@ export default function Login() {
     const onSubmit = () => {
         let user = document.getElementById("userLogin") as HTMLInputElement
         let psw = document.getElementById("pswLogin") as HTMLInputElement
-        Axios("http://localhost:8000/account/login", {
+        Axios(`${process.env.REACT_APP_FASTAPI_URL}account/login`, {
             method: 'POST',
             headers: { "accept": "application/json", 'Content-Type': 'application/json' },
             data: {
