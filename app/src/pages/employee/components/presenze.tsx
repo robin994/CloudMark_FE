@@ -22,7 +22,7 @@ export default function Presenze(props: PresenzeProps) {
 
   async function getPresenze() {
     try {
-      const response = await axios.post('http://localhost:8000/presence/load',{
+      const response = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,{
         id_employee: sessionStorage.id_employee,
         year: 2022,
         month: 1

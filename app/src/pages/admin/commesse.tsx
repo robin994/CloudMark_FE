@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DataTable from '../../components/DataTable'
 import Axios from 'axios'
 import Modal from 'react-bootstrap/Modal'
@@ -18,16 +18,36 @@ const heading = {
 
 export default function Commesse() {
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+
   const [commesse, setCommesse] = useState([])
 
   useEffect( () => {
-    Axios("http://localhost:8000/orders").then( resp => {
+    Axios(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then( resp => {
       const data = resp.data.data
       setCommesse(Object.values(data))
   }).catch( err => { throw err })
   }, [])
+
+
+  const[id_customer,setCustomer] = useState('')
+  const[id_business,setBusiness] =useState('')
+  const[description,setDescription] =useState('')
+  const[startDate,setStartDate] = useState('')
+  const[endDate,setEndDate] = useState('')
+
+  function postData (){
+   
+    Axios.post(`${process.env.REACT_APP_FASTAPI_URL}orders/create/`,{
+      customer:id_customer,
+      business:id_business,
+      descrizione:description,
+      startdate:startDate,
+      enddate:endDate
+
+    }).then(res=>{console.log(res)
+    }).catch(err=>{console.log(err)})
+    console.log('click funzia')
+  }
 
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
@@ -49,21 +69,26 @@ export default function Commesse() {
       <Modal.Header closeButton>
         <Modal.Title>Inserisci Commessa</Modal.Title>
       </Modal.Header>
+      <form>
       <Modal.Body>
-        <input id="id_order"   type="text" placeholder="ID Commessa" className="form-control"></input>
-        <input id="id_customer"  type="text" placeholder="ID Cliente" className="form-control" style={{marginTop:"1vh"}} required></input>
-        <input id="id_business"  type="text" placeholder="ID Azienda" className="form-control" style={{marginTop:"1vh"}} required></input>
-        <input id="description"   type="text" placeholder="Descrizione" className="form-control" style={{marginTop:"1vh"}} required></input>
-        <input id="startDate"  type="date" placeholder="Data Inizio" className="form-control" style={{marginTop:"1vh"}} required></input>
-        <input id="endDate"  type="date" placeholder="Data Fine" className="form-control" style={{marginTop:"1vh"}} required></input>
+       
+
+        <input onChange={(val)=> {setCustomer(val.target.value)}} type="text" placeholder="ID Cliente" className="form-control" style={{marginTop:"1vh"}} required></input>
+        <input onChange={(val)=> {setBusiness(val.target.value)}} type="text" placeholder="ID Azienda" className="form-control" style={{marginTop:"1vh"}} required></input>
+        <input onChange={(val)=>{setDescription(val.target.value)}} type="text" placeholder="Descrizione" className="form-control" style={{marginTop:"1vh"}} required></input>
+        <input onChange={(val)=> {setStartDate(val.target.value)}} type="date" placeholder="Data Inizio" className="form-control" style={{marginTop:"1vh"}} required></input>
+        <input onChange={(val)=> {setEndDate(val.target.value)}} type="date" placeholder="Data Fine" className="form-control" style={{marginTop:"1vh"}} required></input>
+ 
         </Modal.Body>
         
         <Modal.Footer>
-          <Button variant="primary" onClick={handleClose} type="submit" style={{width:"100%"}}>
+          <Button onClick={postData} type="button">
             Inserisci Dati
           </Button>
+
         
         </Modal.Footer>
+        </form>
       </Modal>
      
   
