@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import DataTable from "../../../components/DataTable"
 import axios from 'axios'
 import Card from 'react-bootstrap/esm/Card'
+import Modale from './modalePresenza'
+import ModalePresenza from './modalePresenza'
 
 const heading = {
   id_employee: "ID dipendente",
@@ -15,6 +17,7 @@ const heading = {
 export default function Presenze() {
   const [presenze, setPresenze] = useState([])
 
+
   async function getPresenze() {
     try {
       const response = await axios.get('http://localhost:8000/presence/all')
@@ -25,16 +28,21 @@ export default function Presenze() {
     }
   }
 
-  function callbackEdit(id_presence: string) {
+  function callbackEdit(id_dipendente: string,date:string,id_type_presence:string,id_order:string,hour:number,id_presence:string) {
     alert(id_presence)
   }
+
 
   useEffect(()=> {
     getPresenze()
   }, [])
+  
+
+
 
   return (
     <Card>
+      <ModalePresenza/>
       <Card.Body>
         <DataTable id='id_presence' col={heading} rows={presenze} btnCallback={callbackEdit} />
       </Card.Body>
