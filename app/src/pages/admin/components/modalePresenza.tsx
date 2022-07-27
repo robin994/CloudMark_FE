@@ -17,7 +17,7 @@ export default function ModalePresenza() {
 
     const handleSubmit = (e:any) => {
         e.preventDefault();
-        axios.post('http://127.0.0.1:8000/presence/create/', {
+        axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/create`, {
             id_dipendente: id_dipendente ,
             data: data,
             idTipoPresenza: idTipoPresenza,
