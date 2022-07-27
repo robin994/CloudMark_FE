@@ -23,7 +23,6 @@ const heading = {
 export default function Presenze(props: PresenzeProps) {
   const [presenze, setPresenze] = useState([])
   const [showInsMod, setInsMod] = useState(false)
-  const [showEditMod, setEditMod] = useState(false)
 
   async function getPresenze() {
     try {
@@ -47,9 +46,6 @@ export default function Presenze(props: PresenzeProps) {
 
   const handleOpenIns = () => setInsMod(true);
   const handleCloseIns = () => setInsMod(false);
-
-  const handleOpenEdit = () => setEditMod(true);
-  const handleCloseEdit = () => setEditMod(false);
 
   // Trigger EDIT BUTTON
   function callEdit(id_presence: string) {
