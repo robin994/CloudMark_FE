@@ -22,7 +22,7 @@ export default function Commesse() {
   const [commesse, setCommesse] = useState([])
 
   useEffect( () => {
-    axios(`${process.env.REACT_APP_FASTAPI_URL}orders`).then( resp => {
+    axios(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then( resp => {
       const data = resp.data.data
       setCommesse(Object.values(data))
   }).catch( err => { throw err })
