@@ -25,6 +25,10 @@ export default function Presenze() {
     }
   }
 
+  function callbackEdit(id_presence: string) {
+    alert(id_presence)
+  }
+
   useEffect(()=> {
     getPresenze()
   }, [])
@@ -32,7 +36,7 @@ export default function Presenze() {
   return (
     <Card>
       <Card.Body>
-        <DataTable id='id_presence' col={heading} rows={presenze} />
+        <DataTable id='id_presence' col={heading} rows={presenze} btnCallback={callbackEdit} />
       </Card.Body>
     </Card>
   )
