@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DataTable from '../../components/DataTable'
 import Axios from 'axios'
 import Modal from 'react-bootstrap/Modal'
@@ -23,7 +23,7 @@ export default function Commesse() {
   const [commesse, setCommesse] = useState([])
 
   useEffect( () => {
-    Axios("http://localhost:8000/orders").then( resp => {
+    Axios(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then( resp => {
       const data = resp.data.data
       setCommesse(Object.values(data))
   }).catch( err => { throw err })

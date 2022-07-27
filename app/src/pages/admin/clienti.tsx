@@ -20,7 +20,7 @@ export default function Clienti() {
     
     async function getDipendenti() {
         try {
-          const response = await axios.get<any>(`http://localhost:8000/customer`);
+          const response = await axios.get<any>(`${process.env.REACT_APP_FASTAPI_URL}/customer`);
           setCustomers(response.data.data)
         } catch (error) {
           console.log(error)

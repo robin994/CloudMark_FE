@@ -8,7 +8,7 @@ export default function Cliente() {
     let params = useParams()
     let id_customer = params.id_customer
     useEffect( () => {
-         Axios(`http://localhost:8000/customer/${id_customer}`, {
+         Axios(`${process.env.REACT_APP_FASTAPI_URL}/customer/${id_customer}`, {
         method: "POST"
     }).then( resp => {
         setCustomer(resp.data.data)
