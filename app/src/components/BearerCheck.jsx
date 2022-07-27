@@ -8,7 +8,7 @@ export default function BearerCheck() {
         if (!sessionStorage.bearer)
             navigate("/login", {replace: true})
         else
-            Axios("http://localhost:8000/account/verify_account", {
+            Axios(`${process.env.REACT_APP_FASTAPI_URL}/account/verify_account`, {
                 method: "POST",
                 headers: { accept: 'application/json' },
                 params: { token: sessionStorage.bearer }
