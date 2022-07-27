@@ -1,22 +1,27 @@
 import React from 'react'
-import { Button, Card, Table } from 'react-bootstrap'
+import { Button, Card, Form, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import DatePicker from 'sassy-datepicker'
 
 interface DataTableProps {
     id: string,
-    col: DynamicObject,
-    rows: DynamicObject,
-    baseSlug?: string,
+    col: { [ key: string ]: any },
+    rows: Presenza[],
     btnCallback?: Function
 }
 /* In this case can accept any field with a string key and store any value,
 this solution is extremely elegant and can include TypeSafe fields */
 interface DynamicObject {
-    [key: string]: any
+    [ key: string ]: any
+}
+
+interface Presenza {
+    data: string,
+    ore: number
 }
 
 /* Maps col[] as the Heading of the table, then maps every row in rows[{} */
-export default function DataTableEditable(props: DataTableProps) {
+export default function EditableTable(props: DataTableProps) {
     const navigate = useNavigate();
 
     async function handleRowClick( slug: string ) {
@@ -36,9 +41,12 @@ export default function DataTableEditable(props: DataTableProps) {
 
         return(
             <>
-            {/* <tr onClick = {()=> props.baseSlug ? handleRowClick(`${props.baseSlug}/${element[props.id]}`) : undefined}> */}
+                <td>
+                    <Form.Group>
+                        <DatePicker />
+                    </Form.Group>
+                </td>
                 {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element[props.id]}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
-            {/* </tr> */}
             </>
         )
     }

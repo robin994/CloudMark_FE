@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container"
 import{ Row, Col } from "react-bootstrap"
 // import MyCalendar from "./myCalendar"
 import Commesse from "./commesse"
-import Presenze from "./components/presenze"
+import Presenze from "./presenze"
 import CalendarMY from "./calender"
 
 export default function Dashboard() {
