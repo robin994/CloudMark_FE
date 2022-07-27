@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import DataTable from "../../../components/DataTable"
 import axios from 'axios'
+import { Modal, Button, Card, Container, Form } from 'react-bootstrap'
+import DataSearchbar from '../../../components/DataSearchbar'
+import DatePicker from 'sassy-datepicker'
 
 interface PresenzeProps {
   id_employee: string,
@@ -19,6 +22,8 @@ const heading = {
 
 export default function Presenze(props: PresenzeProps) {
   const [presenze, setPresenze] = useState([])
+  const [showInsMod, setInsMod] = useState(false)
+  const [showEditMod, setEditMod] = useState(false)
 
   async function getPresenze() {
     try {
@@ -40,12 +45,54 @@ export default function Presenze(props: PresenzeProps) {
     getPresenze()
   }, [])
 
+  const handleOpenIns = () => setInsMod(true);
+  const handleCloseIns = () => setInsMod(false);
+
+  const handleOpenEdit = () => setEditMod(true);
+  const handleCloseEdit = () => setEditMod(false);
+
   // Trigger EDIT BUTTON
   function callEdit(id_presence: string) {
     alert(id_presence)
   }
 
+  const insertModal = (
+    <Modal show={showInsMod} onHide={handleCloseIns}>
+        <Modal.Header closeButton>
+          <Modal.Title>Nuova Presenza</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <DatePicker />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseIns}>
+            Esci
+          </Button>
+          <Button variant="primary" onClick={()=> false}>
+            Aggiungi
+          </Button>
+        </Modal.Footer>
+      </Modal>
+  )
+
   return (
-    <DataTable id='id_presence' col={heading} rows={presenze} btnCallback={callEdit} />
+    <Card>
+      {insertModal}
+      <Card.Body>
+        <Container>
+          <DataSearchbar setInputField={()=> false} />
+          <Button onClick={handleOpenIns}>
+            Nuova
+          </Button>
+        </Container>
+      </Card.Body>
+      <Card.Body>
+        <DataTable id='id_presence' col={heading} rows={presenze} btnCallback={callEdit} />
+      </Card.Body>
+    </Card>
   )
 }

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import DataTable from "../../../components/DataTable"
 import axios from 'axios'
 import Card from 'react-bootstrap/esm/Card'
-import Modale from './modalePresenza'
 import ModalePresenza from './modalePresenza'
 
 const heading = {
