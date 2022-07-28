@@ -6,6 +6,8 @@ export default function TabellaPresenze() {
     const [reveal, setReveal] = useState(true)
     const [presenze, setPresenze] = useState([])
 
+    
+
     async function getPresenze() {
         try {
             const response = await axios.get(`${process.env.REACT_APP_FASTAPI_URL}/presence/all/first_name/last_name/`)
@@ -25,14 +27,35 @@ export default function TabellaPresenze() {
                 <td><input type="text" placeholder="prova" /></td>
                 {
                     Object.values(el).map((e: any, i) => {
-                        return (
-                            <td key={i}>
-                                <div className='input-group mb-3'>
-                                    <input type="text" className='form-control' placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value={e} />
-                                </div>
-                            </td>
-                        )
 
+                        if (typeof e === 'string') {
+                            return (
+                                <td key={i}>
+                                    <div className='input-group mb-3'>
+                                        <input onChange={} type="text" className='form-control' aria-label="Username" aria-describedby="basic-addon1" value={e} />
+                                    </div>
+                                </td>
+                            )
+                        } 
+                        // e.slice(4, 5) === "/" && e.slice(7, 8) === "/"
+                        // else if (e.slice(4, 5) === "/" && e.slice(7, 8) === "/") {
+                        //     return (
+                        //         <td key={i}>
+                        //             <div className='input-group mb-3'>
+                        //                 <input type="date" className='form-control' placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" value={e} />
+                        //             </div>
+                        //         </td>
+                        //     )
+                        // } 
+                        else {
+                            return (
+                                <td key={i}>
+                                    <div className='input-group mb-3'>
+                                        <input onChange={f} type="number" className='form-control' aria-label="Username" aria-describedby="basic-addon1" value={e} />
+                                    </div>
+                                </td>
+                            )
+                        }
                     })
                 }
             </tr>
