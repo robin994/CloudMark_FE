@@ -33,7 +33,7 @@ export default function Dashboard() {
         </Col>
         <Col xs={3}>
           {calendarWidget}
-          {/* commesseWidget */}
+          {commesseWidget}
         </Col>
         </Row>
       </Container>
