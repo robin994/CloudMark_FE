@@ -44,17 +44,20 @@ export default function ProfiloUtente() {
                         <h2>Numero Di Telefono:</h2>
                         <input type="text" />
                     </div>
+
                 </div>
+                {<FilterData id_account=""/>}
             </div>
         </>
     )
 }
 
 function FilterData(prop: InterfacciaToken) {
-    const [data, setData] = useState([])
+    const [data, setData] = useState()
     const [filtredData, setFiltredData] = useState([])
     function ChiamaUtente() {
         setData(decode(sessionStorage.bearer))
+        console.log(data)
     }
     return (
         <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>Salva Modifiche</button>
