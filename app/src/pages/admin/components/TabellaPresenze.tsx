@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import './css_components/TabellaPresenze.css'
 import axios from 'axios'
 
-
 export default function TabellaPresenze() {
     const [reveal, setReveal] = useState(true)
     const [presenze, setPresenze] = useState([])
@@ -70,11 +69,11 @@ export default function TabellaPresenze() {
             <table className="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th className="col-md-auto">N#</th>
+                        <th className="col-md-auto text-center custom-head">N#</th>
                             {
                                 presenze.map((e: any, i: any) => {
                                     return (
-                                        <th key={i} className='cold-md-auto'>{Object.keys(e)[i]}</th>
+                                        <th key={i} className='cold-md-auto text-center custom-head'>{Object.keys(e)[i]}</th>
                                     )
                                 })
                             }

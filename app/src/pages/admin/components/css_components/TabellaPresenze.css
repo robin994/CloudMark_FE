@@ -1,4 +1,9 @@
 .table {
-    text-align: center;
-    margin-top: 
+    text-align: center; 
+}
+
+.custom-head {
+    background-color: #313538 !important;
+    color: #fff;
+    letter-spacing: 2px;
 }
