@@ -2,50 +2,43 @@ import { Col, Container, Row } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import './css_components/CardCommessa.css';
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import Axios from 'axios'
 
-interface InputData {
-    id_order: string,
-    startDate: string,
-    endDate: string,
-    nome_cliente: string
-}
 interface CardCommessaProps {
     id_lavoro:string
 }
 
 export default function CardCommessa(props:CardCommessaProps) {
 
-    const [Lavori, setLavori] = useState<any>([])
+    const [commessa, setCommessa] = useState([])
 
-    let params = useParams()
-    let id_lavoro = params.id_lavoro
+    function getCommesse() {
+        Axios(`${process.env.REACT_APP_FASTAPI_URL}/customer/${props.id_lavoro}`, {
+            method: "GET"
+            })
+            .then(resp => {
+                console.log(resp.data.data);
+                setCommessa(resp.data.data);
+            });    
+    }
 
     useEffect(() => {
-        Axios(`${process.env.REACT_APP_FASTAPI_URL}/orders/employee/${props.id_lavoro}`, {
-            method: "GET"
-        }).then(resp => {
-            console.log("COMMESSE",Object.values(resp.data.data))
-            setLavori(Object.values(resp.data.data))
-        }).catch(err => {
-            setLavori(err)
-        })
-    }, [])
+        getCommesse();
+    }, []);
 
-    const RenderListElements = (element: InputData) => {
+    const RenderListElements = (element: any, key:number) => {
         return (
             <Card>
                 <Container fluid>
                     <Row>
                         <Col>
-                            <Card.Text>{element.id_order}</Card.Text>
+                            <Card.Text>{element.customer_name.toUpperCase()}</Card.Text>
                         </Col>
                         <Col>
-                            <Card.Text>{element.startDate}</Card.Text>
+                            <Card.Text>{element.start_date}</Card.Text>
                         </Col>
                         <Col>
-                            <Card.Text>{element.endDate}</Card.Text>
+                            <Card.Text>{element.end_date}</Card.Text>
                         </Col>
                     </Row>
                 </Container>
@@ -60,10 +53,12 @@ export default function CardCommessa(props:CardCommessaProps) {
                     <Card.Title>Commessa</Card.Title>
                 </Card.Header>
                 <Card.Body>
-                    {Lavori.map((element: InputData, key: number) => RenderListElements(element))}
+                    {commessa.map((element: any, key: number) => {
+                        console.log("ELEMENTO MAPPATO", element);
+                        return RenderListElements(element, key);
+                    })}
                 </Card.Body>
             </Container>
         </Card>
     );
 }
-

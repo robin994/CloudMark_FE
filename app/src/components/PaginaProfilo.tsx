@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, Table } from 'react-bootstrap'
 import axios from 'axios'
-import decode from 'jwt-decode'
+import jwt_decode from 'jwt-decode'
 
 interface InterfacciaToken {
     id_account: string
@@ -16,6 +16,30 @@ interface InterfacciaUtente {
     email: string,
     phoneNumber: number
 
+}
+
+interface SessionInterface {
+
+    id_account: string,
+    abilitate: string,
+    accountType: string,
+    accountTypeName: string,
+    accountListFunction: string,
+    user: string
+
+}
+
+function FilterData(prop: InterfacciaToken) {
+    const [data, setData] = useState<SessionInterface>()
+    const [filtredData, setFiltredData] = useState([])
+    function ChiamaUtente() {
+        setData(jwt_decode(sessionStorage.bearer));
+        
+        console.log(data?.id_account);
+    }
+    return (
+        <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>Salva Modifiche</button>
+    )
 }
 
 export default function ProfiloUtente() {
@@ -49,17 +73,5 @@ export default function ProfiloUtente() {
                 {<FilterData id_account=""/>}
             </div>
         </>
-    )
-}
-
-function FilterData(prop: InterfacciaToken) {
-    const [data, setData] = useState()
-    const [filtredData, setFiltredData] = useState([])
-    function ChiamaUtente() {
-        setData(decode(sessionStorage.bearer))
-        console.log(data)
-    }
-    return (
-        <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>Salva Modifiche</button>
     )
 }
