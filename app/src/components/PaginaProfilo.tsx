@@ -29,6 +29,19 @@ interface SessionInterface {
 
 }
 
+function FilterData(prop: InterfacciaToken) {
+    const [data, setData] = useState<SessionInterface>()
+    const [filtredData, setFiltredData] = useState([])
+    function ChiamaUtente() {
+        setData(jwt_decode(sessionStorage.bearer));
+        
+        console.log(data?.id_account);
+    }
+    return (
+        <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>Salva Modifiche</button>
+    )
+}
+
 export default function ProfiloUtente() {
 
     return (
@@ -60,18 +73,5 @@ export default function ProfiloUtente() {
                 {<FilterData id_account=""/>}
             </div>
         </>
-    )
-}
-
-function FilterData(prop: InterfacciaToken) {
-    const [data, setData] = useState<SessionInterface>()
-    const [filtredData, setFiltredData] = useState([])
-    function ChiamaUtente() {
-        setData(jwt_decode(sessionStorage.bearer));
-        
-        console.log(data?.id_account);
-    }
-    return (
-        <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>Salva Modifiche</button>
     )
 }
