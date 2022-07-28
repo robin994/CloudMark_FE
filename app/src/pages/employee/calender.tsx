@@ -2,7 +2,7 @@ import Calendar from 'react-calendar';
 import Card from 'react-bootstrap/Card';
 import { useEffect, useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
-import './calendar.css';
+import './styles/calendar.css';
 
 interface CalendarProps{
     callbackData : Function

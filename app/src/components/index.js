@@ -18,7 +18,8 @@ import TableDipendenti from './TableDipendenti'
 import CardCommessa from "./CardCommessa"
 import Pagination from "./Pagination"
 import BearerCheck from "./BearerCheck"
+import ProfiloUtente from "./PaginaProfilo"
 
 export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dipendente, 
          ModAziendaAdmin, AddAzienda, TableDipendenti, CardCommessa, Pagination, 
-         BearerCheck }
+         BearerCheck, ProfiloUtente }

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import DataTable from "../../../components/DataTable"
+import DataTable from "../../components/DataTable"
 import axios from 'axios'
 import { Modal, Button, Card, Container, Form } from 'react-bootstrap'
-import DataSearchbar from '../../../components/DataSearchbar'
+import DataSearchbar from '../../components/DataSearchbar'
 import DatePicker from 'sassy-datepicker'
+import EditableTable from './components/EditableTable'
 
 interface PresenzeProps {
   id_employee: string,
@@ -23,7 +24,6 @@ const heading = {
 export default function Presenze(props: PresenzeProps) {
   const [presenze, setPresenze] = useState([])
   const [showInsMod, setInsMod] = useState(false)
-  const [showEditMod, setEditMod] = useState(false)
 
   async function getPresenze() {
     try {
@@ -47,9 +47,6 @@ export default function Presenze(props: PresenzeProps) {
 
   const handleOpenIns = () => setInsMod(true);
   const handleCloseIns = () => setInsMod(false);
-
-  const handleOpenEdit = () => setEditMod(true);
-  const handleCloseEdit = () => setEditMod(false);
 
   // Trigger EDIT BUTTON
   function callEdit(id_presence: string) {
@@ -91,7 +88,7 @@ export default function Presenze(props: PresenzeProps) {
         </Container>
       </Card.Body>
       <Card.Body>
-        <DataTable id='id_presence' col={heading} rows={presenze} btnCallback={callEdit} />
+        <EditableTable id='id_presence' col={heading} rows={presenze} btnCallback={callEdit} />
       </Card.Body>
     </Card>
   )
