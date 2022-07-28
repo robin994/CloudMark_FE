@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, Table } from 'react-bootstrap'
 import axios from 'axios'
-import decode from 'jwt-decode'
+import jwt_decode from 'jwt-decode'
 
 interface InterfacciaToken {
     id_account: string
@@ -56,8 +56,7 @@ function FilterData(prop: InterfacciaToken) {
     const [data, setData] = useState()
     const [filtredData, setFiltredData] = useState([])
     function ChiamaUtente() {
-        setData(decode(sessionStorage.bearer))
-        console.log(data)
+        setData(JSON.parse(JSON.stringify(jwt_decode(sessionStorage.bearer))))
     }
     return (
         <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>Salva Modifiche</button>
