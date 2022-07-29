@@ -17,7 +17,6 @@ export default function CardCommessa(props:CardCommessaProps) {
             method: "GET"
             })
             .then(resp => {
-                console.log(resp.data.data);
                 setCommessa(resp.data.data);
             });    
     }
@@ -30,14 +29,16 @@ export default function CardCommessa(props:CardCommessaProps) {
         return (
             <Card>
                 <Container fluid>
-                    <Row>
+                    <Row className='nomeCliente'>
                         <Col>
-                            <Card.Text>{element.customer_name.toUpperCase()}</Card.Text>
+                            <Card.Text className='customerName'>{element.customer_name.toUpperCase()}</Card.Text>
                         </Col>
-                        <Col>
+                    </Row>
+                    <Row className='date'>
+                        <Col className='startDate'>
                             <Card.Text>{element.start_date}</Card.Text>
                         </Col>
-                        <Col>
+                        <Col className='endDate'>
                             <Card.Text>{element.end_date}</Card.Text>
                         </Col>
                     </Row>
@@ -54,7 +55,6 @@ export default function CardCommessa(props:CardCommessaProps) {
                 </Card.Header>
                 <Card.Body>
                     {commessa.map((element: any, key: number) => {
-                        console.log("ELEMENTO MAPPATO", element);
                         return RenderListElements(element, key);
                     })}
                 </Card.Body>

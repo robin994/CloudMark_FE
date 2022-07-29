@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import DataTable from "../../components/DataTable"
 import axios from 'axios'
 import { Modal, Button, Card, Container, Form } from 'react-bootstrap'
-import DataSearchbar from '../../components/DataSearchbar'
 import DatePicker from 'sassy-datepicker'
 import EditableTable from '../../components/PresenceTable'
 
@@ -84,7 +83,6 @@ export default function Presenze(props: PresenzeProps) {
       {insertModal}
       <Card.Body>
         <Container>
-          <DataSearchbar setInputField={()=> false} />
           <Button onClick={handleOpenIns}>
             Nuova
           </Button>

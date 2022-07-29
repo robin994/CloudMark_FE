@@ -1,3 +1,43 @@
 .containerHeight {
-    height: 100 !important
+    height: 100% !important;
+}
+.container-fluid{
+    padding: 0px;
+}
+.card-body{
+    padding: 0px;
+}
+.nomeCliente{
+    width: 100%;
+    margin: 0px;
+}
+.nomeCliente>.col{
+    padding: 0px;
+}
+.customerName{
+    margin: 0 auto;
+    background-color: #0d6efd;
+    color: white;
+    font-size: larger;
+    width: 100%;
+}
+.date{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px;
+}
+.startDate{
+    padding: 0px;
+    border-right: 1px solid lightseagreen;
+    order: 1;
+}
+.endDate{
+    padding: 0px;
+    order: 2;
+}
+@media(max-width: 607px){
+    .startDate{
+        border-right: 0px;
+        border-bottom: 1px solid lightseagreen;
+    }
 }

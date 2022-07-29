@@ -1,22 +1,14 @@
-import {
-  DataGrid,
-  GridCellModesModel,
-  GridColDef,
-  GridRowId,
-  GridCellModes,
-  GridEventListener,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import React from "react";
 import axios from "axios";
-import { Box, createTheme, LinearProgress, ThemeProvider } from "@mui/material";
-import { motion } from "framer-motion";
 import "./css_components/TabellaPresenze.css";
-import Button from "@mui/material/Button";
 
 const TabellaPresenze = (props: any) => {
   const [presenze, setPresenze] = useState([]);
   const [editPresenze, setEditPresenze] = useState([]);
+  const [editRowData, setEditRowData] = React.useState({});
+  const [editRowsModel, setEditRowsModel] = React.useState({});
 
   async function getPresenze() {
     axios
@@ -34,94 +26,6 @@ const TabellaPresenze = (props: any) => {
       .then((res) => {
         setEditPresenze(res.data.data);
       });
-  }
-
-  interface SelectedCellParams {
-    id: GridRowId;
-    field: string;
-  }
-
-  interface EditToolbarProps {
-    selectedCellParams?: SelectedCellParams;
-    cellModesModel: GridCellModesModel;
-    setCellModesModel: (value: GridCellModesModel) => void;
-    cellMode: "view" | "edit";
-  }
-
-  function EditToolbar(props: EditToolbarProps) {
-    const { selectedCellParams, cellMode, cellModesModel, setCellModesModel } =
-      props;
-
-    const handleSaveOrEdit = () => {
-      if (!selectedCellParams) {
-        return;
-      }
-      const { id, field } = selectedCellParams;
-      if (cellMode === "edit") {
-        setCellModesModel({
-          ...cellModesModel,
-          [id]: {
-            ...cellModesModel[id],
-            [field]: { mode: GridCellModes.View },
-          },
-        });
-      } else {
-        setCellModesModel({
-          ...cellModesModel,
-          [id]: {
-            ...cellModesModel[id],
-            [field]: { mode: GridCellModes.Edit },
-          },
-        });
-      }
-    };
-
-    const handleCancel = () => {
-      if (!selectedCellParams) {
-        return;
-      }
-      const { id, field } = selectedCellParams;
-      setCellModesModel({
-        ...cellModesModel,
-        [id]: {
-          ...cellModesModel[id],
-          [field]: { mode: GridCellModes.View, ignoreModifications: true },
-        },
-      });
-    };
-
-    const handleMouseDown = (event: React.MouseEvent) => {
-      // Keep the focus in the cell
-      event.preventDefault();
-    };
-
-    return (
-      <Box
-        sx={{
-          borderBottom: 1,
-          borderColor: "divider",
-          p: 1,
-        }}
-      >
-        <Button
-          onClick={handleSaveOrEdit}
-          onMouseDown={handleMouseDown}
-          disabled={!selectedCellParams}
-          variant="outlined"
-        >
-          {cellMode === "edit" ? "Save" : "Edit"}
-        </Button>
-        <Button
-          onClick={handleCancel}
-          onMouseDown={handleMouseDown}
-          disabled={cellMode === "view"}
-          variant="outlined"
-          sx={{ ml: 1 }}
-        >
-          Cancel
-        </Button>
-      </Box>
-    );
   }
 
   useEffect(() => {
@@ -144,6 +48,13 @@ const TabellaPresenze = (props: any) => {
   const rows = list;
 
   const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "id_employee",
+      width: 279,
+      editable: true,
+      hide: true,
+    },
     {
       field: "first_name",
       headerName: "First name",
@@ -168,72 +79,33 @@ const TabellaPresenze = (props: any) => {
     { field: "date_presence", headerName: "Data", width: 279, editable: true },
   ];
 
-  const [selectedCellParams, setSelectedCellParams] =
-    React.useState<SelectedCellParams | null>(null);
-  const [cellModesModel, setCellModesModel] =
-    React.useState<GridCellModesModel>({});
+  const handleEditRowsModelChange = React.useCallback(
+    (model: any) => {
+      const editedIds = Object.keys(model);
 
-  const handleCellFocus = React.useCallback(
-    (event: React.FocusEvent<HTMLDivElement>) => {
-      const row = event.currentTarget.parentElement;
-      const id = row!.dataset.id!;
-      const field = event.currentTarget.dataset.field!;
-      setSelectedCellParams({ id, field });
-    },
-    []
-  );
-
-  const cellMode = React.useMemo(() => {
-    if (!selectedCellParams) {
-      return "view";
-    }
-    const { id, field } = selectedCellParams;
-    return cellModesModel[id]?.[field]?.mode || "view";
-  }, [cellModesModel, selectedCellParams]);
-
-  const handleCellKeyDown = React.useCallback<GridEventListener<"cellKeyDown">>(
-    (params, event) => {
-      if (cellMode === "edit") {
-        // Prevents calling event.preventDefault() if Tab is pressed on a cell in edit mode
-        event.defaultMuiPrevented = true;
+      if (editedIds.length === 0) {
+        alert(JSON.stringify(editRowData, null, 4));
+        // update on firebase
+      } else {
+        setEditRowData(model[editedIds[0]]);
       }
+      setEditRowsModel(model);
     },
-    [cellMode]
+    [editRowData]
   );
+
+  console.log(editRowData);
 
   return (
-    <motion.div
-      initial={{ x: 100 }}
-      animate={{ x: 0 }}
-      style={{ height: 400, width: "100%" }}
-      className="custom-grid"
-    >
+    <div style={{ height: "89vh", width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
         editMode="row"
-        checkboxSelection
-        sx={{
-          boxShadow: 20,
-        }}
-        components={{
-          Toolbar: EditToolbar,
-        }}
-        componentsProps={{
-          toolbar: {
-            cellMode,
-            selectedCellParams,
-            setSelectedCellParams,
-            cellModesModel,
-            setCellModesModel,
-          },
-          cell: {
-            onFocus: handleCellFocus,
-          },
-        }}
-        experimentalFeatures={{ newEditingApi: true }}
+        editRowsModel={editRowsModel}
+        onEditRowsModelChange={handleEditRowsModelChange}
       />
-    </motion.div>
+    </div>
   );
 };
 

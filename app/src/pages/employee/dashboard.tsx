@@ -4,8 +4,10 @@ import{ Row, Col } from "react-bootstrap"
 import Commesse from "./commesse"
 import Presenze from "./presenze"
 import CalendarMY from "./calender"
+import { useState, useEffect } from "react"
 
 export default function Dashboard() {
+  const [date, setDate] = useState();
 
   const presenzeWidget = (
     <Presenze id_employee={sessionStorage.id_employee} year='2022' month='01'/>
@@ -23,7 +25,7 @@ export default function Dashboard() {
   const commesseWidget = (
     <Commesse />
   )
-
+  
   return (
     <>
       <Container fluid>
