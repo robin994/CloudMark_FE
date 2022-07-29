@@ -1,73 +1,80 @@
+
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Card, Container } from 'react-bootstrap'
-import Spacer from '../../components/Spacer'
-import DataTable from '../../components/DataTable'
-import DataSearchbar from '../../components/DataSearchbar'
+import { motion } from 'framer-motion';
 
-// Heading declaration is strictly necessary
-// Syntax: { attributeName : displayName }
-let heading = {
-  id_employee: 'ID',
-  first_name: 'Nome',
-  last_name: 'Cognome',
-  cf: 'Codice FIscale',
-  iban: 'IBAN',
-  email: 'Indirizzo E-mail',
-  phoneNumber: 'Telefono'
-}
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import './components/css_components/TabellaDipendenti.css'
 
-// PlaceholderJSON API Response Interface
-interface DummyJSONresponse {
-  users: DipendentiTest
-}
-// Only for testing purpouses, define your interface
-// Defines an array of any type, with string keys
-interface DipendentiTest {
-  [key: string]: any
-}
 
-export default function ListaDipendenti() {
-  const [dipendenti, setDipendenti] = useState<DummyJSONresponse[]>([]);
+
+const ListaDipendenti=(props:any)=> {
+
   
+  const [dipendenti, setDipendenti] = useState([])
+
+
+  useEffect( () => {
+    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`).then( resp => {
+      const data = resp.data.data
+      setDipendenti(Object.values(data))
+  }).catch( err => { throw err })
+  },[])
   console.log(dipendenti)
 
-  async function getDipendenti(str?: string) {
-    try {
-      const response = await axios.get<any>(`${process.env.REACT_APP_FASTAPI_URL}/employee`);
-      setDipendenti(Object.values(response.data.data))
-    } catch (error) {
-      console.log(error)
+
+  let list = dipendenti.map(el => {
+    return {
+        first_name: el['first_name'],
+        last_name:el['last_name'],
+        cf: el['cf'],
+        iban: el['iban'],
+        id_contractType: el['id_contractType'],
+        email: el['email'],
+        phoneNumber: el['phoneNumber'],
+        id: el['id_employee']
     }
-  }
+})
 
-  async function callSetInputField({ str }: { str : string }) {
-    getDipendenti(str)
-  }
+const rows = list
 
-  useEffect(()=> {
-    getDipendenti('')
-  }, [])
-  
-  const listBlock = (
-    <DataTable id='id_employee' col={heading} rows={dipendenti} baseSlug='/dipendente'/>
-  )
+const columns: GridColDef[] = [
+    { field: 'first_name', headerName: 'First name', width: 279, editable: true },
+    { field: 'last_name', headerName: 'Last name', width: 279, editable: true },
+    { field: 'cf', headerName: 'Codice Fiscale', type: 'string', width: 279, editable: true },
+    { field: 'iban', headerName: 'iban', width: 279, editable: true },
+    { field: 'id_contractType', headerName: 'Tipo Contratto', width: 279, editable: true },
+    { field: 'email', headerName: 'email', width: 279, editable: true },
+    { field: 'phoneNumber', headerName: 'Telefono', width: 279, editable: true },
+   
+]
 
+ 
   return (
-    <>
-      <Spacer margin='40px'/>
-      <Container>
-        <Card>
-          <Card.Body>
-            <DataSearchbar setInputField={callSetInputField}/>
-          </Card.Body>
-          <Card.Body>
-            {listBlock}
-          </Card.Body>
-        </Card>
-      </Container>
-      <Spacer margin='120px'/>
-    </>
+
+
+
+
+<motion.div initial={{x : 100}} animate={{x : 0}} style={{ height: 400, width: '100%' }} className='custom-grid'>
+            <DataGrid
+                // components={{
+                //     LoadingOverlay: LinearProgress
+                // }}
+                // loading
+                rows={rows}
+                columns={columns}
+                pageSize={5}
+                editMode='row'
+                rowsPerPageOptions={[5]}
+                checkboxSelection
+                sx={{
+                    boxShadow: 20
+                }}
+            />
+  </motion.div>
+   
+
     )
   }
-  
+
+  export default ListaDipendenti

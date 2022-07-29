@@ -12,3 +12,8 @@
     width: 30%;
 
 }
+
+.rowBello input{
+    display: block;
+    width: 100%;
+}

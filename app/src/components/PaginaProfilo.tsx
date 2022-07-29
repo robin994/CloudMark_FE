@@ -1,72 +1,105 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, Table } from 'react-bootstrap'
-import Axios from 'axios'
+import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import './css_components/PaginaProfilo.css'
-interface InterfacciaToken {
-    id_account: string
-}
-interface SessionInterface {
 
+interface SessionInterface {
     id_account: string,
     abilitate: string,
     accountType: string,
     accountTypeName: string,
     accountListFunction: string,
     user: string
-
 }
 
 
-function FilterData(prop: InterfacciaToken) {
-    const [data, setData] = useState<SessionInterface>()
-    const [filtredData, setFiltredData] = useState([])
-    function ChiamaUtente() {
-        setData(jwt_decode(sessionStorage.bearer));
-        console.log(data?.id_account);
-        function getProfilo(prop: InterfacciaToken) {
-            Axios(`${process.env.REACT_APP_FASTAPI_URL}/employee/account/${data}`, {
-                method: "GET"
-                })
-                .then(resp => {
-                setData(resp.data);
-                });    
-        }
-    }
-    return (
-        <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>Salva Modifiche</button>
-    )
-}
 
 export default function ProfiloUtente() {
+    const [data, setData] = useState<SessionInterface>()
+    const [filtredData, setFiltredData] = useState('')
+    const [hid, setHid] = useState(true)
+    const [btnMsg, setBtnMsg] = useState('Modifica')
+    const [count, setCount] = useState(0)
+    const [nome, setNome] = useState('')
+    const [cognome, setCognome] = useState('')
+    const [CF, setCF] = useState('')
+    const [iban, setIban] = useState('')
+    const [tel, setTel] = useState('')
 
+    function getAccount(){
+        
+        if(data !== undefined){
+            console.log('we ', data.id_account)
+            axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/account/${data.id_account}`)
+            .then(res=>{
+
+            })
+            .catch(err=>{console.log(err)})
+
+        }
+    }
+
+    function FilterData() {
+        function ChiamaUtente() {
+            if(hid === true){
+                setHid(false)
+                setBtnMsg('Salva Modifiche')
+            }else{
+                setHid(true)
+                setBtnMsg('Modifica')
+            }
+        }
+
+        return (
+            <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>{btnMsg}</button>
+        )
+    }
+
+    useEffect(()=>{
+        setData(jwt_decode(sessionStorage.bearer));  
+        console.log(data?.id_account);
+        if(data !== undefined){
+            getAccount()
+        }
+
+    }, [count])
+
+    function countEffect(){
+        if(count < 1){
+            setTimeout(()=>{
+                setCount(count + 1)
+            }, 2000)
+        }
+    }
+    countEffect()
+    
     return (
         <>
             <div className="container mt-5 flexBello">
                 <div className="rowBello">
                     <div className="col-sm">
                         <h2>Nome:</h2>
-                        <input type="text"  />
+                        <input type="text" disabled={hid} onChange={val=> setNome(val.target.value)}/>
                     </div>
                     <div className="col-sm">
                         <h2>Cognome:</h2>
-                        <input type="text" />
+                        <input type="text" disabled={hid} onChange={val=> setCognome(val.target.value)}/>
                     </div>
                     <div className="col-sm">
                         <h2>CF:</h2>
-                        <input type="text" />
+                        <input type="text" disabled={hid} onChange={val=> setCF(val.target.value)}/>
                     </div>
                     <div className="col-sm">
                         <h2>Iban:</h2>
-                        <input type="text" />
+                        <input type="text" disabled={hid} onChange={val=> setIban(val.target.value)}/>
                     </div>
                     <div className="col-sm">
                         <h2>Numero Di Telefono:</h2>
-                        <input type="text" />
+                        <input type="text" disabled={hid} onChange={val=> setTel(val.target.value)}/>
                     </div>
-                    {<FilterData id_account=""/>}
+                    {<FilterData/>}
                 </div>
-
             </div>
         </>
     )
