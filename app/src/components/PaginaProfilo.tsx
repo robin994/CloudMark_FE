@@ -18,18 +18,19 @@ interface SessionInterface {
 }
 
 
-function FilterData(prop: InterfacciaToken) {
+function FilterData() {
     const [data, setData] = useState<SessionInterface>()
     const [filtredData, setFiltredData] = useState([])
     function ChiamaUtente() {
         setData(jwt_decode(sessionStorage.bearer));
         console.log(data?.id_account);
-        function getProfilo(prop: InterfacciaToken) {
+        function getProfilo() {
             Axios(`${process.env.REACT_APP_FASTAPI_URL}/employee/account/${data}`, {
                 method: "GET"
                 })
                 .then(resp => {
-                setData(resp.data);
+                setFiltredData(resp.data)
+                console.log("bella",filtredData)
                 });    
         }
     }
@@ -64,7 +65,7 @@ export default function ProfiloUtente() {
                         <h2>Numero Di Telefono:</h2>
                         <input type="text" />
                     </div>
-                    {<FilterData id_account=""/>}
+                    {<FilterData/>}
                 </div>
 
             </div>
