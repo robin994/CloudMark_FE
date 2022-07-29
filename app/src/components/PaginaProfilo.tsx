@@ -42,7 +42,7 @@ export default function ProfiloUtente() {
     const [id_employee, setId_employee] = useState("")
     const [id_contractType, setId_contractType] = useState("")
     //
-    const [serverAlert , setServerAlert] = useState(true)
+    const [serverAlert, setServerAlert] = useState(true)
     const [popHide, setPopHide] = useState(true)
 
 
@@ -82,7 +82,7 @@ export default function ProfiloUtente() {
             }
         } else return <></>;
     }
-    function sendData(){
+    function sendData() {
         axios.post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update`, {
             first_name: nome,
             last_name: cognome,
@@ -92,12 +92,12 @@ export default function ProfiloUtente() {
             email: email,
             phoneNumber: tel,
             id_employee: id_employee
-        }).then(res=>{console.log(res)}).catch(err=>{console.log(err)})
+        }).then(res => { console.log(res) }).catch(err => { console.log(err) })
     }
-    function hidePop(){
-        if(popHide === true){
+    function hidePop() {
+        if (popHide === true) {
             setPopHide(false)
-        }else{
+        } else {
             setPopHide(true)
         }
     }
@@ -110,7 +110,7 @@ export default function ProfiloUtente() {
                     setHid(false)
                     setBtnMsg('Salva Modifiche')
                 }
-            }else{
+            } else {
                 setServerAlert(false)
             }
             if (hid === false) {
@@ -151,7 +151,7 @@ export default function ProfiloUtente() {
                         <li>Telefono: {tel}</li>
 
                     </ul>
-                    <button className="btn btn-primary" type="submit" onSubmit={sendData}>Manda i dati</button>
+                    <button className="btn btn-primary" onClick={sendData}>Manda i dati</button>
                     <button className="btn btn-danger mx-3" onClick={hidePop}>Torna Indietro</button>
                 </div>
             </div>
