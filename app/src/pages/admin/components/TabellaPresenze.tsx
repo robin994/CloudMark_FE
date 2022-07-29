@@ -205,7 +205,7 @@ const TabellaPresenze = (props: any) => {
     <motion.div
       initial={{ x: 100 }}
       animate={{ x: 0 }}
-      style={{ height: 400, width: "100%" }}
+      style={{ height: "89vh", width: "100%" }}
       className="custom-grid"
     >
       <DataGrid
