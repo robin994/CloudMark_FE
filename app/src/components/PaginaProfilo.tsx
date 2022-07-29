@@ -18,6 +18,7 @@ interface SessionInterface {
 export default function ProfiloUtente() {
     const [data, setData] = useState<SessionInterface>()
     const [filtredData, setFiltredData] = useState('')
+    const [filtredAccount, setFiltredAccount] = useState([])
     const [hid, setHid] = useState(true)
     const [btnMsg, setBtnMsg] = useState('Modifica')
     const [count, setCount] = useState(0)
@@ -28,18 +29,17 @@ export default function ProfiloUtente() {
     const [tel, setTel] = useState('')
 
     function getAccount(){
-        
         if(data !== undefined){
             console.log('we ', data.id_account)
-            axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/account/${data.id_account}`)
+            setFiltredData(data.id_account)
+            axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`)
             .then(res=>{
-
+                setFiltredAccount(res.data)
+                console.log(filtredAccount)
             })
             .catch(err=>{console.log(err)})
-
         }
     }
-
     function FilterData() {
         function ChiamaUtente() {
             if(hid === true){

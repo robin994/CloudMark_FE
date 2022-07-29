@@ -20,7 +20,7 @@ export default function App() {
             <Route path="/commesse" element={<Admin.Commesse/>} />
             <Route path="/cliente/:id_customer" element={<Admin.Cliente />} />
             <Route path="/dipendente/:id_dipendente" element={<Admin.Dipendente />} />
-            <Route path="/profilo" element={<Comps.ProfiloUtente/>}/>
+            <Route path="/profile" element={<Comps.ProfiloUtente/>}/>
 
             <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
             <Route path="/mod-azienda-admin" element={<Comps.ModAziendaAdmin/>}/>
