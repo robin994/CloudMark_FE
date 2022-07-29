@@ -17,7 +17,7 @@ interface SessionInterface {
 
 export default function ProfiloUtente() {
     const [data, setData] = useState<SessionInterface>()
-    const [filtredData, setFiltredData] = useState([])
+    const [filtredData, setFiltredData] = useState([''])
     const [filtredAccount, setFiltredAccount] = useState([])
     const [hid, setHid] = useState(true)
     const [btnMsg, setBtnMsg] = useState('Modifica')
@@ -32,11 +32,13 @@ export default function ProfiloUtente() {
         if(data !== undefined){
             axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/account/${data.id_account}`)
             .then(res=>{
-                setFiltredData(res.data.data)
-
+                console.log(res.data.data)
+                const dat = res.data.data
+                setFiltredData(dat)
             })
             .catch(err=>{console.log(err)})
-        }         
+        }
+
     }
     function FilterData() {
         function ChiamaUtente() {
@@ -56,21 +58,14 @@ export default function ProfiloUtente() {
     }
 
     useEffect(()=>{
-        setData(jwt_decode(sessionStorage.bearer));  
+        setData(jwt_decode(sessionStorage.bearer));
         if(data !== undefined){
             getAccount()
+        }else{
+            setCount(count+1)
         }
 
     }, [count])
-
-    function countEffect(){
-        if(count < 1){
-            setTimeout(()=>{
-                setCount(count + 1)
-            }, 2000)
-        }
-    }
-    countEffect()
     
     return (
         <>
