@@ -1,0 +1,14 @@
+.flexBello{
+    display: flex;
+    justify-content: center;
+}
+
+.rowBello{
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 0.3vh solid black;
+    border-radius: 5%;
+    padding: 5vh;
+    width: 30%;
+
+}

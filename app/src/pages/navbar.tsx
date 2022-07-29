@@ -10,7 +10,7 @@ export default function TopMenu() {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Navbar.Brand href="/">
-                  <img src="/statics/cloud.png" className="d-inline-block align-top" width="40" height="40" alt="React Bootstrap logo"/>
+                  <img src="/statics/Risorsa 22.png" className="d-inline-block align-top" width="auto" height="40" alt="React Bootstrap logo"/>
                     Cloudmark
                 </Navbar.Brand>
               <Nav className="me-auto">

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button, Card, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import ModalePresenza from '../pages/admin/components/modalePresenza'
 
 interface DataTableProps {
     id: string,
@@ -20,26 +19,26 @@ interface DynamicObject {
 export default function DataTable(props: DataTableProps) {
     const navigate = useNavigate();
 
-    async function handleRowClick(slug: string) {
+    async function handleRowClick( slug: string ) {
         navigate(slug);
     }
 
     // Returns a table column populated with the column name from col{}
-    const DataColumn = ({ element }: { element: string }) => <>{element}</>
+    const DataColumn = ({element}: {element: string})=> <>{element}</>
     // Returns a single row corrisponding to the element being mapped
-    const DataRow = ({ element }: { element: DynamicObject }) => {
+    const DataRow = ({element}: {element: DynamicObject})=> {
         // If the current value is not string skip! (Could be more elegant)
-        const DataItem = ({ item }: any) => {
-            if (!(typeof item === 'string')) return <></>
+        const DataItem = ({item}: any)=> {
+            if(!(typeof item === 'string')) return <></>
             // Otherwise return the populated field
             return (<>{element[`${item}`]}</>)
         }
 
-        return (
+        return(
             <>
-                {/* <tr onClick = {()=> props.baseSlug ? handleRowClick(`${props.baseSlug}/${element[props.id]}`) : undefined}> */}
-                {Object.keys(props.col).map((item: any) => <React.Fragment key={`item-${element[props.id]}-${item}`}><td><DataItem item={item} /></td></React.Fragment>)}
-                {/* </tr> */}
+            {/* <tr onClick = {()=> props.baseSlug ? handleRowClick(`${props.baseSlug}/${element[props.id]}`) : undefined}> */}
+                {Object.keys(props.col).map((item: any)=> <React.Fragment key={`item-${element[props.id]}-${item}`}><td><DataItem item={item}/></td></React.Fragment>)}
+            {/* </tr> */}
             </>
         )
     }
@@ -49,33 +48,29 @@ export default function DataTable(props: DataTableProps) {
         <>
             <Card className="vh-100">
                 <Card.Body>
-                    <Table striped hover responsive>
-                        <thead>
-                            <tr>
-                                {Object.values(props.col).map((element: string) => <React.Fragment key={`col-${element}`}><th><DataColumn element={element} /></th></React.Fragment>)}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {props.rows.map((element: { [key: string]: any }) => {
-                                return (
-                                    <>
-                                        <React.Fragment key={`item-${element[props.id]}`}>
-                                            <tr>
-                                                <DataRow element={element} />
-                                                {props.btnCallback && <td>
-                                                    <ModalePresenza
-                                                        id_presenza={props.id}
-                                                    /></td>}
-                                            </tr>
-                                        </React.Fragment>
-                                    </>
-                                )
-                            })
-                            }
-                        </tbody>
-                    </Table>
+                        <Table striped hover responsive>
+                            <thead>
+                                <tr>
+                                    {Object.values(props.col).map((element: string)=> <React.Fragment key={`col-${element}`}><th><DataColumn element={element} /></th></React.Fragment>)}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {props.rows.map((element: { [key: string]: any })=> {
+                                    return(
+                                        <>
+                                            <React.Fragment key={`item-${element[props.id]}`}>
+                                                    <tr>
+                                                        <DataRow element={element} />
+                                                        {props.btnCallback && <td><Button onClick={()=> props.btnCallback?.(element[props.id])} variant="outline-primary">Modifica</Button></td>}
+                                                    </tr>
+                                            </React.Fragment>
+                                        </>
+                                    )})
+                                }
+                            </tbody>
+                        </Table>
                 </Card.Body>
             </Card>
         </>
-    )
+  )
 }
