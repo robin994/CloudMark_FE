@@ -3,11 +3,22 @@ import { useEffect, useState } from "react";
 import React from "react";
 import axios from "axios";
 import "./css_components/TabellaPresenze.css";
+import { Value } from "sass";
+
+type rowModel = {
+  date_presence: { value: string };
+  first_name: { value: string };
+  hours: { value: string };
+  id: { value: string };
+  last_name: { value: string };
+  nome_azienda: { value: string };
+  tipoPresenza: { value: string };
+};
 
 const TabellaPresenze = (props: any) => {
   const [presenze, setPresenze] = useState([]);
   const [editPresenze, setEditPresenze] = useState([]);
-  const [editRowData, setEditRowData] = React.useState({});
+  const [editRowData, setEditRowData] = React.useState<rowModel>();
   const [editRowsModel, setEditRowsModel] = React.useState({});
 
   async function getPresenze() {
@@ -93,9 +104,7 @@ const TabellaPresenze = (props: any) => {
     },
     [editRowData]
   );
-
   console.log(editRowData);
-
   return (
     <div style={{ height: "89vh", width: "100%" }}>
       <DataGrid
