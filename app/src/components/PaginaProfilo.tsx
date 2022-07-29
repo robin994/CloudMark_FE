@@ -2,22 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Button, Card, Table } from 'react-bootstrap'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
-
+import './css_components/PaginaProfilo.css'
 interface InterfacciaToken {
     id_account: string
 }
-
-interface InterfacciaUtente {
-
-    first_name: string,
-    last_name: string,
-    cf: number,
-    iban: number,
-    email: string,
-    phoneNumber: number
-
-}
-
 interface SessionInterface {
 
     id_account: string,
@@ -33,8 +21,8 @@ export default function ProfiloUtente() {
 
     return (
         <>
-            <div className="container mt-5">
-                <div className="row">
+            <div className="container mt-5 flexBello">
+                <div className="rowBello">
                     <div className="col-sm">
                         <h2>Nome:</h2>
                         <input type="text" />
@@ -55,9 +43,9 @@ export default function ProfiloUtente() {
                         <h2>Numero Di Telefono:</h2>
                         <input type="text" />
                     </div>
-
+                    {<FilterData id_account=""/>}
                 </div>
-                {<FilterData id_account=""/>}
+
             </div>
         </>
     )
@@ -68,9 +56,9 @@ function FilterData(prop: InterfacciaToken) {
     const [filtredData, setFiltredData] = useState([])
     function ChiamaUtente() {
         setData(jwt_decode(sessionStorage.bearer));
-        
         console.log(data?.id_account);
     }
+
     return (
         <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>Salva Modifiche</button>
     )
