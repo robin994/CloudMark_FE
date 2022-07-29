@@ -17,7 +17,7 @@ interface SessionInterface {
 
 export default function ProfiloUtente() {
     const [data, setData] = useState<SessionInterface>()
-    const [filtredData, setFiltredData] = useState('')
+    const [filtredData, setFiltredData] = useState([])
     const [filtredAccount, setFiltredAccount] = useState([])
     const [hid, setHid] = useState(true)
     const [btnMsg, setBtnMsg] = useState('Modifica')
@@ -30,21 +30,20 @@ export default function ProfiloUtente() {
 
     function getAccount(){
         if(data !== undefined){
-            console.log('we ', data.id_account)
-            setFiltredData(data.id_account)
-            axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`)
+            axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/account/${data.id_account}`)
             .then(res=>{
-                setFiltredAccount(res.data)
-                console.log(filtredAccount)
+                setFiltredData(res.data.data)
+
             })
             .catch(err=>{console.log(err)})
-        }
+        }         
     }
     function FilterData() {
         function ChiamaUtente() {
             if(hid === true){
                 setHid(false)
                 setBtnMsg('Salva Modifiche')
+                
             }else{
                 setHid(true)
                 setBtnMsg('Modifica')
@@ -58,7 +57,6 @@ export default function ProfiloUtente() {
 
     useEffect(()=>{
         setData(jwt_decode(sessionStorage.bearer));  
-        console.log(data?.id_account);
         if(data !== undefined){
             getAccount()
         }
@@ -80,23 +78,23 @@ export default function ProfiloUtente() {
                 <div className="rowBello">
                     <div className="col-sm">
                         <h2>Nome:</h2>
-                        <input type="text" disabled={hid} onChange={val=> setNome(val.target.value)}/>
+                        <input type="text" disabled={hid} onChange={val=> setNome(val.target.value)} required/>
                     </div>
                     <div className="col-sm">
                         <h2>Cognome:</h2>
-                        <input type="text" disabled={hid} onChange={val=> setCognome(val.target.value)}/>
+                        <input type="text" disabled={hid} onChange={val=> setCognome(val.target.value)} required/>
                     </div>
                     <div className="col-sm">
                         <h2>CF:</h2>
-                        <input type="text" disabled={hid} onChange={val=> setCF(val.target.value)}/>
+                        <input type="text" disabled={hid} onChange={val=> setCF(val.target.value)} required/>
                     </div>
                     <div className="col-sm">
                         <h2>Iban:</h2>
-                        <input type="text" disabled={hid} onChange={val=> setIban(val.target.value)}/>
+                        <input type="text" disabled={hid} onChange={val=> setIban(val.target.value)} required/>
                     </div>
                     <div className="col-sm">
                         <h2>Numero Di Telefono:</h2>
-                        <input type="text" disabled={hid} onChange={val=> setTel(val.target.value)}/>
+                        <input type="text" disabled={hid} onChange={val=> setTel(val.target.value)} required/>
                     </div>
                     {<FilterData/>}
                 </div>
