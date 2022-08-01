@@ -2,6 +2,8 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Button, Card, Form, Table, Dropdown } from 'react-bootstrap'
 
+import './css_components/PresenceTable.css';
+
 interface DataTableProps {
     id: string,
     rows: Presenza[],
@@ -40,17 +42,19 @@ export default function EditableTable(props: DataTableProps) {
     const DataColumn = ({element}: {element: string})=> {
         return element === heading['id_presence'] && !props.showID ? <></> : <>{element}</>
     }
-    const DataRow = ({element, key}: any)=> {
-        const isChecked = (id: string) => id === element['id_tipoPresenza'] ? true : false
-        console.log(key)
+    const DataRow = ({element, index}: any)=> {
+        const isChecked = (id: string) => id === element['id_tipoPresenza'] ? true : false;
+        console.log(`ROWID  item-${element[props.id]}`);
+
         return(
-            <>
+            <React.Fragment key={`item-${element[props.id]}-row`}>
                 <td>
-                    
+                    {index}
                 </td>
                 <td>
                     <Form.Group>
-                        <Form.Control type="date" value={element.date_presence} onChange={()=> false} />
+                        <Form.Control
+                            type="date" value={element.date_presence} onChange={()=> false} />
                     </Form.Group>
                 </td>
                 <td>
@@ -72,25 +76,8 @@ export default function EditableTable(props: DataTableProps) {
                     </Dropdown.Menu>
                 </Dropdown>
                 </td>
-                {/* {presenceTypes.map((element: any, key: number)=> {
-                        return(
-                            <td>
-                                <Form.Group>
-                                    <Form.Check
-                                        inline
-                                        name="group1"
-                                        type="radio"
-                                        id={`radio-${key}-${element['id_presence_type']}`}
-                                        key={`radio-${key}-${element['id_presence_type']}`}
-                                        defaultChecked={isChecked(element['id_presence_type'])}
-                                    />
-                                </Form.Group>
-                            </td>
-                        )}
-                    )
-                } */}
-                {props.showID && <td>element[`${'id_presence'}`]</td>}
-            </>
+                {props.showID && <td>{element[`${'id_presence'}`]}</td>}
+            </React.Fragment>
         )
     }
 
@@ -102,16 +89,27 @@ export default function EditableTable(props: DataTableProps) {
                         <Table striped bordered hover responsive className="vh-100">
                             <thead>
                                 <tr>
-                                    {Object.values(heading).map((element: string)=> <React.Fragment key={`col-${element}`}><th><DataColumn element={element} /></th></React.Fragment>)}
+                                    {Object.values(heading).map((element: string)=> {
+                                                return(
+                                                    <React.Fragment key={`col-${element}`}>
+                                                        <th>
+                                                            <DataColumn element={element} />
+                                                        </th>
+                                                    </React.Fragment>
+                                                )
+                                            }
+                                        )
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
                                 {props.rows.map((element: any, key: number)=> {
+                                    console.log(key)
                                     return(
                                         <>
                                             <React.Fragment key={`item-${element[props.id]}`}>
-                                                    <tr>
-                                                        <DataRow element={element} key={key} />
+                                                    <tr className='dataRow'>
+                                                        <DataRow element={element} index={key} />
                                                         {props.btnCallback && <td><Button onClick={()=> props.btnCallback?.(element[props.id])} variant="outline-primary">Modifica</Button></td>}
                                                     </tr>
                                             </React.Fragment>
