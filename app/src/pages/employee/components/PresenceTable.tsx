@@ -12,6 +12,12 @@ const types: { [key: string]: string } = {
     'b867b283-38a0-4eb3-8df1-55ccb5f310df': 'Malattia'
 }
 
+const heading: GridColDef[] = [
+    { field: 'date_presence', headerName: 'Data', type: 'date', width: 279, editable: true, align: 'right', headerAlign: 'right' },
+    { field: 'hours', headerName: 'Ore', type: 'number', width: 279, editable: true, align: 'right', headerAlign: 'right' },
+    { field: 'type', headerName: 'Tipo Presenza', type: 'string', width: 279, editable: true, align: 'right', headerAlign: 'right' },
+]
+
 const PresenceTable =(props:any)=> {
   const [presenze, setPresenze] = useState([])
 
@@ -35,12 +41,6 @@ const PresenceTable =(props:any)=> {
             throw error
         }
     }
-
-    const heading: GridColDef[] = [
-        { field: 'date_presence', headerName: 'Data', type: 'date', width: 279, editable: true, align: 'right', headerAlign: 'right' },
-        { field: 'hours', headerName: 'Ore', type: 'number', width: 279, editable: true, align: 'right', headerAlign: 'right' },
-        { field: 'type', headerName: 'Tipo Presenza', type: 'string', width: 279, editable: true, align: 'right', headerAlign: 'right' },
-    ]
 
     useEffect(()=> {
         getPresenze();
