@@ -7,7 +7,6 @@ import './css_components/PresenceTable.css';
 interface DataTableProps {
     id: string,
     rows: Presenza[],
-    btnCallback?: Function,
     showID?: boolean
 }
 
@@ -36,15 +35,42 @@ const types: any = {
 }
 
 export default function EditableTable(props: DataTableProps) {
-    const [rows, setRows] =  useState(props.rows);
-    const [presenceChecked, setPresenceChecked] = useState([]);
+    const [resp, setResp] = useState();
+    const [cols, setCols] = useState();
+    const [rows, setRows] =  useState();
+
+    async function getPresenze() {
+        try {
+          const response = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,{
+            id_employee: sessionStorage.id_employee,
+            year: 2022,
+            month: 1
+          }, { 
+            headers: {accept: "application/json", "Content-Type": "application/json" }
+          })
+          console.log(response.data.data);
+          setResp(response.data.data);
+        } catch(error) {
+          console.log(error);
+        }
+      }
 
     const DataColumn = ({element}: {element: string})=> {
-        return element === heading['id_presence'] && !props.showID ? <></> : <>{element}</>
+        if(!(element === props.id)) {
+            return <>{element}</>
+        } else {
+            return <></>
+        }
     }
+
+
+    useEffect(()=> {
+        getPresenze();
+    }, [])
+
+
+    /* return !(element === props.id) ? <></> : <>{element}</> */
     const DataRow = ({element, index}: any)=> {
-        const isChecked = (id: string) => id === element['id_tipoPresenza'] ? true : false;
-        console.log(`ROWID  item-${element[props.id]}`);
 
         return(
             <React.Fragment key={`item-${element[props.id]}-row`}>
@@ -104,13 +130,11 @@ export default function EditableTable(props: DataTableProps) {
                             </thead>
                             <tbody>
                                 {props.rows.map((element: any, key: number)=> {
-                                    console.log(key)
                                     return(
                                         <>
                                             <React.Fragment key={`item-${element[props.id]}`}>
                                                     <tr className='dataRow'>
                                                         <DataRow element={element} index={key} />
-                                                        {props.btnCallback && <td><Button onClick={()=> props.btnCallback?.(element[props.id])} variant="outline-primary">Modifica</Button></td>}
                                                     </tr>
                                             </React.Fragment>
                                         </>
