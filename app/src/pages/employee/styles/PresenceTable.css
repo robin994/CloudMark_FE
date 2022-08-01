@@ -1,0 +1,13 @@
+.table {
+    text-align: center; 
+}
+
+.custom-head {
+    background-color: #313538 !important;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.custom-grid {
+    overflow-x: hidden;
+}
