@@ -136,41 +136,8 @@ export default function FullFeaturedCrudGrid() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const [open, setOpen] = React.useState(false);
-
   const handleDeleteClick = (id: GridRowId) => () => {
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    setRows(rows.filter((row) => row.id !== id));
-    
-    return (
-      <div>
-        <Button onClick={handleOpen}>Open modal</Button>
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={open}
-          onClose={handleClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-          >
-          <Fade in={open}>
-            <Box sx={style}>
-              <Typography id="transition-modal-title" variant="h6" component="h2">
-                Vuoi cancellarlo?
-              </Typography>
-              <div style={{"display": "flex"}}>
-                <Button style={{"margin": "10px", height: "40px", width: "90px"}} variant="outlined">SI</Button>
-                <Button style={{"margin": "10px", height: "40px", width: "90px"}} variant="outlined">NO</Button>
-              </div>
-            </Box>
-          </Fade>
-        </Modal>
-      </div>
-    )
+      setRows(rows.filter((row) => row.id !== id));
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -210,6 +177,8 @@ export default function FullFeaturedCrudGrid() {
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
+
+  let id = 0
 
   const columns: GridColumns = [
     {
@@ -313,7 +282,7 @@ export default function FullFeaturedCrudGrid() {
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={() => handleOpen()}
             color="inherit"
           />,
         ];
@@ -336,6 +305,11 @@ export default function FullFeaturedCrudGrid() {
     boxShadow: 24,
     p: 4,
   };
+
+  const [open, setOpen] = React.useState<any>(false);
+  const [del, setDel] = React.useState<any>(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Box
@@ -366,6 +340,21 @@ export default function FullFeaturedCrudGrid() {
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
+      {
+        open && <div>
+                  <Fade in={open}>
+                    <Box sx={style}>
+                      <Typography id="transition-modal-title" variant="h6" component="h2">
+                        Vuoi cancellarlo?
+                      </Typography>
+                      <div style={{display: "flex"}}>
+                        <Button onClick={handleDeleteClick(id)} style={{"margin": "10px", height: "40px", width: "90px"}} variant="outlined">SI</Button>
+                        <Button style={{"margin": "10px", height: "40px", width: "90px"}} variant="outlined">NO</Button>
+                      </div>
+                    </Box>
+                  </Fade>
+                </div>
+      }
     </Box>
   );
 }
