@@ -148,17 +148,12 @@ export default function FullFeaturedCrudGrid() {
           id_employee = row["id_employee"];
         }
       }
-      var id_presence = id;
-      const query = [
-        { id_presence: id_presence },
-        { id_employee: id_employee },
-      ];
       axios
         .request({
           url: `${process.env.REACT_APP_FASTAPI_URL}/presence/delete/`,
           method: "post",
           params: {
-            id_presence: id_presence,
+            id_presence: id,
             id_employee: id_employee,
           },
         })
