@@ -3,8 +3,10 @@ import CancelIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
+import { Backdrop, Fade, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Modal from '@mui/material/Modal';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -134,8 +136,41 @@ export default function FullFeaturedCrudGrid() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
+  const [open, setOpen] = React.useState(false);
+
   const handleDeleteClick = (id: GridRowId) => () => {
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     setRows(rows.filter((row) => row.id !== id));
+    
+    return (
+      <div>
+        <Button onClick={handleOpen}>Open modal</Button>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+          >
+          <Fade in={open}>
+            <Box sx={style}>
+              <Typography id="transition-modal-title" variant="h6" component="h2">
+                Vuoi cancellarlo?
+              </Typography>
+              <div style={{"display": "flex"}}>
+                <Button style={{"margin": "10px", height: "40px", width: "90px"}} variant="outlined">SI</Button>
+                <Button style={{"margin": "10px", height: "40px", width: "90px"}} variant="outlined">NO</Button>
+              </div>
+            </Box>
+          </Fade>
+        </Modal>
+      </div>
+    )
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -285,6 +320,22 @@ export default function FullFeaturedCrudGrid() {
       },
     },
   ];
+
+  const style = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    borderRadius: '10px',
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+  };
 
   return (
     <Box
