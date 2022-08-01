@@ -46,29 +46,27 @@ export default function ProfiloUtente() {
     const [popHide, setPopHide] = useState(true)
 
 
+    //il problema del delay è relativo al fatto che appena la pagina carica filtredData è unefined
     function getAccount() {
-        if (data !== undefined) {
-            axios
-                .get(
-                    `${process.env.REACT_APP_FASTAPI_URL}/employee/account/${data.id_account}`
-                )
-                .then((res) => {
-                    if (res !== undefined) { setFiltredData(res.data.data) };
-                    if (filtredData !== undefined) {
-                        FiltroBello()
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-
+        console.log(data?.id_account)
+        axios
+            .get(
+                `http://127.0.0.1:8000/employee/account/${data?.id_account}`
+            )
+            .then((res) => {
+                console.log('res funziona')
+                setFiltredData(res.data.data) 
+            })
+            .catch((err) => {
+                console.log(err);
+        });
     }
+    
 
     function FiltroBello() {
-
-        if (filtredData !== undefined) {
+        if(filtredData !== undefined){
             for (var x in filtredData) {
+                console.log('filtro bello')
                 console.log(filtredData[x])
                 setNome(filtredData[x].first_name)
                 setCognome(filtredData[x].last_name)
@@ -78,12 +76,12 @@ export default function ProfiloUtente() {
                 setTel(filtredData[x].phoneNumber)
                 setId_employee(filtredData[x].id_employee)
                 setId_contractType(filtredData[x].id_contractType)
-                return filtredData[x];
-            }
-        } else return <></>;
+            } 
+        }  
     }
+
     function sendData() {
-        axios.post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update`, {
+        axios.post(`http://127.0.0.1:8000/employee/update/`, {
             first_name: nome,
             last_name: cognome,
             cf: CF,
@@ -94,6 +92,7 @@ export default function ProfiloUtente() {
             id_employee: id_employee
         }).then(res => { console.log(res) }).catch(err => { console.log(err) })
     }
+
     function hidePop() {
         if (popHide === true) {
             setPopHide(false)
