@@ -1,19 +1,19 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import Container from "react-bootstrap/Container"
-import Card from "react-bootstrap/Card"
-import Spacer from "./Spacer"
-import Axios from "axios"
-import jwtDecode from "jwt-decode"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
+import Spacer from "./Spacer";
+import Axios from "axios";
+import jwtDecode from "jwt-decode";
 
 interface SessionInterface {
-    id_account: string;
-    abilitate: string;
-    accountType: string;
-    accountTypeName: string;
-    accountListFunction: string;
-    user: string;
-  }
+  id_account: string;
+  abilitate: string;
+  accountType: string;
+  accountTypeName: string;
+  accountListFunction: string;
+  user: string;
+}
 
 export default function Login() {
     const navigate = useNavigate()
@@ -72,31 +72,56 @@ export default function Login() {
     }
     return (
     <>
-    <Spacer margin="20vh" />
-    <Container>
-        <Card style={{ width: '24rem' }} className="mx-auto">
-            <Card.Header className="text-center">
-                <h1>Log In</h1>
-            </Card.Header>
-            <Card.Body>
+      <Spacer margin="20vh" />
+      <Container>
+        <Card style={{ width: "24rem" }} className="mx-auto">
+          <Card.Header className="text-center">
+            <h1>Log In</h1>
+          </Card.Header>
+          <Card.Body>
             <div className="log-div">
-                {/* <form action=""> */}
-                    <p>
-                        <input type="username" placeholder="username" required className="form-control" id="userLogin" />
-                    </p>
-                    <p>
-                        <input type="password" placeholder="password" required className="form-control" id="pswLogin" />
-                    </p>
-                    <p>
-                        <button id="sub_btn" type="submit" className="btn btn-outline-primary logbtn" onClick={() => onSubmit()} >Log In</button>
-                    </p>
-                {/* </form> */}
+              {/* <form action=""> */}
+              <p>
+                <input
+                  type="username"
+                  placeholder="username"
+                  required
+                  className="form-control"
+                  id="userLogin"
+                />
+              </p>
+              <p>
+                <input
+                  type="password"
+                  placeholder="password"
+                  required
+                  className="form-control"
+                  id="pswLogin"
+                />
+              </p>
+              <p>
+                <button
+                  id="sub_btn"
+                  type="submit"
+                  className="btn btn-outline-primary logbtn"
+                  onClick={() => onSubmit()}
+                >
+                  Log In
+                </button>
+              </p>
+              {/* </form> */}
             </div>
-            </Card.Body>
+          </Card.Body>
         </Card>
-        { firstTry || <h4 className="text-danger">Credentials mismatch</h4>}
-        { netErr && <h4 className="text-danger">Unable to reach the server<br/>you may have internet issues or the network might be down...</h4>}
-    </Container>
+        {firstTry || <h4 className="text-danger">Credentials mismatch</h4>}
+        {netErr && (
+          <h4 className="text-danger">
+            Unable to reach the server
+            <br />
+            you may have internet issues or the network might be down...
+          </h4>
+        )}
+      </Container>
     </>
-  )
+  );
 }
