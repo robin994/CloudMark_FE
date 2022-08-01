@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "./components/css_components/TabellaDipendenti.css";
@@ -21,6 +21,13 @@ const ListaDipendenti = (props: any) => {
   const [id_contractType, setId_contractType] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
+
+  const types: any = {
+    '198ef11d-cf73-4245-8469-2ddfa9979acf': 'Indeterminato',
+    '52fbe812-08f6-11ed-861d-0242ac120002': 'Determinato',
+  
+}
 
   useEffect(() => {
     axios
@@ -64,13 +71,20 @@ const ListaDipendenti = (props: any) => {
     );
   }
 
+
+
+
+
+
+
+
   let list = dipendenti.map((el) => {
     return {
       first_name: el["first_name"],
       last_name: el["last_name"],
       cf: el["cf"],
       iban: el["iban"],
-      id_contractType: el["id_contractType"],
+      id_contractType:types[el["id_contractType"]],
       email: el["email"],
       phoneNumber: el["phoneNumber"],
       id: el["id_employee"],
@@ -105,6 +119,7 @@ const ListaDipendenti = (props: any) => {
       headerName: "Telefono",
       width: 279,
       editable: true,
+      
     },
   ];
   return (
@@ -119,9 +134,12 @@ const ListaDipendenti = (props: any) => {
           marginBottom: "2vh",
         }}
       >
-        <button className="btn btn-primary" style={{ marginTop: "2vh" }}>
+        <Button variant="primary" 
+                style={{ marginTop: "2vh" }}
+                
+                >
           Salva
-        </button>
+        </Button>
         <Button
           variant="secondary"
           onClick={handleShow}
@@ -142,6 +160,7 @@ const ListaDipendenti = (props: any) => {
               className="form-control"
               placeholder="nome"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={last_name}
@@ -151,6 +170,7 @@ const ListaDipendenti = (props: any) => {
               className="form-control"
               placeholder="cognome"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={cf}
@@ -160,6 +180,7 @@ const ListaDipendenti = (props: any) => {
               type="text"
               placeholder="codice fiscale"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={iban}
@@ -169,6 +190,7 @@ const ListaDipendenti = (props: any) => {
               type="text"
               placeholder="iban"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={id_contractType}
@@ -178,6 +200,7 @@ const ListaDipendenti = (props: any) => {
               type="text"
               placeholder="tipo contratto"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={email}
@@ -187,6 +210,7 @@ const ListaDipendenti = (props: any) => {
               type="email"
               placeholder="email"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={phoneNumber}
@@ -196,10 +220,15 @@ const ListaDipendenti = (props: any) => {
               className="form-control"
               placeholder="telefono"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
+            
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="success" type="submit" onClick={handleSubmit}>
+            <Button variant="success" type="submit" onClick={() => {
+          handleSubmit();
+          handleClose();
+        }}>
               Conferma
             </Button>
             <Button variant="danger" onClick={handleClose}>

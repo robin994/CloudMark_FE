@@ -5,9 +5,10 @@ import Commesse from "./commesse"
 import Presenze from "./presenze"
 import CalendarMY from "./calender"
 import { useState, useEffect } from "react"
+import Calendar from "react-calendar"
 
 export default function Dashboard() {
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(new Date());
 
   const presenzeWidget = (
     <Presenze id_employee={sessionStorage.id_employee} year='2022' month='01'/>
@@ -34,7 +35,13 @@ export default function Dashboard() {
           {presenzeWidget}
         </Col>
         <Col xs={3}>
-          {calendarWidget}
+        <Calendar
+          className={'calendar'}
+          value={date}
+          onChange={setDate}
+          maxDetail='year'
+        />
+          {/* {calendarWidget} */}
           {commesseWidget}
         </Col>
         </Row>

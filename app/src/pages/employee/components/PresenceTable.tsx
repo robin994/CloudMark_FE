@@ -5,12 +5,40 @@ import { motion } from 'framer-motion';
 
 import "../styles/PresenceTable.css";
 
+
 const types: { [key: string]: string } = {
     'ca34d37e-600c-452e-a8e4-2efb53161812': 'Standard',
     '6dc55260-7150-4f76-8251-adc4c3fc15b4': 'Assenza',
     'a8fd713d-36e8-440f-81e1-6e7314a3c417': 'Festivo',
     'b867b283-38a0-4eb3-8df1-55ccb5f310df': 'Malattia'
 }
+
+const heading: GridColDef[] = [
+    {   field: 'date_presence',
+        headerName: 'Data',
+        type: 'date',
+        width: 279,
+        editable: true,
+        align: 'right',
+        headerAlign: 'right'
+    },
+    {   field: 'hours',
+        headerName: 'Ore',
+        type: 'number',
+        width: 279,
+        editable: true,
+        align: 'right',
+        headerAlign: 'right'
+    },
+    {   field: 'type',
+        headerName: 'Tipo Presenza',
+        type: 'string',
+        width: 279,
+        editable: true,
+        align: 'right',
+        headerAlign: 'right'
+    },
+]
 
 const PresenceTable =(props:any)=> {
   const [presenze, setPresenze] = useState([])
@@ -21,7 +49,8 @@ const PresenceTable =(props:any)=> {
             id_employee: sessionStorage.id_employee,
             year: 2022,
             month: 1
-        }, { 
+        }, 
+        { 
             headers: {accept: "application/json", "Content-Type": "application/json" }
         })
         console.log('PresenceTable --> AXIOS RESPONSE [data]: ', response.data.data)
@@ -36,18 +65,15 @@ const PresenceTable =(props:any)=> {
         }
     }
 
-    const heading: GridColDef[] = [
-        { field: 'date_presence', headerName: 'Data', type: 'date', width: 279, editable: true, align: 'right', headerAlign: 'right' },
-        { field: 'hours', headerName: 'Ore', type: 'number', width: 279, editable: true, align: 'right', headerAlign: 'right' },
-        { field: 'type', headerName: 'Tipo Presenza', type: 'string', width: 279, editable: true, align: 'right', headerAlign: 'right' },
-    ]
-
     useEffect(()=> {
         getPresenze();
       }, [])
  
   return (
-    <motion.div initial={{x : 100}} animate={{x : 0}} style={{ height: 400, width: '100%' }} className='custom-grid'>
+    <motion.div initial={{x : 100}}
+                animate={{x : 0}}
+                className='custom-grid'
+                style={{ height: 400, width: '100%' }}>
         <DataGrid
             // components={{
             //     LoadingOverlay: LinearProgress
@@ -62,6 +88,11 @@ const PresenceTable =(props:any)=> {
             sx={{
                 boxShadow: 20
             }}
+/*             editable={{
+                onRowAdd: (),
+                onRowEdit: (),
+                onRowDelete: ()
+            }} */
         />
   </motion.div>
    )
