@@ -32,7 +32,7 @@ export default function Login() {
     const onSubmit = () => {
         let user = document.getElementById("userLogin") as HTMLInputElement
         let psw = document.getElementById("pswLogin") as HTMLInputElement
-        Axios(`${process.env.REACT_APP_FASTAPI_URL}account/login`, {
+        Axios(`${process.env.REACT_APP_FASTAPI_URL}/account/login`, {
             method: 'POST',
             headers: { "accept": "application/json", 'Content-Type': 'application/json' },
             data: {
