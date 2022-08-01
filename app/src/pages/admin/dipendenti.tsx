@@ -92,13 +92,13 @@ return (
                   
                   
                                    
-                  <input value={first_name} onChange={(e) => setFirstName(e.target.value)} id="first_name" type="text"className="form-control" placeholder="nome"  style={{marginTop:"1vh"}}></input>
-                   <input value={last_name}  onChange={(e) => setLastName(e.target.value)} id="last_name" type="text"  className="form-control" placeholder="cognome" style={{marginTop:"1vh"}}></input>
-                   <input value={cf}  onChange={(e) => setCf(e.target.value)}  id="cf"className="form-control" type="text" placeholder="codice fiscale" style={{marginTop:"1vh"}}></input>
-                   <input  value={iban} onChange={(e) => setIban(e.target.value)} id="iban"className="form-control" type="text" placeholder="iban" style={{marginTop:"1vh"}}></input>
-                   <input  value={id_contractType} onChange={(e) => setId_contractType(e.target.value)} id="id_contractType"className="form-control" type="text" placeholder="tipo contratto" style={{marginTop:"1vh"}}></input>
-                   <input  value={email} onChange={(e) => setEmail(e.target.value)} id="email"className="form-control" type="email" placeholder="email" style={{marginTop:"1vh"}}></input>
-                   <input  value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} id="phoneNumber" type="tel"className="form-control" placeholder="telefono" style={{marginTop:"1vh"}}></input>
+                  <input value={first_name} onChange={(e) => setFirstName(e.target.value)} id="first_name" type="text"className="form-control" placeholder="nome"  style={{marginTop:"1vh"}} required></input>
+                   <input value={last_name}  onChange={(e) => setLastName(e.target.value)} id="last_name" type="text"  className="form-control" placeholder="cognome" style={{marginTop:"1vh"}} required></input>
+                   <input value={cf}  onChange={(e) => setCf(e.target.value)}  id="cf"className="form-control" type="text" placeholder="codice fiscale" style={{marginTop:"1vh"}} required></input>
+                   <input  value={iban} onChange={(e) => setIban(e.target.value)} id="iban"className="form-control" type="text" placeholder="iban" style={{marginTop:"1vh"}} required></input>
+                   <input  value={id_contractType} onChange={(e) => setId_contractType(e.target.value)} id="id_contractType"className="form-control" type="text" placeholder="tipo contratto" style={{marginTop:"1vh"}}required></input>
+                   <input  value={email} onChange={(e) => setEmail(e.target.value)} id="email"className="form-control" type="email" placeholder="email" style={{marginTop:"1vh"}}required></input>
+                   <input  value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} id="phoneNumber" type="tel"className="form-control" placeholder="telefono" style={{marginTop:"1vh"}}required></input>
                  
                  
                  
