@@ -11,21 +11,6 @@ import Modal from 'react-bootstrap/Modal'
 
 
 const ListaDipendenti=(props:any)=> {
-
-
-const [createdipendenti, setCreateDipendenti] = useState({
-  
-  first_name:'',
-  last_name:'',
-  cf: '',
-  iban: '',
-  id_contractType:'' ,
-  email: '',
-  phoneNumber: '',
-  
-})
-
-  
   const [dipendenti, setDipendenti] = useState([])
  
 
@@ -35,7 +20,13 @@ const [createdipendenti, setCreateDipendenti] = useState({
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-
+  const [first_name, setFirstName] = useState('')
+  const [last_name, setLastName] = useState('')
+  const [cf, setCf] = useState('')
+  const [iban, setIban] = useState('')
+  const [id_contractType, setId_contractType] = useState('')
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect( () => {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`).then( resp => {
@@ -45,35 +36,23 @@ const [createdipendenti, setCreateDipendenti] = useState({
   },[])
   console.log(dipendenti)
   
-  
-  function submit(e:any) {
-      e.preventDefault();
+  function handleSubmit(){
       axios.post(`${process.env.REACT_APP_FASTAPI_URL}/employee/create/`,{
-        first_name:createdipendenti.first_name,
-        last_name:createdipendenti.last_name,
-        cf:createdipendenti.cf,
-        iban:createdipendenti.iban,
-        id_contractType:createdipendenti.id_contractType,
-        email:createdipendenti.email,
-        phoneNumber:createdipendenti.phoneNumber,
-        
-      })
-      .then(res=>{
-        console.log(res.data)
-      })
+          first_name:first_name,
+          last_name:last_name,
+          cf:cf,
+          iban:iban,
+          id_contractType:id_contractType,
+          email:email,
+          phoneNumber:phoneNumber,
+          
+        }).then(res => { console.log(res) }).catch(err => { console.log(err) })
+      
+
+      
+      console.log(first_name,last_name,cf,iban,id_contractType,email,phoneNumber)
+
     }
-   
-
-    function handle(e:any){
-      const newdata={...createdipendenti}
-      newdata[e.target.id] = e.target.value
-      setCreateDipendenti(newdata)
-      console.log(newdata)
-    }
-
-  
-
-
 
   let list = dipendenti.map(el => {
     return {
@@ -87,9 +66,7 @@ const [createdipendenti, setCreateDipendenti] = useState({
         id: el['id_employee']
     }
 })
-
 const rows = list
-
 const columns: GridColDef[] = [
     { field: 'first_name', headerName: 'First name', width: 279, editable: true },
     { field: 'last_name', headerName: 'Last name', width: 279, editable: true },
@@ -97,14 +74,9 @@ const columns: GridColDef[] = [
     { field: 'iban', headerName: 'iban', width: 279, editable: true },
     { field: 'id_contractType', headerName: 'Tipo Contratto', width: 279, editable: true },
     { field: 'email', headerName: 'email', width: 279, editable: true },
-    { field: 'phoneNumber', headerName: 'Telefono', width: 279, editable: true },
-   
+    { field: 'phoneNumber', headerName: 'Telefono', width: 279, editable: true },  
 ]
-
- 
-  return (
-
-
+return (
 <>
 <div style={{marginTop:"2vh",backgroundColor:"#ffffff",borderBottom:"1px solid black",borderTop:"1px solid black",padding:"0.5rem",marginBottom:"2vh"}}>
 
@@ -117,18 +89,22 @@ const columns: GridColDef[] = [
                     <Modal.Title>Aggiungi Dipendente</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <form onSubmit={(e)=>submit(e)}>
-                  <input onChange={(e)=>handle(e)} id="first_name" value={createdipendenti.first_name}className="form-control" placeholder="nome"  style={{marginTop:"1vh"}}></input>
-                   <input onChange={(e)=>handle(e)} id="last_name"value={createdipendenti.last_name}className="form-control" placeholder="cognome" style={{marginTop:"1vh"}}></input>
-                   <input onChange={(e)=>handle(e)} id="cf"value={createdipendenti.cf}className="form-control" placeholder="codice fiscale" style={{marginTop:"1vh"}}></input>
-                   <input onChange={(e)=>handle(e)} id="iban"value={createdipendenti.iban}className="form-control" placeholder="iban" style={{marginTop:"1vh"}}></input>
-                   <input onChange={(e)=>handle(e)} id="id_contractType"value={createdipendenti.id_contractType}className="form-control" placeholder="tipo contratto" style={{marginTop:"1vh"}}></input>
-                   <input onChange={(e)=>handle(e)} id="email"value={createdipendenti.email}className="form-control" placeholder="email" style={{marginTop:"1vh"}}></input>
-                   <input onChange={(e)=>handle(e)} id="phoneNumber"value={createdipendenti.phoneNumber}className="form-control" placeholder="telefono" style={{marginTop:"1vh"}}></input>
-                  </form>
+                  
+                  
+                                   
+                  <input value={first_name} onChange={(e) => setFirstName(e.target.value)} id="first_name" type="text"className="form-control" placeholder="nome"  style={{marginTop:"1vh"}}></input>
+                   <input value={last_name}  onChange={(e) => setLastName(e.target.value)} id="last_name" type="text"  className="form-control" placeholder="cognome" style={{marginTop:"1vh"}}></input>
+                   <input value={cf}  onChange={(e) => setCf(e.target.value)}  id="cf"className="form-control" type="text" placeholder="codice fiscale" style={{marginTop:"1vh"}}></input>
+                   <input  value={iban} onChange={(e) => setIban(e.target.value)} id="iban"className="form-control" type="text" placeholder="iban" style={{marginTop:"1vh"}}></input>
+                   <input  value={id_contractType} onChange={(e) => setId_contractType(e.target.value)} id="id_contractType"className="form-control" type="text" placeholder="tipo contratto" style={{marginTop:"1vh"}}></input>
+                   <input  value={email} onChange={(e) => setEmail(e.target.value)} id="email"className="form-control" type="email" placeholder="email" style={{marginTop:"1vh"}}></input>
+                   <input  value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} id="phoneNumber" type="tel"className="form-control" placeholder="telefono" style={{marginTop:"1vh"}}></input>
+                 
+                 
+                 
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="success" type="submit">
+                <Button variant="success" type="submit" onClick={handleSubmit}>
                         Conferma
                     </Button>
                     <Button variant="danger" onClick={handleClose}>
@@ -156,14 +132,9 @@ const columns: GridColDef[] = [
                 }}
             />
   </motion.div>
-
-
   </>
-   
-
     )
   }
-
   export default ListaDipendenti
 
 
