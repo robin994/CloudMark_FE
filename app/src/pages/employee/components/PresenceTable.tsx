@@ -88,6 +88,11 @@ const PresenceTable =(props:any)=> {
             sx={{
                 boxShadow: 20
             }}
+/*             editable={{
+                onRowAdd: (),
+                onRowEdit: (),
+                onRowDelete: ()
+            }} */
         />
   </motion.div>
    )
