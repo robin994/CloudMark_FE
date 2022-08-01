@@ -12,8 +12,8 @@ export default function MyCalendar() {
 
   return (
     <>
-      <Card style={{ height: '40%' }}>
-          <DatePicker onChange={onChange} style={{width: '100%', height: '100%'}}/>
+      <Card>
+          <DatePicker onChange={onChange}/>
       </Card>
     </>
 
