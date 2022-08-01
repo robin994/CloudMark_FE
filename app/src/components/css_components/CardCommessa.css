@@ -1,5 +1,11 @@
+.col-3>.card{
+    height: 50vh;
+}
+.container>.card-body>.card{
+    height: 100%;
+}
 .containerHeight {
-    height: 100% !important;
+    height: 100%;
 }
 .container-fluid{
     padding: 0px;
@@ -34,10 +40,4 @@
 .endDate{
     padding: 0px;
     order: 2;
-}
-@media(max-width: 607px){
-    .startDate{
-        border-right: 0px;
-        border-bottom: 1px solid lightseagreen;
-    }
 }

@@ -6,7 +6,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Backdrop, Fade, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Modal from '@mui/material/Modal';
+import Modal from "@mui/material/Modal";
 import {
   DataGrid,
   GridActionsCellItem,
@@ -76,7 +76,9 @@ export default function FullFeaturedCrudGrid() {
               date_presence: el["date_presence"],
               first_name: el["first_name"],
               hours: el["hours"],
-              id: el["id_employee"],
+              id: el["id_presence"],
+              id_employee: el["id_employee"],
+              id_order: el["id_order"],
               last_name: el["last_name"],
               nome_azienda: el["id_business"],
               tipoPresenza: el["id_type_presence"],
@@ -157,15 +159,12 @@ export default function FullFeaturedCrudGrid() {
     console.log("aggiorno");
     axios
       .post(`${process.env.REACT_APP_FASTAPI_URL}/presence/insertUpdate`, {
-        presences: [
-          {
-            id_employee: updatedRow.id,
-            date_presence: updatedRow.date_presence.toISOString().split("T")[0],
-            id_tipoPresenza: updatedRow.tipoPresenza,
-            id_order: updatedRow.nome_azienda,
-            hours: updatedRow.hours,
-          },
-        ],
+        id_presence: updatedRow.id,
+        id_employee: updatedRow.id_employee,
+        date_presence: updatedRow.date_presence.toISOString().split("T")[0],
+        id_tipoPresenza: updatedRow.tipoPresenza,
+        id_order: updatedRow.nome_azienda,
+        hours: updatedRow.hours,
       })
       .then((res) => {
         console.log(res);
@@ -183,7 +182,21 @@ export default function FullFeaturedCrudGrid() {
   const columns: GridColumns = [
     {
       field: "id",
+      headerName: "id_presence",
+      width: 279,
+      editable: false,
+      hide: true,
+    },
+    {
+      field: "id_employee",
       headerName: "id_employee",
+      width: 279,
+      editable: false,
+      hide: true,
+    },
+    {
+      field: "id_order",
+      headerName: "id_order",
       width: 279,
       editable: false,
       hide: true,
@@ -291,17 +304,17 @@ export default function FullFeaturedCrudGrid() {
   ];
 
   const style = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    borderRadius: '10px',
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    borderRadius: "10px",
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     width: 400,
-    bgcolor: 'background.paper',
+    bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
   };

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Card, Table } from "react-bootstrap";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import "./css_components/PaginaProfilo.css";
+import "./PaginaProfilo.css";
 import { Map } from "typescript";
 
 interface SessionInterface {
