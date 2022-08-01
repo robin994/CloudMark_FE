@@ -4,6 +4,16 @@ import Container from "react-bootstrap/Container"
 import Card from "react-bootstrap/Card"
 import Spacer from "./Spacer"
 import Axios from "axios"
+import jwtDecode from "jwt-decode"
+
+interface SessionInterface {
+    id_account: string;
+    abilitate: string;
+    accountType: string;
+    accountTypeName: string;
+    accountListFunction: string;
+    user: string;
+  }
 
 export default function Login() {
     const navigate = useNavigate()
@@ -22,7 +32,7 @@ export default function Login() {
     const onSubmit = () => {
         let user = document.getElementById("userLogin") as HTMLInputElement
         let psw = document.getElementById("pswLogin") as HTMLInputElement
-        Axios(`${process.env.REACT_APP_FASTAPI_URL}/account/login`, {
+        Axios(`${process.env.REACT_APP_FASTAPI_URL}account/login`, {
             method: 'POST',
             headers: { "accept": "application/json", 'Content-Type': 'application/json' },
             data: {
@@ -35,6 +45,10 @@ export default function Login() {
                 setFirstTry(false)
                 return
             } else if (resp.data.data && !resp.data.error) {
+                const userObj = jwtDecode(resp.data.data) as SessionInterface
+                for (const [key, val] of Object.entries(userObj)) {
+                    sessionStorage.setItem(key, val)
+                }
                 sessionStorage.bearer = resp.data.data
                 sessionStorage.account_username = user.value
                 sessionStorage.id_employee = "124e4567-e85b-1fd3-a456-333322233412"
