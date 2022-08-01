@@ -8,9 +8,8 @@
     grid-template-columns: 1fr;
     border: 0.3vh solid black;
     border-radius: 50px;
+    max-width: 30vh;
     padding: 5vh;
-    width: 30%;
-
 }
 
 .rowBello input{
@@ -37,5 +36,5 @@
     min-width: 60vh;
     background: white;
     padding: 5vh;
-    border-radius: 3vh;
+    border-radius: 50px;
 }
