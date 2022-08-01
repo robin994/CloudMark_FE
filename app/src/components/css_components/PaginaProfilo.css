@@ -17,3 +17,25 @@
     display: block;
     width: 100%;
 }
+
+.moduleBelloBack{
+    position: fixed;
+    background: rgba(0,0,0,0.5);
+    bottom: 0;
+    top: 0;
+    z-index: 1000;
+    left: 0;
+    right: 0;
+}
+
+.moduleBelloBody{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    min-height: 30vh;
+    min-width: 60vh;
+    background: white;
+    padding: 5vh;
+    border-radius: 3vh;
+}
