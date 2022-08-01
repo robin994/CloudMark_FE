@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Modal, Button, Card, Container, Form } from 'react-bootstrap'
 import DatePicker from 'sassy-datepicker'
 import EditableTable from '../../components/PresenceTable'
+import PresenceTable from './components/PresenceTable'
 
 interface PresenzeProps {
   id_employee: string,
@@ -89,6 +90,7 @@ export default function Presenze(props: PresenzeProps) {
         </Container>
       </Card.Body>
       <Card.Body>
+        <PresenceTable rows={presenze} />
         <EditableTable id='id_presence' rows={presenze} showID={false} />
       </Card.Body>
     </Card>
