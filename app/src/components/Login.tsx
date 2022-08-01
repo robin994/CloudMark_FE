@@ -52,7 +52,17 @@ export default function Login() {
                 sessionStorage.bearer = resp.data.data
                 sessionStorage.account_username = user.value
                 sessionStorage.id_employee = "124e4567-e85b-1fd3-a456-333322233412"
-                navigate("/", {replace: true})
+                switch (sessionStorage.accountTypeName) {
+                    case "administrator":
+                        navigate("/admin", {replace: true})
+                        break
+                    case "dipendente":
+                        navigate("/employee", {replace: true})
+                        break
+                    case "superuser":
+                        navigate("/superuser", {replace: true})
+                        break
+                }
             }
         }).catch(err => {
             if (err.code === "ERR_NETWORK") {
