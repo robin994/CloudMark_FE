@@ -178,6 +178,7 @@ const ListaDipendenti = (props: any) => {
               className="form-control"
               placeholder="nome"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={last_name}
@@ -187,6 +188,7 @@ const ListaDipendenti = (props: any) => {
               className="form-control"
               placeholder="cognome"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={cf}
@@ -196,6 +198,7 @@ const ListaDipendenti = (props: any) => {
               type="text"
               placeholder="codice fiscale"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={iban}
@@ -205,6 +208,7 @@ const ListaDipendenti = (props: any) => {
               type="text"
               placeholder="iban"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={id_contractType}
@@ -214,6 +218,7 @@ const ListaDipendenti = (props: any) => {
               type="text"
               placeholder="tipo contratto"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={email}
@@ -223,6 +228,7 @@ const ListaDipendenti = (props: any) => {
               type="email"
               placeholder="email"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             <input
               value={phoneNumber}
@@ -232,6 +238,7 @@ const ListaDipendenti = (props: any) => {
               className="form-control"
               placeholder="telefono"
               style={{ marginTop: "1vh" }}
+              required
             ></input>
             
           </Modal.Body>
