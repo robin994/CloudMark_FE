@@ -72,7 +72,7 @@ export default function ProfiloUtente() {
 
   function sendData() {
     axios
-      .post(`http://127.0.0.1:8000/employee/update/`, {
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, {
         first_name: nome,
         last_name: cognome,
         cf: CF,
