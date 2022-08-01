@@ -22,6 +22,13 @@ const ListaDipendenti = (props: any) => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
+
+  const types: any = {
+    '198ef11d-cf73-4245-8469-2ddfa9979acf': 'Indeterminato',
+    '52fbe812-08f6-11ed-861d-0242ac120002': 'Determinato',
+  
+}
+
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_FASTAPI_URL}/employee`)
@@ -69,34 +76,7 @@ const ListaDipendenti = (props: any) => {
 
 
 
-  /*function Update() {
-    axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, {
-        first_name: first_name,
-        last_name: last_name,
-        cf: cf,
-        iban: iban,
-        id_contractType: id_contractType,
-        email: email,
-        phoneNumber: phoneNumber,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
 
-    console.log(
-      first_name,
-      last_name,
-      cf,
-      iban,
-      id_contractType,
-      email,
-      phoneNumber
-    );
-  }*/
 
   let list = dipendenti.map((el) => {
     return {
@@ -104,7 +84,7 @@ const ListaDipendenti = (props: any) => {
       last_name: el["last_name"],
       cf: el["cf"],
       iban: el["iban"],
-      id_contractType: el["id_contractType"],
+      id_contractType:types[el["id_contractType"]],
       email: el["email"],
       phoneNumber: el["phoneNumber"],
       id: el["id_employee"],
@@ -139,6 +119,7 @@ const ListaDipendenti = (props: any) => {
       headerName: "Telefono",
       width: 279,
       editable: true,
+      
     },
   ];
   return (
@@ -155,6 +136,7 @@ const ListaDipendenti = (props: any) => {
       >
         <Button variant="primary" 
                 style={{ marginTop: "2vh" }}
+                
                 >
           Salva
         </Button>
