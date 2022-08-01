@@ -18,7 +18,7 @@ import TableDipendenti from './TableDipendenti'
 import CardCommessa from "./CardCommessa"
 import Pagination from "./Pagination"
 import BearerCheck from "./BearerCheck"
-import ProfiloUtente from "./PaginaProfilo"
+import ProfiloUtente from "../pages/profile_page/PaginaProfilo"
 
 export { CercaDipendente, Login, Registrazione, TopMenu, SuperUser, Dipendente, 
          ModAziendaAdmin, AddAzienda, TableDipendenti, CardCommessa, Pagination, 
