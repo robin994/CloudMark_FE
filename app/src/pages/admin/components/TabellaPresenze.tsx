@@ -138,8 +138,35 @@ export default function FullFeaturedCrudGrid() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id: GridRowId) => () => {
-      setRows(rows.filter((row) => row.id !== id));
+  const handleDeleteClick = () => () => {
+    let id: GridRowId = "";
+    let id_employee = "";
+    if (IDRowToDelete != undefined) {
+      id = IDRowToDelete;
+      for (let row of rows) {
+        if (row["id"] == id) {
+          id_employee = row["id_employee"];
+        }
+      }
+      var id_presence = id;
+      const query = [
+        { id_presence: id_presence },
+        { id_employee: id_employee },
+      ];
+      axios
+        .request({
+          url: `${process.env.REACT_APP_FASTAPI_URL}/presence/delete/`,
+          method: "post",
+          params: {
+            id_presence: id_presence,
+            id_employee: id_employee,
+          },
+        })
+        .then(() => {
+          setRows(rows.filter((row) => row.id !== id));
+          setOpen(false);
+        });
+    }
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -177,7 +204,7 @@ export default function FullFeaturedCrudGrid() {
     return updatedRow;
   };
 
-  let id = 0
+  let id = 0;
 
   const columns: GridColumns = [
     {
@@ -295,7 +322,7 @@ export default function FullFeaturedCrudGrid() {
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={() => handleOpen()}
+            onClick={() => handleOpen(id)}
             color="inherit"
           />,
         ];
@@ -320,8 +347,12 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const [open, setOpen] = React.useState<any>(false);
+  const [IDRowToDelete, setIDRowToDelete] = React.useState<GridRowId>();
   const [del, setDel] = React.useState<any>(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (id: GridRowId) => {
+    setOpen(true);
+    setIDRowToDelete(id);
+  };
   const handleClose = () => setOpen(false);
 
   return (
@@ -353,21 +384,36 @@ export default function FullFeaturedCrudGrid() {
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
-      {
-        open && <div>
-                  <Fade in={open}>
-                    <Box sx={style}>
-                      <Typography id="transition-modal-title" variant="h6" component="h2">
-                        Vuoi cancellarlo?
-                      </Typography>
-                      <div style={{display: "flex"}}>
-                        <Button onClick={handleDeleteClick(id)} style={{"margin": "10px", height: "40px", width: "90px"}} variant="outlined">SI</Button>
-                        <Button style={{"margin": "10px", height: "40px", width: "90px"}} variant="outlined">NO</Button>
-                      </div>
-                    </Box>
-                  </Fade>
-                </div>
-      }
+      {open && (
+        <div>
+          <Fade in={open}>
+            <Box sx={style}>
+              <Typography
+                id="transition-modal-title"
+                variant="h6"
+                component="h2"
+              >
+                Vuoi cancellarlo?
+              </Typography>
+              <div style={{ display: "flex" }}>
+                <Button
+                  onClick={handleDeleteClick()}
+                  style={{ margin: "10px", height: "40px", width: "90px" }}
+                  variant="outlined"
+                >
+                  SI
+                </Button>
+                <Button
+                  style={{ margin: "10px", height: "40px", width: "90px" }}
+                  variant="outlined"
+                >
+                  NO
+                </Button>
+              </div>
+            </Box>
+          </Fade>
+        </div>
+      )}
     </Box>
   );
 }
