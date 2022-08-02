@@ -1,9 +1,12 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowModes, GridRowModesModel, GridRowsProp, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarDensitySelector, GridToolbarExport, GridToolbarFilterButton } from '@mui/x-data-grid';
+import AddIcon from "@mui/icons-material/Add";
 import { motion } from 'framer-motion';
 
 import "../styles/PresenceTable.css";
+import { randomId } from '@mui/x-data-grid-generator';
+import { Button } from '@mui/material';
 
 
 const types: { [key: string]: string } = {
@@ -40,15 +43,61 @@ const heading: GridColDef[] = [
     },
 ]
 
+interface EditToolbarProps {
+    setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
+    setRowModesModel: (
+      newModel: (oldModel: GridRowModesModel) => GridRowModesModel
+    ) => void;
+  }
+  
+    function AddRow(props: EditToolbarProps) {
+    const { setRows, setRowModesModel } = props;
+    const handleClick = () => {
+        const id = randomId();
+        setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
+        setRowModesModel((oldModel) => ({
+            ...oldModel,
+            [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+        }));
+    };
+
+    return (
+        <GridToolbarContainer>
+        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+            AGGIUNGI
+        </Button>
+        </GridToolbarContainer>
+    );
+}
+
+function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector />
+        <GridToolbarExport />
+        <Button color="primary" startIcon={<AddIcon />} onClick={handleAdd}>
+            AGGIUNGI
+        </Button>
+      </GridToolbarContainer>
+    );
+}
+
+function handleAdd() {
+
+}
+
 const PresenceTable =(props:any)=> {
   const [presenze, setPresenze] = useState([])
+  const [localBuffer, setBuffer] = useState([])
 
     async function getPresenze() {
         try {
         const response = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,{
             id_employee: sessionStorage.id_employee,
-            year: 2022,
-            month: 1
+            year: props.year,
+            month: props.month
         }, 
         { 
             headers: {accept: "application/json", "Content-Type": "application/json" }
@@ -87,6 +136,9 @@ const PresenceTable =(props:any)=> {
             checkboxSelection
             sx={{
                 boxShadow: 20
+            }}
+            components={{
+                Toolbar: CustomToolbar
             }}
 /*             editable={{
                 onRowAdd: (),
