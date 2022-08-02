@@ -19,9 +19,10 @@ import {
   GridRowParams,
   GridRowsProp,
   GridToolbarContainer,
+  GridToolbarExport,
   MuiEvent,
 } from "@mui/x-data-grid";
-import { randomId } from "@mui/x-data-grid-generator";
+import { randomId, useDemoData } from "@mui/x-data-grid-generator";
 import axios from "axios";
 import * as React from "react";
 import "./css_components/TabellaPresenze.css";
@@ -50,6 +51,7 @@ function EditToolbar(props: EditToolbarProps) {
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add record
       </Button>
+      <GridToolbarExport />
     </GridToolbarContainer>
   );
 }
@@ -372,7 +374,7 @@ export default function FullFeaturedCrudGrid() {
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
         components={{
-          Toolbar: EditToolbar,
+          Toolbar: EditToolbar
         }}
         componentsProps={{
           toolbar: { setRows, setRowModesModel },
