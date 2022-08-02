@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { Backdrop, Button, Fade, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Modal } from "react-bootstrap";
+import { Modal, Row } from "react-bootstrap";
 import {
   DataGrid,
   GridActionsCellItem,
@@ -25,8 +25,10 @@ import { randomId, useDemoData } from "@mui/x-data-grid-generator";
 import axios from "axios";
 import * as React from "react";
 import "./css_components/TabellaPresenze.css";
+import { rowsMetaStateInitializer } from "@mui/x-data-grid/internals";
 
 interface EditToolbarProps {
+  rows: any;
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
   setRowModesModel: (
     newModel: (oldModel: GridRowModesModel) => GridRowModesModel
@@ -34,10 +36,12 @@ interface EditToolbarProps {
 }
 
 function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props;
+  const { setRows, setRowModesModel, rows } = props;
   const [show, setShow] = React.useState(false);
   const [idEmployee, setIdEmployee] = React.useState("");
-  const [datePresence, setDatePresence] = React.useState(new Date().toDateString());
+  const [datePresence, setDatePresence] = React.useState(
+    new Date().toDateString()
+  );
   const [idTipoPresenza, setIdTipoPresenza] = React.useState("");
   const [idOrder, setIdOrder] = React.useState("");
   const [hours, setHours] = React.useState("");
@@ -52,8 +56,9 @@ function EditToolbar(props: EditToolbarProps) {
       [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
     }));
   };
+
   function createPresence() {
-    handleClose()
+    handleClose();
     axios
       .post(`${process.env.REACT_APP_FASTAPI_URL}/presence/create/`, {
         id_employee: idEmployee,
@@ -62,8 +67,28 @@ function EditToolbar(props: EditToolbarProps) {
         id_order: idOrder,
         hours: hours,
       })
-      .then((res) => {
-        console.log(res);
+      .then((newRow) => {
+        axios
+          .get(
+            `${process.env.REACT_APP_FASTAPI_URL}/presence/all/first_name/last_name/`
+          )
+          .then((res) => {
+            setRows(
+              res.data.data?.map((el: any) => {
+                return {
+                  date_presence: el["date_presence"],
+                  first_name: el["first_name"],
+                  hours: el["hours"],
+                  id: el["id_presence"],
+                  id_employee: el["id_employee"],
+                  id_order: el["id_order"],
+                  last_name: el["last_name"],
+                  nome_azienda: el["id_business"],
+                  tipoPresenza: el["id_type_presence"],
+                };
+              })
+            );
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -71,11 +96,8 @@ function EditToolbar(props: EditToolbarProps) {
   }
   return (
     <GridToolbarContainer>
-      <Button
-        onClick={handleShow}
-        style={{height: '29.33px'}}
-      >
-        <span style={{fontSize:'30px', marginRight:'5px'}}>+</span>Aggiungi
+      <Button onClick={handleShow} style={{ height: "29.33px" }}>
+        <span style={{ fontSize: "30px", marginRight: "5px" }}>+</span>Aggiungi
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -133,9 +155,7 @@ function EditToolbar(props: EditToolbarProps) {
           <Button type="submit" onClick={createPresence}>
             Conferma
           </Button>
-          <Button onClick={handleClose}>
-            Annulla
-          </Button>
+          <Button onClick={handleClose}>Annulla</Button>
         </Modal.Footer>
       </Modal>
       <GridToolbarExport />
@@ -461,10 +481,10 @@ export default function FullFeaturedCrudGrid() {
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
         components={{
-          Toolbar: EditToolbar
+          Toolbar: EditToolbar,
         }}
         componentsProps={{
-          toolbar: { setRows, setRowModesModel },
+          toolbar: { setRows, setRowModesModel, rows },
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
