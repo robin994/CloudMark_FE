@@ -14,15 +14,15 @@ interface PresenzeProps {
 
 export default function Presenze(props: PresenzeProps) {
   const [presenze, setPresenze] = useState([])
-  const [tipoOre, setTipoOre] = useState([])
   const [showInsMod, setInsMod] = useState(false)
 
   async function getPresenze() {
     try {
+      console.log('REQESTING PRESENCE ON DATE -->', `${props.month}/${props.year}`)
       const response = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,{
         id_employee: sessionStorage.id_employee,
-        year: 2022,
-        month: 1
+        year: props.year,
+        month: props.month
       }, { 
         headers: {accept: "application/json", "Content-Type": "application/json" }
       })
@@ -33,25 +33,9 @@ export default function Presenze(props: PresenzeProps) {
     }
   }
 
-  async function getTipoOre() {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,{
-        id_employee: sessionStorage.id_employee,
-        year: 2022,
-        month: 1
-      }, { 
-        headers: {accept: "application/json", "Content-Type": "application/json" }
-      })
-      setTipoOre(response.data.data)
-    } catch(error) {
-      throw error
-    }
-  }
-
   useEffect(()=> {
     getPresenze();
-    getTipoOre();
-  }, [])
+  }, [props.year, props.month])
 
   const handleOpenIns = () => setInsMod(true);
   const handleCloseIns = () => setInsMod(false);
