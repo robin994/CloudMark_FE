@@ -6,8 +6,9 @@ import axios from 'axios'
 import { DataGrid, GridActionsCellItem} from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Dialog, DialogTitle, DialogActions, 
-         DialogContent, DialogContentText, TextField } from "@mui/material"
+         DialogContent, DialogContentText, TextField } from "@mui/material"        
 
 let newCustomer = {}
 
@@ -21,6 +22,16 @@ export default function Clienti() {
     const handleDetails = id_customer => {
         setId_customer(id_customer)
     }
+    const handleDelete = id_customer => {
+        Axios(`${process.env.REACT_APP_FASTAPI_URL}/customer/delete/`, {
+            method: "POST",
+            headers: {accept: "application/json"},
+            params: {id_customer: id_customer}
+        }).catch(err => {
+            console.log("errore", err)
+        })
+        getDipendenti()
+    }
     const handleAddCustomer = () => setOpenAddCustomer(true)
     const handleClose = () => {
         setOpenAddCustomer(false)
@@ -30,8 +41,11 @@ export default function Clienti() {
     const columns = [
         { field: 'name', headerName: 'Nome', width: 150 },
         { field: 'actions', type: "actions", getActions: customer_row => [
-            <GridActionsCellItem icon={<EditIcon />} label="Info" 
+            <GridActionsCellItem icon={<EditIcon />} label="Info"
             onClick={() => handleDetails(customer_row.id)}
+            />,
+            <GridActionsCellItem icon={<DeleteIcon />} label="Delete"
+            onClick={() => handleDelete(customer_row.id)}
             />
         ]}
     ];
@@ -83,16 +97,18 @@ function AddCustomerDialog(props) {
     newCustomer[id] = value
   }
   const handleAdd = () => {
-    Axios(`${process.env.REACT_APP_FASTAPI_URL}/customer/create/`, {
-        method: "POST",
-        headers: {accept: "application/json", "Content-Type": "application/json"},
-        data: newCustomer
-    }).then(resp => {
-        console.log("risp = ", resp.data)
+    if (Object.keys(newCustomer).lenght !== 9)
         onClose()
-    }).catch(err => {
-        console.log("errore", err)
-    })
+    else
+        Axios(`${process.env.REACT_APP_FASTAPI_URL}/customer/create/`, {
+            method: "POST",
+            headers: {accept: "application/json", "Content-Type": "application/json"},
+            data: newCustomer
+        }).then(resp => {
+            onClose()
+        }).catch(err => {
+            console.log("errore", err)
+        })
   }
   const inputsAttrs = [
     {type: "text", id: "name", label: "Name"},
@@ -106,6 +122,7 @@ function AddCustomerDialog(props) {
     {type: "text", id: "phone", label: "Phone"}
   ]
   return (
+    <form>
     <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New customer</DialogTitle>
         <DialogContent>
@@ -113,7 +130,7 @@ function AddCustomerDialog(props) {
             Add a customer and its detail here (every field is mandatory)
           </DialogContentText>
           {inputsAttrs.map(attrs => <TextField {...attrs} autoFocus margin="dense"
-                                          fullWidth variant="standard"
+                                          fullWidth variant="standard" required
                                           onChange={e => handleChange(e)}
                                       />
           )}
@@ -122,5 +139,6 @@ function AddCustomerDialog(props) {
           <Button onClick={handleAdd}>Confirm</Button>
         </DialogActions>
     </Dialog>
+    </form>
   );
 }
