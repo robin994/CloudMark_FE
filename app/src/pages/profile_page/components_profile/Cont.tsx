@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Grid, Input, Select, Button, Box } from '@chakra-ui/react'
+import { Grid, Box } from '@chakra-ui/react'
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useState, useEffect } from "react";
@@ -18,10 +18,9 @@ interface SessionInterface {
 export default function ContProfile() {
 
     const [data, setData] = useState<SessionInterface>();
-    const [filtredData, setFiltredData] = useState<any>();
     const [hid, setHid] = useState(true);
-    const [btnMsg, setBtnMsg] = useState("Modifica");
     const [count, setCount] = useState(0);
+    const [hideUpd, setHideupd] = useState(false)
     //dati input & account
     const [nome, setNome] = useState("");
     const [cognome, setCognome] = useState("");
@@ -32,7 +31,6 @@ export default function ContProfile() {
     const [id_employee, setId_employee] = useState("");
     const [id_contractType, setId_contractType] = useState("");
     //
-    const [serverAlert, setServerAlert] = useState(true);
     const [popHide, setPopHide] = useState(true);
 
     //il problema del delay è relativo al fatto che appena la pagina carica filtredData è unefined
@@ -43,7 +41,6 @@ export default function ContProfile() {
                 `${process.env.REACT_APP_FASTAPI_URL}/employee/account/${data?.id_account}`
             )
             .then((res) => {
-                setFiltredData(res.data.data);
                 for (var x in res.data.data) {
                     setNome(res.data.data[x].first_name);
                     setCognome(res.data.data[x].last_name);
@@ -59,8 +56,8 @@ export default function ContProfile() {
                 console.log(err);
             });
     }
-
     function sendData() {
+
         axios
             .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, {
                 first_name: nome,
@@ -78,6 +75,7 @@ export default function ContProfile() {
             .catch((err) => {
                 console.log(err);
             });
+        window.location.reload()
     }
 
     function hidePop() {
@@ -86,38 +84,23 @@ export default function ContProfile() {
         } else {
             setPopHide(true);
         }
+        window.location.reload()
     }
 
     function FilterData() {
         function ChiamaUtente() {
-            if (nome !== "") {
-                setServerAlert(true);
-                if (hid === true) {
-                    setHid(false);
-                    setBtnMsg("Salva Modifiche");
-                }
-            } else {
-                setServerAlert(false);
+            if (hid === true) {
+                setHid(false);
             }
-            if (hid === false) {
-                setPopHide(false);
-            }
+            setPopHide(false);
+            setHideupd(true)
+
         }
         return (
             <>
                 <Box mt={5} py={5} px={8} borderTopWidth={1} borderColor="brand.light">
-                    <button className='btn btn-primary' onClick={ChiamaUtente}>Update</button>
+                    <button className='btn btn-primary' onClick={ChiamaUtente} hidden={hideUpd}>Update</button>
                 </Box>
-                {/* <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>
-                    {btnMsg}
-                </button> */}
-                <div
-                    className="alert alert-danger mt-3"
-                    role="alert"
-                    hidden={serverAlert}
-                >
-                    Aspetti che arrivino i dati dal server
-                </div>
             </>
         );
     }
@@ -205,20 +188,15 @@ export default function ContProfile() {
 
             <div className="moduleBelloBack" hidden={popHide}>
                 <div className="moduleBelloBody">
-                    <ul className="mb-5">
-                        <li>Nome: {nome}</li>
-                        <li>Cognome: {cognome}</li>
-                        <li>Codice Fiscale: {CF}</li>
-                        <li>Iban: {iban}</li>
-                        <li>Email: {email}</li>
-                        <li>Telefono: {tel}</li>
-                    </ul>
-                    <button className="btn btn-primary" onClick={sendData}>
-                        Manda i dati
-                    </button>
-                    <button className="btn btn-danger mx-3" onClick={hidePop}>
-                        Torna Indietro
-                    </button>
+                    <Box mt={5} py={5} px={8} borderTopWidth={1} borderColor="brand.light">
+                        <button className="btn btn-primary" onClick={sendData}>
+                            Manda i dati
+                        </button>
+
+                        <button className="btn btn-danger mx-3" onClick={hidePop}>
+                            Torna Indietro
+                        </button>
+                    </Box>
                 </div>
             </div>
 
