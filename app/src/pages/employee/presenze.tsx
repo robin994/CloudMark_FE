@@ -19,7 +19,8 @@ export default function Presenze(props: PresenzeProps) {
   async function getPresenze() {
     try {
       console.log('REQESTING PRESENCE ON DATE -->', `${props.month}/${props.year}`)
-      const response = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,{
+      const response = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,
+      {
         id_employee: sessionStorage.id_employee,
         year: props.year,
         month: props.month
@@ -35,7 +36,7 @@ export default function Presenze(props: PresenzeProps) {
 
   useEffect(()=> {
     getPresenze();
-  }, [props.year, props.month])
+  }, [props])
 
   const handleOpenIns = () => setInsMod(true);
   const handleCloseIns = () => setInsMod(false);
