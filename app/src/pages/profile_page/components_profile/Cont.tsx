@@ -1,210 +1,226 @@
-import { Grid, Box } from '@chakra-ui/react'
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useState, useEffect } from "react";
-// import { theme } from "./ContTheme";
+import "./Cont.css";
 
-
-
-interface SessionInterface {
+interface ProfileInterface {
+  employee: {
+    first_name: string;
+    last_name: string;
+    cf: string;
+    iban: string;
+    id_contractType: string;
+    email: string;
+    phoneNumber: string;
+  };
+  account: {
     id_account: string;
-    abilitate: string;
-    accountType: string;
-    accountTypeName: string;
-    accountListFunction: string;
     user: string;
+    password: string;
+    abilitato: number;
+    id_tipo_account: string;
+  };
+  id_business: string;
+  start_date: Date;
+  end_date: Date;
+  serial_num: number;
 }
 
+interface SessionInterface {
+  id_account: string;
+  abilitate: string;
+  accountType: string;
+  accountTypeName: string;
+  accountListFunction: string;
+  user: string;
+}
+
+interface tipoContratto {
+  id_contract_type: string;
+  name: string;
+  info: string;
+}
+interface BusinessInterface {
+  name: string;
+  p_iva: string;
+  address: string;
+  cap: string;
+  iban: string;
+  phone: string;
+  email: string;
+  pec: string;
+  fax: string;
+  id_business: string;
+}
 export default function ContProfile() {
+  const [profile, setProfile] = React.useState<ProfileInterface>();
+  const [tipoContratto, setTipoContratto] = React.useState<tipoContratto>();
+  const [data, setData] = useState<SessionInterface>();
+  const [business, setBusiness] = useState<BusinessInterface>();
 
-    const [data, setData] = useState<SessionInterface>();
-    const [hid, setHid] = useState(true);
-    const [count, setCount] = useState(0);
-    const [hideUpd, setHideupd] = useState(false)
-    //dati input & account
-    const [nome, setNome] = useState("");
-    const [cognome, setCognome] = useState("");
-    const [CF, setCF] = useState("");
-    const [iban, setIban] = useState("");
-    const [email, setEmail] = useState("");
-    const [tel, setTel] = useState("");
-    const [id_employee, setId_employee] = useState("");
-    const [id_contractType, setId_contractType] = useState("");
-    //
-    const [popHide, setPopHide] = useState(true);
+  useEffect(() => {
+    loadProfileData();
+  }, []);
 
-    //il problema del delay è relativo al fatto che appena la pagina carica filtredData è unefined
-    function getAccount() {
-        console.log(data?.id_account);
-        axios
-            .get(
-                `${process.env.REACT_APP_FASTAPI_URL}/employee/account/${data?.id_account}`
-            )
-            .then((res) => {
-                for (var x in res.data.data) {
-                    setNome(res.data.data[x].first_name);
-                    setCognome(res.data.data[x].last_name);
-                    setCF(res.data.data[x].cf);
-                    setIban(res.data.data[x].iban);
-                    setEmail(res.data.data[x].email);
-                    setTel(res.data.data[x].phoneNumber);
-                    setId_employee(res.data.data[x].id_employee);
-                    setId_contractType(res.data.data[x].id_contractType);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-    function sendData() {
+  function loadProfileData() {
+    let account: SessionInterface = jwt_decode(sessionStorage.bearer);
+    axios
+      .get(
+        `${process.env.REACT_APP_FASTAPI_URL}/employee/account/${account.id_account}`
+      )
+      .then((res) => {
+        let profile: ProfileInterface = res.data.data;
+        loadTypeContract(profile.employee.id_contractType);
+        loadBusiness(profile.id_business);
+        setProfile(res.data.data);
+      });
+  }
 
-        axios
-            .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, {
-                first_name: nome,
-                last_name: cognome,
-                cf: CF,
-                iban: iban,
-                id_contractType: id_contractType,
-                email: email,
-                phoneNumber: tel,
-                id_employee: id_employee,
-            })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        window.location.reload()
-    }
+  async function loadTypeContract(id_contractType: string) {
+    axios
+      .post(
+        `${process.env.REACT_APP_FASTAPI_URL}/type/contract/${id_contractType}`
+      )
+      .then((res) => {
+        setTipoContratto(res.data.data);
+      });
+  }
 
-    function hidePop() {
-        if (popHide === true) {
-            setPopHide(false);
-        } else {
-            setPopHide(true);
-        }
-        window.location.reload()
-    }
+  function loadBusiness(id_business: string) {
+    axios
+      .get(`${process.env.REACT_APP_FASTAPI_URL}/business/${id_business}`)
+      .then((res) => {
+        setBusiness(res.data.data);
+      });
+  }
 
-    function FilterData() {
-        function ChiamaUtente() {
-            if (hid === true) {
-                setHid(false);
-            }
-            setPopHide(false);
-            setHideupd(true)
+  function sendData() {}
 
-        }
-        return (
-            <>
-                <Box mt={5} py={5} px={8} borderTopWidth={1} borderColor="brand.light">
-                    <button className='btn btn-primary' onClick={ChiamaUtente} hidden={hideUpd}>Update</button>
-                </Box>
-            </>
-        );
-    }
-
-    useEffect(() => {
-        setData(jwt_decode(sessionStorage.bearer));
-
-        if (data !== undefined) {
-            getAccount();
-        } else {
-            setCount(count + 1);
-        }
-    }, [count]);
-
-
-    return (
-        <>
-            <div>
-                <div className='row'>
-                    <div className="mb-3 col-6">
-                        <div className='d-flex'>
-                        <input 
-                            className='form-control'
-                            id='name'
-                            type="text"
-                            value={nome}
-                            onChange={(val) => setNome(val.target.value)}
-                            disabled={hid}
-                            required 
-                        />
-                        </div>
-                    </div>
-                    <div className="mb-3 col-6">
-                        <input
-                            className='form-control'
-                            type="text"
-                            value={cognome}
-                            onChange={(val) => setCognome(val.target.value)}
-                            disabled={hid}
-                            required />
-                    </div>
-                </div>
-                
-                <div className="mb-3">
-                <input
-                    className='form-control'
-                    type="text"
-                    value={CF}
-                    onChange={(val) => setCF(val.target.value)}
-                    disabled={hid}
-                    required />
-                </div>
-                <div className="mb-3">
-                <input 
-                    className='form-control'
-                    type="text"
-                    value={iban}
-                    onChange={(val) => setIban(val.target.value)}
-                    disabled={hid}
-                    required />
-                </div>
-
-                <div className='mb-3'>
-                <input
-                    className='form-control'
-                    type="email"
-                    value={email}
-                    onChange={(val) => setEmail(val.target.value)}
-                    disabled={hid}
-                    required
-                    />
-                </div>
-
-                <div className='mb-3'>
-                    <input
-                        className='form-control'
-                        type="tel"
-                        value={tel}
-                        onChange={(val) => setTel(val.target.value)}
-                        disabled={hid}
-                        required
-                        />
-                </div>
+  return (
+    <div className="container rounded bg-white mt-5 mb-5">
+      <div className="row">
+        <div className="col-md-3 border-right">
+          <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+            <img
+              className="rounded-circle mt-5"
+              width="150px"
+              src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+            />
+            <span className="font-weight-bold">
+              {profile?.employee.first_name} {profile?.employee.last_name}
+            </span>
+            <span className="text-black-50">{profile?.employee.email}</span>
+            <span className="text-black-50">{tipoContratto?.name}</span>
+            <span className="text-black-50">{business?.name}</span>
+          </div>
+        </div>
+        <div className="col-md-5 border-right">
+          <div className="p-3 py-5">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h4 className="text-right">Impostazioni profilo</h4>
             </div>
-
-            <div className="moduleBelloBack" hidden={popHide}>
-                <div className="moduleBelloBody">
-                    <Box mt={5} py={5} px={8} borderTopWidth={1} borderColor="brand.light">
-                        <button className="btn btn-primary" onClick={sendData}>
-                            Manda i dati
-                        </button>
-
-                        <button className="btn btn-danger mx-3" onClick={hidePop}>
-                            Torna Indietro
-                        </button>
-                    </Box>
-                </div>
+            <div className="row mt-2">
+              <div className="col-md-6">
+                <label className="labels">Nome</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="first name"
+                  value={profile?.employee.first_name}
+                />
+              </div>
+              <div className="col-md-6">
+                <label className="labels">Cognome</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={profile?.employee.last_name}
+                  placeholder="surname"
+                />
+              </div>
             </div>
-
-            <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
-                gap={6}>
-
-            </Grid>
-            {<FilterData />}
-        </>
-    )
+            <div className="row mt-3">
+              <div className="col-md-12">
+                <label className="labels">Telefono</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="enter phone number"
+                  value={profile?.employee.phoneNumber}
+                />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Codice Fisacle</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="enter phone number"
+                  value={profile?.employee.cf}
+                />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Email ID</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="enter email id"
+                  value={profile?.employee.email}
+                />
+              </div>
+              <div className="col-md-12">
+                <label className="labels">Iban</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="enter email id"
+                  value={profile?.employee.iban}
+                />
+              </div>
+            </div>
+            <div className="mt-5 text-center">
+              <button className="btn btn-primary profile-button" type="button">
+                Save Profile
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4">
+          <div className="p-3 py-5">
+            <div className="d-flex justify-content-between align-items-center experience">
+              <span>Account</span>
+            </div>
+            <br />
+            <div className="col-md-12">
+              <label className="labels">User</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="experience"
+                value={profile?.account.user}
+              />
+            </div>{" "}
+            <br />
+            <div className="col-md-12">
+              <label className="labels">Nuova Password</label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Nuova Password"
+                value=""
+              />
+            </div>
+            <div className="col-md-12">
+              <label className="labels">Conferma Password</label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Conferma Password"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
