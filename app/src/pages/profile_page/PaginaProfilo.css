@@ -1,4 +1,4 @@
-.flexBello{
+/* .flexBello{
     display: flex;
     justify-content: center;
 }
@@ -11,10 +11,10 @@
     align-items:center;
     padding: 5vh;
 }
-
+*/
 .top_img{
     width: 14vh;
-    border: 0.3vh solid black; 
+    box-shadow: 1px 1px 4px #000;
     height: 14vh;
     border-radius: 50%;
     overflow: hidden;
@@ -24,6 +24,7 @@
     display: block;
     width: 100%;
 }
+/*
 .rowBello{
     display: grid;
     grid-template-columns: 1fr;
@@ -68,4 +69,4 @@
     .first_box{
         display: block;
     }
-}
+} */
