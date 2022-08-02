@@ -5,10 +5,12 @@ import Presenze from "./presenze"
 import CalendarMY from "./calender"
 import { useState, useEffect } from "react"
 import Calendar from "react-calendar"
+import PresenceTable from "./components/PresenceTable"
 
 import Card from 'react-bootstrap/Card';
 import 'react-calendar/dist/Calendar.css';
 import './styles/calendar.css';
+import './styles/dashboard.css';
 
 export default function Dashboard() {
   const [date, setDate] = useState(new Date());
@@ -16,11 +18,9 @@ export default function Dashboard() {
   console.log('DASHBOARD RENDER !!', date)
 
   const presenzeWidget = (
-    <Presenze
-      id_employee={sessionStorage.id_employee} 
-        year={date.getFullYear().toString()}
-        month={(date.getMonth() + 1).toString()}
-    />
+    <PresenceTable 
+      year={date.getFullYear().toString()} 
+      month={(date.getMonth() + 1).toString()}/>
   )
   
   const getDate = (month: any,year:any)=>{
@@ -43,15 +43,15 @@ export default function Dashboard() {
   return (
     <>
       <Container fluid>
-        <Row>
-        <Col xs={9}>
-          {presenzeWidget}
-        </Col>
-        <Col xs={3}>
-          {calendarWidget}
-          {commesseWidget}
-        </Col>
-        </Row>
+          <div className ='calendario'>
+            {calendarWidget}
+          </div>
+          <div className='presenze'>
+            {presenzeWidget}
+          </div>
+          <div className='commesse'>
+            {commesseWidget}
+          </div>
       </Container>
     </>
   )

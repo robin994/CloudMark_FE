@@ -1,12 +1,9 @@
-import AddIcon from "@mui/icons-material/Add";
 import CancelIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
-import { Backdrop, Fade, Typography } from "@mui/material";
+import { Button, Fade, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
 import {
   DataGrid,
   GridActionsCellItem,
@@ -18,41 +15,12 @@ import {
   GridRowModesModel,
   GridRowParams,
   GridRowsProp,
-  GridToolbarContainer,
   MuiEvent,
 } from "@mui/x-data-grid";
-import { randomId } from "@mui/x-data-grid-generator";
 import axios from "axios";
 import * as React from "react";
 import "./css_components/TabellaPresenze.css";
-
-interface EditToolbarProps {
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-  setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-  ) => void;
-}
-
-function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
-    }));
-  };
-
-  return (
-    <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
-      </Button>
-    </GridToolbarContainer>
-  );
-}
+import EditToolbar from "../EditToolbar";
 
 const initialRows: GridRowsProp = [];
 
@@ -74,12 +42,12 @@ export default function FullFeaturedCrudGrid() {
           res.data.data?.map((el: any) => {
             return {
               date_presence: el["date_presence"],
-              first_name: el["first_name"],
+              first_name: el["first_name"].charAt(0).toUpperCase() + el["first_name"].slice(1),
               hours: el["hours"],
               id: el["id_presence"],
               id_employee: el["id_employee"],
               id_order: el["id_order"],
-              last_name: el["last_name"],
+              last_name: el["last_name"].charAt(0).toUpperCase() + el["last_name"].slice(1),
               nome_azienda: el["id_business"],
               tipoPresenza: el["id_type_presence"],
             };
@@ -141,10 +109,10 @@ export default function FullFeaturedCrudGrid() {
   const handleDeleteClick = () => () => {
     let id: GridRowId = "";
     let id_employee = "";
-    if (IDRowToDelete != undefined) {
+    if (IDRowToDelete !== undefined) {
       id = IDRowToDelete;
       for (let row of rows) {
-        if (row["id"] == id) {
+        if (row["id"] === id) {
           id_employee = row["id_employee"];
         }
       }
@@ -198,8 +166,6 @@ export default function FullFeaturedCrudGrid() {
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
-
-  let id = 0;
 
   const columns: GridColumns = [
     {
@@ -343,12 +309,10 @@ export default function FullFeaturedCrudGrid() {
 
   const [open, setOpen] = React.useState<any>(false);
   const [IDRowToDelete, setIDRowToDelete] = React.useState<GridRowId>();
-  const [del, setDel] = React.useState<any>(false);
   const handleOpen = (id: GridRowId) => {
     setOpen(true);
     setIDRowToDelete(id);
   };
-  const handleClose = () => setOpen(false);
 
   return (
     <Box
@@ -375,7 +339,7 @@ export default function FullFeaturedCrudGrid() {
           Toolbar: EditToolbar,
         }}
         componentsProps={{
-          toolbar: { setRows, setRowModesModel },
+          toolbar: { setRows, setRowModesModel, rows, tipiPresenza },
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
