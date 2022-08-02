@@ -1,8 +1,8 @@
 import { FormControl, FormLabel, Grid, Input, Select, Button, Box } from '@chakra-ui/react'
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import React, { useState, useEffect } from "react"
-import { theme } from "./ContTheme"
+import React, { useState, useEffect } from "react";
+// import { theme } from "./ContTheme";
 
 
 
@@ -15,10 +15,7 @@ interface SessionInterface {
     user: string;
 }
 
-
 export default function ContProfile() {
-
-    console.log(theme)
 
     const [data, setData] = useState<SessionInterface>();
     const [filtredData, setFiltredData] = useState<any>();
@@ -109,7 +106,7 @@ export default function ContProfile() {
         return (
             <>
                 <Box mt={5} py={5} px={8} borderTopWidth={1} borderColor="brand.light">
-                    <Button onClick={ChiamaUtente}>Update</Button>
+                    <button className='btn btn-primary' onClick={ChiamaUtente}>Update</button>
                 </Box>
                 {/* <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>
                     {btnMsg}
@@ -136,95 +133,100 @@ export default function ContProfile() {
     }, [count]);
 
 
-    return (<>
-        <div className="moduleBelloBack" hidden={popHide}>
-            <div className="moduleBelloBody">
-                <ul className="mb-5">
-                    <li>Nome: {nome}</li>
-                    <li>Cognome: {cognome}</li>
-                    <li>Codice Fiscale: {CF}</li>
-                    <li>Iban: {iban}</li>
-                    <li>Email: {email}</li>
-                    <li>Telefono: {tel}</li>
-                </ul>
-                <button className="btn btn-primary" onClick={sendData}>
-                    Manda i dati
-                </button>
-                <button className="btn btn-danger mx-3" onClick={hidePop}>
-                    Torna Indietro
-                </button>
-            </div>
-        </div>
-
-        <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
-            gap={6}>
-
-            <FormControl>
-                <FormLabel>Nome</FormLabel>
-                <Input focusBorderColor="brand.blue"
-                    type="text"
-                    value={nome}
-                    onChange={(val) => setNome(val.target.value)}
-                    disabled={hid}
-                    required />
-            </FormControl>
-
-            <FormControl >
-                <FormLabel>Cognome</FormLabel>
-                <Input focusBorderColor="brand.blue"
-                    type="text"
-                    value={cognome}
-                    onChange={(val) => setCognome(val.target.value)}
-                    disabled={hid}
-                    required />
-            </FormControl>
-
-            <FormControl>
-                <FormLabel>Codice Fiscale</FormLabel>
-                <Input focusBorderColor="brand.blue"
+    return (
+        <>
+            <div>
+                <div className='row'>
+                    <div className="mb-3 col-6">
+                        <div className='d-flex'>
+                        <input 
+                            className='form-control'
+                            id='name'
+                            type="text"
+                            value={nome}
+                            onChange={(val) => setNome(val.target.value)}
+                            disabled={hid}
+                            required 
+                        />
+                        </div>
+                    </div>
+                    <div className="mb-3 col-6">
+                        <input
+                            className='form-control'
+                            type="text"
+                            value={cognome}
+                            onChange={(val) => setCognome(val.target.value)}
+                            disabled={hid}
+                            required />
+                    </div>
+                </div>
+                
+                <div className="mb-3">
+                <input
+                    className='form-control'
                     type="text"
                     value={CF}
                     onChange={(val) => setCF(val.target.value)}
                     disabled={hid}
                     required />
-            </FormControl>
-
-            <FormControl>
-                <FormLabel>Iban</FormLabel>
-                <Input focusBorderColor="brand.blue"
+                </div>
+                <div className="mb-3">
+                <input 
+                    className='form-control'
                     type="text"
                     value={iban}
                     onChange={(val) => setIban(val.target.value)}
                     disabled={hid}
                     required />
-            </FormControl>
+                </div>
 
-            <FormControl>
-                <FormLabel>Email</FormLabel>
-                <Input
-                    focusBorderColor="brand.blue"
+                <div className='mb-3'>
+                <input
+                    className='form-control'
                     type="email"
                     value={email}
                     onChange={(val) => setEmail(val.target.value)}
                     disabled={hid}
                     required
-                />
-            </FormControl>
+                    />
+                </div>
 
-            <FormControl>
-                <FormLabel>Telefono</FormLabel>
-                <Input
-                    focusBorderColor="brand.blue"
-                    type="tel"
-                    value={tel}
-                    onChange={(val) => setTel(val.target.value)}
-                    disabled={hid}
-                    required
-                />
-            </FormControl>
+                <div className='mb-3'>
+                    <input
+                        className='form-control'
+                        type="tel"
+                        value={tel}
+                        onChange={(val) => setTel(val.target.value)}
+                        disabled={hid}
+                        required
+                        />
+                </div>
+            </div>
 
-        </Grid>
-        {<FilterData />}
+            <div className="moduleBelloBack" hidden={popHide}>
+                <div className="moduleBelloBody">
+                    <ul className="mb-5">
+                        <li>Nome: {nome}</li>
+                        <li>Cognome: {cognome}</li>
+                        <li>Codice Fiscale: {CF}</li>
+                        <li>Iban: {iban}</li>
+                        <li>Email: {email}</li>
+                        <li>Telefono: {tel}</li>
+                    </ul>
+                    <button className="btn btn-primary" onClick={sendData}>
+                        Manda i dati
+                    </button>
+                    <button className="btn btn-danger mx-3" onClick={hidePop}>
+                        Torna Indietro
+                    </button>
+                </div>
+            </div>
 
-    </>)
+            <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
+                gap={6}>
+
+            </Grid>
+            {<FilterData />}
+        </>
+    )
 }
