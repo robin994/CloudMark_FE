@@ -399,6 +399,7 @@ export default function FullFeaturedCrudGrid() {
                   SI
                 </Button>
                 <Button
+                  onClick={() => setOpen(false)}
                   style={{ margin: "10px", height: "40px", width: "90px" }}
                   variant="outlined"
                 >
