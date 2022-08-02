@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import React from "react";
 import { Modal } from "react-bootstrap";
-import Select, { components, NoticeProps } from "react-select";
+import Select from "react-select";
 
 interface EditToolbarProps {
   tipiPresenza: [];
@@ -23,6 +23,7 @@ function EditToolbar(props: EditToolbarProps) {
   const { setRows, rows, tipiPresenza } = props;
   const [show, setShow] = React.useState(false);
   const [idEmployee, setIdEmployee] = React.useState("");
+  const [employee, setEmployee] = React.useState([])
   const [datePresence, setDatePresence] = React.useState(
     new Date().toDateString()
   );
@@ -31,8 +32,21 @@ function EditToolbar(props: EditToolbarProps) {
   const [hours, setHours] = React.useState("");
   const handleClose = () => setShow(false);
   let handleShow = () => {
+    getEmployees()
+    console.log(employee)
     setShow(true);
   };
+  
+    function getEmployees() {
+    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`).then((res) => {
+      let arr: any = [];
+      Object.values(res.data.data).forEach((el: any) => {
+        arr.push({ value : el.id_employee, label : `${el.first_name.charAt(0).toUpperCase() + el.first_name.slice(1)} ${el.last_name.charAt(0).toUpperCase() + el.last_name.slice(1)}`});
+        console.log(arr)
+      });
+      setEmployee(arr);
+    });
+  }
 
   function createPresence() {
     handleClose();
@@ -81,7 +95,16 @@ function EditToolbar(props: EditToolbarProps) {
           <Modal.Title>Aggiungi Presenza</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <input
+        <Select
+            hideSelectedOptions={false}
+            placeholder="Seleziona Dipendente"
+            isSearchable
+            onChange={(e: any) => {
+              setIdEmployee(e.value);
+            }}
+            options={employee}
+          />
+          {/* <input
             name="id"
             value={idEmployee}
             onChange={(e) => setIdEmployee(e.target.value)}
@@ -90,7 +113,7 @@ function EditToolbar(props: EditToolbarProps) {
             className="form-control"
             placeholder="id dipendente"
             style={{ marginTop: "1vh" }}
-          ></input>
+          ></input> */}
           <input
             value={datePresence}
             onChange={(e) => setDatePresence(e.target.value)}
@@ -103,7 +126,6 @@ function EditToolbar(props: EditToolbarProps) {
           <Select
             hideSelectedOptions={false}
             placeholder="Seleziona Tipo Presenza"
-            isClearable={true}
             isSearchable
             onChange={(e: any) => {
               setIdTipoPresenza(e.value);
