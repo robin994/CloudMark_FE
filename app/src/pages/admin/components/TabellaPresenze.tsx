@@ -5,8 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { Backdrop, Fade, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
+import { Button, Modal } from "react-bootstrap";
 import {
   DataGrid,
   GridActionsCellItem,
@@ -35,6 +34,14 @@ interface EditToolbarProps {
 
 function EditToolbar(props: EditToolbarProps) {
   const { setRows, setRowModesModel } = props;
+  const [show, setShow] = React.useState(false);
+  const [idEmployee, setIdEmployee] = React.useState("");
+  const [datePresence, setDatePresence] = React.useState(new Date().toDateString());
+  const [idTipoPresenza, setIdTipoPresenza] = React.useState("");
+  const [idOrder, setIdOrder] = React.useState("");
+  const [hours, setHours] = React.useState("");
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleClick = () => {
     const id = randomId();
@@ -44,14 +51,93 @@ function EditToolbar(props: EditToolbarProps) {
       [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
     }));
   };
-
+  function createPresence() {
+    axios
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/presence/create/`, {
+        id_employee: idEmployee,
+        date_presence: datePresence,
+        id_tipoPresenza: idTipoPresenza,
+        id_order: idOrder,
+        hours: hours,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
   return (
     <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
-      </Button>
-    </GridToolbarContainer>
-  );
+    <Button
+       onClick={handleShow}
+       style={{ marginTop: "2vh", marginLeft: "10px" }}
+     >
+       + Aggiungi Presenza
+     </Button>
+     <Modal show={show} onHide={handleClose}>
+       <Modal.Header closeButton>
+         <Modal.Title>Aggiungi Presenza</Modal.Title>
+       </Modal.Header>
+       <Modal.Body>
+         <input
+           name="id"
+           value={idEmployee}
+           onChange={(e) =>setIdEmployee(e.target.value)}
+           id="id_dipendente"
+           type="text"
+           className="form-control"
+           placeholder="id dipendente"
+           style={{ marginTop: "1vh" }}
+         ></input>
+         <input
+           value={datePresence}
+           onChange={(e) =>setDatePresence(e.target.value)}
+           id="dataPresenza"
+           type="date"
+           className="form-control"
+           placeholder="data presenza"
+           style={{ marginTop: "1vh" }}
+         ></input>
+         <input
+           value={idTipoPresenza}
+           onChange={(e) => setIdTipoPresenza(e.target.value)}
+           id="idTipoPresenza"
+           className="form-control"
+           type="text"
+           placeholder="Id Tipo Presenza"
+           style={{ marginTop: "1vh" }}
+         ></input>
+         <input
+           value={idOrder}
+           onChange={(e) => setIdOrder(e.target.value)}
+           id="idCommessa"
+           className="form-control"
+           type="text"
+           placeholder="Id Commessa"
+           style={{ marginTop: "1vh" }}
+         ></input>
+         <input
+           value={hours}
+           onChange={(e) => setHours(e.target.value)}
+           id="hours"
+           className="form-control"
+           type="number"
+           placeholder="Ore"
+           style={{ marginTop: "1vh" }}
+         ></input>
+       </Modal.Body>
+       <Modal.Footer>
+         <Button variant="success" type="submit" onClick={createPresence}>
+           Conferma
+         </Button>
+         <Button variant="danger" onClick={handleClose}>
+           Annulla
+         </Button>
+       </Modal.Footer>
+     </Modal>
+ </GridToolbarContainer>
+);
 }
 
 const initialRows: GridRowsProp = [];
