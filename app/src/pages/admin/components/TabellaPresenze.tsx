@@ -73,8 +73,9 @@ function EditToolbar(props: EditToolbarProps) {
     <GridToolbarContainer>
       <Button
         onClick={handleShow}
+        style={{height: '29.33px'}}
       >
-        <span style={{fontSize:'30px',marginRight:'5px'}}>+</span>Aggiungi
+        <span style={{fontSize:'30px', marginRight:'5px'}}>+</span>Aggiungi
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
