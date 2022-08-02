@@ -1,11 +1,11 @@
-import axios from 'axios'
-import { useState, useEffect } from 'react'
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { 
     DataGrid, 
     GridActionsCellItem, 
-    GridColDef, 
     GridColumns, 
     GridRowId, 
+    GridRowModel, 
     GridRowModes, 
     GridRowModesModel, 
     GridRowParams, 
@@ -37,6 +37,8 @@ const types: { [key: string]: string } = {
 }
 
 const PresenceTable = (props:any)=> {
+    const [id_account, setIdAccount] = useState(sessionStorage.id_account);
+    const [id_employee, setIdEmployee] = useState('');
     const initialState: GridRowsProp = [];
     const [presenze, setPresenze] = useState([]);
     const [open, setOpen] = useState<any>(false);
@@ -63,9 +65,12 @@ const PresenceTable = (props:any)=> {
         },
         {   field: 'type',
             headerName: 'Tipo Presenza',
-            type: 'string',
+            type: 'singleSelect',
             width: 279,
             editable: true,
+            valueOptions: Object.keys(types).map((element)=> {
+                return { label: element, value: types[element] }
+            }),
             align: 'right',
             headerAlign: 'right'
         },
@@ -113,7 +118,7 @@ const PresenceTable = (props:any)=> {
           }
     ]
 
-    async function getPresenze() {
+    async function getRows() {
         try {
         const response = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,{
             id_employee: sessionStorage.id_employee,
@@ -123,11 +128,11 @@ const PresenceTable = (props:any)=> {
         { 
             headers: {accept: "application/json", "Content-Type": "application/json" }
         })
-        console.log('PresenceTable --> AXIOS RESPONSE [data]: ', response.data.data)
-        setPresenze(response.data.data.map((e: any)=> {
+        console.log('PresenceTable ----> AXIOS RESPONSE [data]: ', response.data.data)
+        setRowsBuffer(response.data.data.map((e: any)=> {
                 e['id'] = e['id_presence']
                 e['type'] = types[e['id_tipoPresenza']]
-                console.log('PresenceTable --> PARSED RESPONSE: ', [e])
+                console.log('PresenceTable ----> PARSED RESPONSE: ', [e])
                 return e
             }
         ))} catch(error) {
@@ -135,14 +140,32 @@ const PresenceTable = (props:any)=> {
         }
     }
 
+    function getIdAccount() {
+        setIdAccount(sessionStorage.id_account);
+    }
+
+    async function getIdEmployee() {
+        try {
+            const res = await axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/account/${id_account}`,)
+            console.log('FETCHED ACCOUNT ID: ', id_account)
+            console.log('FETCHED EMPLOYEE ID: ', Object.keys(res.data.data))
+            setIdEmployee(Object.keys(res.data)[0])
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     useEffect(()=> {
-        getPresenze();
+        getRows();
+        getIdAccount();
+        getIdEmployee();
       }, [])
 
     // Handlers ----------------------------------------------------------------------------|
     const handleAdd =() => {
         const id = randomId();
-        setRowsBuffer((rowsBuffer) => [...rowsBuffer, { id, name: "", age: "", isNew: true }]);
+        setRowsBuffer((rowsBuffer) => [...rowsBuffer, { id, date_presence: "", hours: "", type: "", isNew: true }]);
+        handleEditClick(id);
         setRowsMode((rowsMode) => ({
             ...rowsMode,
             [id]: { mode: GridRowModes.Edit, fieldToFocus: "hours" },
@@ -188,6 +211,48 @@ const PresenceTable = (props:any)=> {
         setIDRowToDelete(id);
     };
     
+    const processRowUpdate = (newRow: GridRowModel) => {
+        console.log([newRow])
+        newRow.isNew && createPresence(newRow);
+        const updatedRow = { ...newRow, isNew: false };
+        
+        axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/insertUpdate`, 
+            {
+                id_presence: updatedRow.id,
+                id_employee: updatedRow.id_employee,
+                date_presence: updatedRow.date_presence.toISOString().split("T")[0],
+                id_tipoPresenza: updatedRow.tipoPresenza,
+                id_order: updatedRow.nome_azienda,
+                hours: updatedRow.hours,
+            })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    
+        setRowsBuffer(rowsBuffer.map((row) => (row.id === newRow.id ? updatedRow : row)));
+        return updatedRow;
+    };
+
+    async function createPresence(newRow: GridRowModel) {
+        console.log('NEWROW',[newRow])
+        try {
+            const res = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/create/`,
+                {
+                    id_employee: id_employee,
+                    date_presence: newRow.date_presence,
+                    id_tipoPresenza: newRow.idTipoPresenza,
+                    id_order: newRow.idOrder,
+                    hours: newRow.hours,
+                });
+            console.log("CREATION REQUEST RESPONSE: ---->", res)
+            getRows();
+        } catch(err) {
+            console.log(err);
+        }
+    }
 
     const CustomToolbar = ()=> {
         return(
@@ -220,11 +285,13 @@ const PresenceTable = (props:any)=> {
                 editMode='row'
                 rowModesModel={rowsMode}
                 onRowEditStart={handleRowEditStart}
+                processRowUpdate={processRowUpdate}
                 rowsPerPageOptions={[20]}
                 checkboxSelection
                 components={{
                     Toolbar: CustomToolbar
                 }}
+                experimentalFeatures={{ newEditingApi: true }}
     /*             editable={{
                     onRowAdd: (),
                     onRowEdit: (),
