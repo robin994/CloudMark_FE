@@ -39,6 +39,7 @@ const types: { [key: string]: string } = {
 const PresenceTable = (props:any)=> {
     const [id_account, setIdAccount] = useState(sessionStorage.id_account);
     const [id_employee, setIdEmployee] = useState('');
+    const [orders, setOrders] = useState([]);
     const initialState: GridRowsProp = [];
     const [presenze, setPresenze] = useState([]);
     const [open, setOpen] = useState<any>(false);
@@ -73,6 +74,21 @@ const PresenceTable = (props:any)=> {
             }),
             align: 'right',
             headerAlign: 'right'
+        },
+        {   field: 'order',
+        headerName: 'Commessa',
+        type: 'singleSelect',
+        width: 279,
+        editable: true,
+        valueOptions: Object.values(orders).map((element)=> {
+            console.log('ELEMEMEEMEM', element)
+            return { 
+                    label: element[`id_order`], 
+                    value: element[`id_order`]
+                }
+        }),
+        align: 'right',
+        headerAlign: 'right'
         },
         {
             field: "actions",
@@ -118,47 +134,63 @@ const PresenceTable = (props:any)=> {
           }
     ]
 
+    // Getters ----------------------------------------------------------------------------|
     async function getRows() {
         try {
-        const response = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,{
+        const resp = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/load`,{
             id_employee: sessionStorage.id_employee,
             year: props.year,
             month: props.month
         }, 
         { 
             headers: {accept: "application/json", "Content-Type": "application/json" }
-        })
-        console.log('PresenceTable ----> AXIOS RESPONSE [data]: ', response.data.data)
-        setRowsBuffer(response.data.data.map((e: any)=> {
-                e['id'] = e['id_presence']
-                e['type'] = types[e['id_tipoPresenza']]
-                console.log('PresenceTable ----> PARSED RESPONSE: ', [e])
-                return e
-            }
-        ))} catch(error) {
+        });
+            console.log('PresenceTable ----> AXIOS RESPONSE [data]: ', resp.data.data)
+            setRowsBuffer(resp.data.data.map((e: any)=> {
+                    e['id'] = e['id_presence']
+                    e['type'] = types[e['id_tipoPresenza']]
+                    console.log('PresenceTable ----> PARSED resp: ', [e])
+                    return e
+                }
+            ));
+        } catch(error) {
             throw error
         }
     }
 
-    function getIdAccount() {
-        setIdAccount(sessionStorage.id_account);
+    async function getOrders() {
+        console.log('ID EMPLOYE IN GETORDERS: ',id_employee)
+        console.log(`${process.env.REACT_APP_FASTAPI_URL}/orders/employee/${id_employee}`)
+        try{
+            const resp = await axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders/employee/${id_employee}`)
+            console.log('ORDERS FETCHED: ', Object.values(resp.data.data))
+            setOrders(Object.values(resp.data.data))
+        } catch(err) {
+            console.log(err)
+        }
     }
 
-    async function getIdEmployee() {
+    // Initializing base data on first render
+    async function initDataFetch() {
         try {
-            const res = await axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/account/${id_account}`,)
-            console.log('FETCHED ACCOUNT ID: ', id_account)
-            console.log('FETCHED EMPLOYEE ID: ', Object.keys(res.data.data))
-            setIdEmployee(Object.keys(res.data)[0])
+            console.log('STORED ACCOUNT ID: ', id_account)
+            // Fetches id_employee by its id_account
+            const resp0 = await axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/account/${id_account}`,)
+            console.log('FETCHED EMPLOYEE ID: ', resp0.data.data.employee.id_employee)
+            setIdEmployee(resp0.data.data.employee.id_employee)
+
+            // Once id_employee is fetched, fetch its orders
+            const resp1 = await axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders/employee/${id_employee}`)
+            console.log('FETCHED ORDERS ARRAY: ', Object.values(resp1.data.data))
+            setOrders(Object.values(resp1.data.data))
         } catch(err) {
             console.log(err);
         }
     }
 
     useEffect(()=> {
+        initDataFetch();
         getRows();
-        getIdAccount();
-        getIdEmployee();
       }, [])
 
     // Handlers ----------------------------------------------------------------------------|
@@ -239,12 +271,12 @@ const PresenceTable = (props:any)=> {
     async function createPresence(newRow: GridRowModel) {
         console.log('NEWROW',[newRow])
         try {
-            const res = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/create/`,
+            const res = await axios.post(`${process.env.REACT_APP_FASTAPI_URL}/presence/inserPresences`,
                 {
                     id_employee: id_employee,
                     date_presence: newRow.date_presence,
                     id_tipoPresenza: newRow.idTipoPresenza,
-                    id_order: newRow.idOrder,
+                    id_order: newRow.id_order,
                     hours: newRow.hours,
                 });
             console.log("CREATION REQUEST RESPONSE: ---->", res)
@@ -281,7 +313,7 @@ const PresenceTable = (props:any)=> {
                 // loading
                 rows={rowsBuffer}
                 columns={heading}
-                pageSize={5}
+                pageSize={32}
                 editMode='row'
                 rowModesModel={rowsMode}
                 onRowEditStart={handleRowEditStart}
