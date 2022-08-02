@@ -1,25 +1,38 @@
 import Container from "react-bootstrap/Container"
 import{ Row, Col } from "react-bootstrap"
-// import MyCalendar from "./myCalendar"
 import Commesse from "./commesse"
 import Presenze from "./presenze"
 import CalendarMY from "./calender"
 import { useState, useEffect } from "react"
 import Calendar from "react-calendar"
 
+import Card from 'react-bootstrap/Card';
+import 'react-calendar/dist/Calendar.css';
+import './styles/calendar.css';
+
 export default function Dashboard() {
   const [date, setDate] = useState(new Date());
 
+  console.log('DASHBOARD RENDER !!', date)
+
   const presenzeWidget = (
-    <Presenze id_employee={sessionStorage.id_employee} year='2022' month='01'/>
+    <Presenze
+      id_employee={sessionStorage.id_employee} 
+        year={date.getFullYear().toString()}
+        month={(date.getMonth() + 1).toString()}
+    />
   )
+  
   const getDate = (month: any,year:any)=>{
     console.log(`month:${month+1} year : ${year}`)
   }
 
   const calendarWidget = (
-    <CalendarMY 
-    callbackData = {getDate}
+    <Calendar
+      className={'calendar'}
+      value={date}
+      onChange={setDate}
+      maxDetail='year'
     />
   )
 
@@ -35,13 +48,7 @@ export default function Dashboard() {
           {presenzeWidget}
         </Col>
         <Col xs={3}>
-        <Calendar
-          className={'calendar'}
-          value={date}
-          onChange={setDate}
-          maxDetail='year'
-        />
-          {/* {calendarWidget} */}
+          {calendarWidget}
           {commesseWidget}
         </Col>
         </Row>

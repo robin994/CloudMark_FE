@@ -48,7 +48,7 @@ export default function CardCommessa(props:CardCommessaProps) {
     }
 
     return (
-        <Card style={{ width: '100', textAlign: 'center', height: '60%' }}>
+        <Card style={{textAlign: 'center'}}>
             <Container className='containerHeight'>
                 <Card.Header>
                     <Card.Title>Commessa</Card.Title>
