@@ -18,9 +18,10 @@ import {
   GridRowParams,
   GridRowsProp,
   GridToolbarContainer,
+  GridToolbarExport,
   MuiEvent,
 } from "@mui/x-data-grid";
-import { randomId } from "@mui/x-data-grid-generator";
+import { randomId, useDemoData } from "@mui/x-data-grid-generator";
 import axios from "axios";
 import * as React from "react";
 import "./css_components/TabellaPresenze.css";
@@ -66,78 +67,79 @@ function EditToolbar(props: EditToolbarProps) {
       .catch((err) => {
         console.log(err);
       });
-    }
+  }
   return (
     <GridToolbarContainer>
-    <Button
-       onClick={handleShow}
-       style={{ marginTop: "2vh", marginLeft: "10px" }}
-     >
-       + Aggiungi Presenza
-     </Button>
-     <Modal show={show} onHide={handleClose}>
-       <Modal.Header closeButton>
-         <Modal.Title>Aggiungi Presenza</Modal.Title>
-       </Modal.Header>
-       <Modal.Body>
-         <input
-           name="id"
-           value={idEmployee}
-           onChange={(e) =>setIdEmployee(e.target.value)}
-           id="id_dipendente"
-           type="text"
-           className="form-control"
-           placeholder="id dipendente"
-           style={{ marginTop: "1vh" }}
-         ></input>
-         <input
-           value={datePresence}
-           onChange={(e) =>setDatePresence(e.target.value)}
-           id="dataPresenza"
-           type="date"
-           className="form-control"
-           placeholder="data presenza"
-           style={{ marginTop: "1vh" }}
-         ></input>
-         <input
-           value={idTipoPresenza}
-           onChange={(e) => setIdTipoPresenza(e.target.value)}
-           id="idTipoPresenza"
-           className="form-control"
-           type="text"
-           placeholder="Id Tipo Presenza"
-           style={{ marginTop: "1vh" }}
-         ></input>
-         <input
-           value={idOrder}
-           onChange={(e) => setIdOrder(e.target.value)}
-           id="idCommessa"
-           className="form-control"
-           type="text"
-           placeholder="Id Commessa"
-           style={{ marginTop: "1vh" }}
-         ></input>
-         <input
-           value={hours}
-           onChange={(e) => setHours(e.target.value)}
-           id="hours"
-           className="form-control"
-           type="number"
-           placeholder="Ore"
-           style={{ marginTop: "1vh" }}
-         ></input>
-       </Modal.Body>
-       <Modal.Footer>
-         <Button variant="success" type="submit" onClick={createPresence}>
-           Conferma
-         </Button>
-         <Button variant="danger" onClick={handleClose}>
-           Annulla
-         </Button>
-       </Modal.Footer>
-     </Modal>
- </GridToolbarContainer>
-);
+      <Button
+        onClick={handleShow}
+        style={{ marginTop: "2vh", marginLeft: "10px" }}
+      >
+        + Aggiungi Presenza
+      </Button>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Aggiungi Presenza</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <input
+            name="id"
+            value={idEmployee}
+            onChange={(e) => setIdEmployee(e.target.value)}
+            id="id_dipendente"
+            type="text"
+            className="form-control"
+            placeholder="id dipendente"
+            style={{ marginTop: "1vh" }}
+          ></input>
+          <input
+            value={datePresence}
+            onChange={(e) => setDatePresence(e.target.value)}
+            id="dataPresenza"
+            type="date"
+            className="form-control"
+            placeholder="data presenza"
+            style={{ marginTop: "1vh" }}
+          ></input>
+          <input
+            value={idTipoPresenza}
+            onChange={(e) => setIdTipoPresenza(e.target.value)}
+            id="idTipoPresenza"
+            className="form-control"
+            type="text"
+            placeholder="Id Tipo Presenza"
+            style={{ marginTop: "1vh" }}
+          ></input>
+          <input
+            value={idOrder}
+            onChange={(e) => setIdOrder(e.target.value)}
+            id="idCommessa"
+            className="form-control"
+            type="text"
+            placeholder="Id Commessa"
+            style={{ marginTop: "1vh" }}
+          ></input>
+          <input
+            value={hours}
+            onChange={(e) => setHours(e.target.value)}
+            id="hours"
+            className="form-control"
+            type="number"
+            placeholder="Ore"
+            style={{ marginTop: "1vh" }}
+          ></input>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" type="submit" onClick={createPresence}>
+            Conferma
+          </Button>
+          <Button variant="danger" onClick={handleClose}>
+            Annulla
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
 }
 
 const initialRows: GridRowsProp = [];
@@ -458,7 +460,7 @@ export default function FullFeaturedCrudGrid() {
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
         components={{
-          Toolbar: EditToolbar,
+          Toolbar: EditToolbar
         }}
         componentsProps={{
           toolbar: { setRows, setRowModesModel },
@@ -485,6 +487,7 @@ export default function FullFeaturedCrudGrid() {
                   SI
                 </Button>
                 <Button
+                  onClick={() => setOpen(false)}
                   style={{ margin: "10px", height: "40px", width: "90px" }}
                   variant="outlined"
                 >
