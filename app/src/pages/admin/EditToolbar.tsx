@@ -1,14 +1,17 @@
 import { Button } from "@mui/material";
-import { GridRowModes, GridRowModesModel, GridRowsProp, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
-import { randomId } from "@mui/x-data-grid-generator";
+import {
+  GridRowModesModel,
+  GridRowsProp,
+  GridToolbarContainer,
+  GridToolbarExport,
+} from "@mui/x-data-grid";
 import axios from "axios";
 import React from "react";
-import { Modal, Row } from "react-bootstrap";
-import Select, { components, NoticeProps } from 'react-select';
-
+import { Modal } from "react-bootstrap";
+import Select, { components, NoticeProps } from "react-select";
 
 interface EditToolbarProps {
-  tipiPresenza : []
+  tipiPresenza: [];
   rows: any;
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
   setRowModesModel: (
@@ -17,29 +20,18 @@ interface EditToolbarProps {
 }
 
 function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel, rows, tipiPresenza} = props;
+  const { setRows, rows, tipiPresenza } = props;
   const [show, setShow] = React.useState(false);
   const [idEmployee, setIdEmployee] = React.useState("");
   const [datePresence, setDatePresence] = React.useState(
     new Date().toDateString()
   );
-  const [idTipoPresenza, setIdTipoPresenza] = React.useState("");
+  const [idTipoPresenza, setIdTipoPresenza] = React.useState<any>("");
   const [idOrder, setIdOrder] = React.useState("");
   const [hours, setHours] = React.useState("");
   const handleClose = () => setShow(false);
   let handleShow = () => {
-    console.log(tipiPresenza)
-    setShow(true)
-
-  };
-
-  const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
-    }));
+    setShow(true);
   };
 
   function createPresence() {
@@ -108,24 +100,16 @@ function EditToolbar(props: EditToolbarProps) {
             placeholder="data presenza"
             style={{ marginTop: "1vh" }}
           ></input>
-            <Select
-            hideSelectedOptions = {false}
+          <Select
+            hideSelectedOptions={false}
             placeholder="Seleziona Tipo Presenza"
-            defaultValue={idTipoPresenza}
-            isClearable
+            isClearable={true}
             isSearchable
-            onChange={(e : any) => setIdTipoPresenza(e.target.value)}
-            options={tipiPresenza}/>
-            
-          {/* <input
-            value={idTipoPresenza}
-            onChange={(e) => setIdTipoPresenza(e.target.value)}
-            id="idTipoPresenza"
-            className="form-control"
-            type="text"
-            placeholder="Id Tipo Presenza"
-            style={{ marginTop: "1vh" }}
-          ></input> */}
+            onChange={(e: any) => {
+              setIdTipoPresenza(e.value);
+            }}
+            options={tipiPresenza}
+          />
           <input
             value={idOrder}
             onChange={(e) => setIdOrder(e.target.value)}
@@ -156,4 +140,4 @@ function EditToolbar(props: EditToolbarProps) {
     </GridToolbarContainer>
   );
 }
-export default EditToolbar
+export default EditToolbar;
