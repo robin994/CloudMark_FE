@@ -1,7 +1,8 @@
-import { FormControl, FormLabel, Grid, Input, Select } from '@chakra-ui/react'
+import { FormControl, FormLabel, Grid, Input, Select, Button, Box } from '@chakra-ui/react'
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useState, useEffect } from "react"
+import { theme } from "./ContTheme"
 
 
 
@@ -16,6 +17,8 @@ interface SessionInterface {
 
 
 export default function ContProfile() {
+
+    console.log(theme)
 
     const [data, setData] = useState<SessionInterface>();
     const [filtredData, setFiltredData] = useState<any>();
@@ -105,9 +108,12 @@ export default function ContProfile() {
         }
         return (
             <>
-                <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>
+                <Box mt={5} py={5} px={8} borderTopWidth={1} borderColor="brand.light">
+                    <Button onClick={ChiamaUtente}>Update</Button>
+                </Box>
+                {/* <button className="btn btn-primary mt-5" onClick={ChiamaUtente}>
                     {btnMsg}
-                </button>
+                </button> */}
                 <div
                     className="alert alert-danger mt-3"
                     role="alert"
