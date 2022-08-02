@@ -1,17 +1,20 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import "./Cont.css";
+import ProfiloUtente from '../PaginaProfilo';
+import EmployeeCheck from '../../../components/EmployeeCheck';
 
 interface ProfileInterface {
   employee: {
-    first_name: string;
+    first_name: string | undefined;
     last_name: string;
     cf: string;
     iban: string;
     id_contractType: string;
     email: string;
     phoneNumber: string;
+    id_employee: string;
   };
   account: {
     id_account: string;
@@ -52,6 +55,7 @@ interface BusinessInterface {
   fax: string;
   id_business: string;
 }
+
 export default function ContProfile() {
   const [profile, setProfile] = React.useState<ProfileInterface>();
   const [tipoContratto, setTipoContratto] = React.useState<tipoContratto>();
@@ -94,7 +98,44 @@ export default function ContProfile() {
       });
   }
 
-  function sendData() {}
+  async function updateEmployee() {
+    axios
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, 
+      {
+        "first_name": profile?.employee.first_name,
+        "last_name": profile?.employee.last_name,
+        "cf": profile?.employee.cf,
+        "iban": profile?.employee.iban,
+        "id_contractType": profile?.employee.id_contractType,
+        "email": profile?.employee.email,
+        "phoneNumber": profile?.employee.phoneNumber,
+        "id_employee": profile?.employee.id_employee
+      });
+  }
+
+  const handleInputChangeFirstName = (event: ChangeEvent<HTMLInputElement>) => {
+    profile!.employee.first_name = event.target.value;
+  };
+
+  const handleInputChangeLastName = (event: ChangeEvent<HTMLInputElement>) => {
+    profile!.employee.last_name = event.target.value;
+  };
+
+  const handleInputChangePhoneNumber = (event: ChangeEvent<HTMLInputElement>) => {
+    profile!.employee.phoneNumber = event.target.value;
+  };
+
+  const handleInputChangeFiscalCode = (event: ChangeEvent<HTMLInputElement>) => {
+    profile!.employee.cf = event.target.value;
+  };
+
+  const handleInputChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
+    profile!.employee.email = event.target.value;
+  };
+
+  const handleInputChangeIban = (event: ChangeEvent<HTMLInputElement>) => {
+    profile!.employee.iban = event.target.value;
+  };
 
   return (
     <div className="container rounded bg-white mt-5 mb-5">
@@ -121,64 +162,70 @@ export default function ContProfile() {
             </div>
             <div className="row mt-2">
               <div className="col-md-6">
-                <label className="labels">Nome</label>
+                <label htmlFor="firstname" className="labels">Nome</label>
                 <input
+                  id="firstname"
                   type="text"
                   className="form-control"
-                  placeholder="first name"
-                  value={profile?.employee.first_name}
+                  placeholder={profile?.employee.first_name}
+                  onChange={handleInputChangeFirstName}
                 />
               </div>
               <div className="col-md-6">
-                <label className="labels">Cognome</label>
+                <label className="labels" htmlFor="lastname">Cognome</label>
                 <input
+                  id="lastname"
                   type="text"
                   className="form-control"
-                  value={profile?.employee.last_name}
-                  placeholder="surname"
+                  placeholder={profile?.employee.last_name}
+                  onChange={handleInputChangeLastName}
                 />
               </div>
             </div>
             <div className="row mt-3">
               <div className="col-md-12">
-                <label className="labels">Telefono</label>
+                <label className="labels" htmlFor="phonenumber">Telefono</label>
                 <input
+                  id="phonenumber"
                   type="text"
                   className="form-control"
-                  placeholder="enter phone number"
-                  value={profile?.employee.phoneNumber}
+                  placeholder={profile?.employee.phoneNumber}
+                  onChange={handleInputChangePhoneNumber}
                 />
               </div>
               <div className="col-md-12">
-                <label className="labels">Codice Fisacle</label>
+                <label className="labels" htmlFor="fiscalcode">Codice Fisacle</label>
                 <input
+                  id="fiscalcode"
                   type="text"
                   className="form-control"
-                  placeholder="enter phone number"
-                  value={profile?.employee.cf}
+                  placeholder={profile?.employee.cf}
+                  onChange={handleInputChangeFiscalCode}
                 />
               </div>
               <div className="col-md-12">
-                <label className="labels">Email ID</label>
+                <label className="labels" htmlFor="email">Email ID</label>
                 <input
-                  type="text"
+                  id="email"
+                  type="email"
                   className="form-control"
-                  placeholder="enter email id"
-                  value={profile?.employee.email}
+                  placeholder={profile?.employee.email}
+                  onChange={handleInputChangeEmail}
                 />
               </div>
               <div className="col-md-12">
-                <label className="labels">Iban</label>
+                <label className="labels" htmlFor="iban">Iban</label>
                 <input
+                  id="iban"
                   type="text"
                   className="form-control"
-                  placeholder="enter email id"
-                  value={profile?.employee.iban}
+                  placeholder={profile?.employee.iban}
+                  onChange={handleInputChangeIban}
                 />
               </div>
             </div>
             <div className="mt-5 text-center">
-              <button className="btn btn-primary profile-button" type="button">
+              <button onClick={() => updateEmployee()} className="btn btn-primary profile-button" type="button">
                 Save Profile
               </button>
             </div>
