@@ -2,13 +2,33 @@
     display: flex;
     justify-content: center;
 }
+.containerLeft{
+    border: 0.3vh solid black;
+    max-width: 30vh;
+    margin-right: 5vh; 
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    padding: 5vh;
+}
 
+.top_img{
+    width: 14vh;
+    border: 0.3vh solid black; 
+    height: 14vh;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.top_img img{
+    display: block;
+    width: 100%;
+}
 .rowBello{
     display: grid;
     grid-template-columns: 1fr;
     border: 0.3vh solid black;
-    border-radius: 50px;
-    max-width: 30vh;
+    max-width: 70vh;
     padding: 5vh;
 }
 
@@ -37,4 +57,15 @@
     background: white;
     padding: 5vh;
     border-radius: 50px;
+}
+
+.first_box{
+    display: grid;
+    grid-template-columns: 1fr 1fr
+}
+
+@media  screen and (max-width: 768px){
+    .first_box{
+        display: block;
+    }
 }
