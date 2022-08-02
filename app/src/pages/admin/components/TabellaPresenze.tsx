@@ -3,9 +3,9 @@ import CancelIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
-import { Backdrop, Fade, Typography } from "@mui/material";
+import { Backdrop, Button, Fade, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import {
   DataGrid,
   GridActionsCellItem,
@@ -42,7 +42,7 @@ function EditToolbar(props: EditToolbarProps) {
   const [idOrder, setIdOrder] = React.useState("");
   const [hours, setHours] = React.useState("");
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  let handleShow = () => setShow(true);
 
   const handleClick = () => {
     const id = randomId();
@@ -53,6 +53,7 @@ function EditToolbar(props: EditToolbarProps) {
     }));
   };
   function createPresence() {
+    handleClose()
     axios
       .post(`${process.env.REACT_APP_FASTAPI_URL}/presence/create/`, {
         id_employee: idEmployee,
@@ -72,9 +73,8 @@ function EditToolbar(props: EditToolbarProps) {
     <GridToolbarContainer>
       <Button
         onClick={handleShow}
-        style={{ marginTop: "2vh", marginLeft: "10px" }}
       >
-        + Aggiungi Presenza
+        <span style={{fontSize:'30px',marginRight:'5px'}}>+</span>Aggiungi
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -129,10 +129,10 @@ function EditToolbar(props: EditToolbarProps) {
           ></input>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" type="submit" onClick={createPresence}>
+          <Button type="submit" onClick={createPresence}>
             Conferma
           </Button>
-          <Button variant="danger" onClick={handleClose}>
+          <Button onClick={handleClose}>
             Annulla
           </Button>
         </Modal.Footer>
