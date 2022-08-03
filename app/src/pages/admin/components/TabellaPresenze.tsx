@@ -20,7 +20,7 @@ import {
 import axios from "axios";
 import * as React from "react";
 import "./css_components/TabellaPresenze.css";
-import EditToolbar from "../EditToolbar";
+import EditToolbar from "./presenze-components/EditToolbar";
 
 const initialRows: GridRowsProp = [];
 
