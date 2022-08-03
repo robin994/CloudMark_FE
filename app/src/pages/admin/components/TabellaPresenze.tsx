@@ -332,6 +332,7 @@ export default function FullFeaturedCrudGrid() {
       }}
     >
       <DataGrid
+        style={{height: '89vh'}}
         autoHeight
         rows={rows}
         columns={columns}
