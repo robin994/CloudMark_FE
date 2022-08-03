@@ -47,7 +47,7 @@ const style = {
     flexDirection: "column",
     borderRadius: "10px",
     position: "absolute" as "absolute",
-    top: "50%",
+    top: "30%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
@@ -452,7 +452,7 @@ const PresenceTable = (props: any) => {
                 variant="h6"
                 component="h2"
               >
-                Vuoi cancellarlo?
+                Rimuovere la presenza?
               </Typography>
               <div style={{ display: "flex" }}>
                 <Button
