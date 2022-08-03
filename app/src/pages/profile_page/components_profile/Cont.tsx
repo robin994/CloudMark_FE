@@ -2,13 +2,13 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import "./Cont.css";
-import { motion } from 'framer-motion'
-import ProfiloUtente from '../PaginaProfilo';
-import EmployeeCheck from '../../../components/EmployeeCheck';
+import { motion } from "framer-motion";
+import ProfiloUtente from "../PaginaProfilo";
+import EmployeeCheck from "../../../components/EmployeeCheck";
 
 interface ProfileInterface {
   employee: {
-    first_name: string | undefined;
+    first_name: string;
     last_name: string;
     cf: string;
     iban: string;
@@ -57,10 +57,21 @@ interface BusinessInterface {
   id_business: string;
 }
 
+interface PayloadInterface {
+  first_name: string;
+  last_name: string;
+  cf: string;
+  iban: string;
+  id_contractType: string;
+  email: string;
+  phoneNumber: string;
+  id_employee: string;
+}
+
 export default function ContProfile() {
   const [profile, setProfile] = React.useState<ProfileInterface>();
   const [tipoContratto, setTipoContratto] = React.useState<tipoContratto>();
-  const [data, setData] = useState<SessionInterface>();
+  const [payload, setPayload] = useState<PayloadInterface>();
   const [business, setBusiness] = useState<BusinessInterface>();
   const [success, setSuccess] = useState(false)
 
@@ -80,6 +91,16 @@ export default function ContProfile() {
         loadTypeContract(profile.employee.id_contractType);
         loadBusiness(profile.id_business);
         setProfile(res.data.data);
+        setPayload({
+          first_name: profile.employee.first_name,
+          last_name: profile.employee.last_name,
+          cf: profile.employee.cf,
+          iban: profile.employee.iban,
+          id_contractType: profile.employee.id_contractType,
+          email: profile.employee.email,
+          phoneNumber: profile.employee.phoneNumber,
+          id_employee: profile.employee.id_employee,
+        });
       });
   }
 
@@ -102,48 +123,41 @@ export default function ContProfile() {
   }
 
   async function updateEmployee() {
-    axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, 
-      {
-        "first_name": profile?.employee.first_name,
-        "last_name": profile?.employee.last_name,
-        "cf": profile?.employee.cf,
-        "iban": profile?.employee.iban,
-        "id_contractType": profile?.employee.id_contractType,
-        "email": profile?.employee.email,
-        "phoneNumber": profile?.employee.phoneNumber,
-        "id_employee": profile?.employee.id_employee
-      }).then(res=>{
-        if(res.status === 200){
-        setSuccess(true)
-        setTimeout(()=>{
-          setSuccess(false)
-        },3500)}
-      });
+    axios.post(
+      `${process.env.REACT_APP_FASTAPI_URL}/employee/update/`,
+      payload
+    ).then(res=>{
+      if(res.status === 200){
+      setSuccess(true)
+      setTimeout(()=>{
+        setSuccess(false)
+      },3500)}
+    });
   }
 
-  const handleInputChangeFirstName = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.first_name = event.target.value;
-  };
-
-  const handleInputChangeLastName = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.last_name = event.target.value;
-  };
-
-  const handleInputChangePhoneNumber = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.phoneNumber = event.target.value;
-  };
-
-  const handleInputChangeFiscalCode = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.cf = event.target.value;
-  };
-
-  const handleInputChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.email = event.target.value;
-  };
-
-  const handleInputChangeIban = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.iban = event.target.value;
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    let toUpdate = JSON.parse(JSON.stringify(payload));
+    switch (event.target.id) {
+      case "first_name":
+        toUpdate!.first_name = event.target.value;
+        break;
+      case "last_name":
+        toUpdate!.last_name = event.target.value;
+        break;
+      case "cf":
+        toUpdate!.cf = event.target.value;
+        break;
+      case "iban":
+        toUpdate!.iban = event.target.value;
+        break;
+      case "email":
+        toUpdate!.email = event.target.value;
+        break;
+      case "phonenumber":
+        toUpdate!.phoneNumber = event.target.value;
+        break;
+    }
+    setPayload(toUpdate);
   };
 
 
@@ -151,7 +165,11 @@ export default function ContProfile() {
     if (profile && tipoContratto && business) {
       return (
         <>
-        <motion.div className="container rounded bg-white mt-5 mb-5" initial={{y: -100}} animate={{y: 0}}>
+        <motion.div
+          className="container rounded bg-white mt-5 mb-5"
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+        >
           <div className="row">
             <div className="col-md-3 border-right">
               <div className="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -174,77 +192,137 @@ export default function ContProfile() {
                   <h4 className="text-right">Impostazioni profilo</h4>
                 </div>
                 <div className="row mt-2">
-                  <motion.div className="col-md-6" initial={{x: -100}} animate={{x: 0}}>
-                    <label className="labels fst-italic fs-6 mb-1 fw-normal" htmlFor="firstname">Nome</label>
+                  <motion.div
+                    className="col-md-6"
+                    initial={{ x: -100 }}
+                    animate={{ x: 0 }}
+                  >
+                    <label
+                      className="labels fst-italic fs-6 mb-1 fw-normal"
+                      htmlFor="firstname"
+                    >
+                      Nome
+                    </label>
                     <input
-                      style={{border: "None"}}
+                      disabled
+                      style={{ border: "None" }}
                       id="firstname"
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.first_name}
-                      onChange={handleInputChangeFirstName}
+                      onChange={handleInput}
                     />
                   </motion.div>
-                  <motion.div className="col-md-6" initial={{x: 100}} animate={{x: 0}}>
-                    <label className="labels fst-italic fs-6 mb-1 fw-normal" htmlFor="lastname">Cognome</label>
+                  <motion.div
+                    className="col-md-6"
+                    initial={{ x: 100 }}
+                    animate={{ x: 0 }}
+                  >
+                    <label
+                      className="labels fst-italic fs-6 mb-1 fw-normal"
+                      htmlFor="lastname"
+                    >
+                      Cognome
+                    </label>
                     <input
-                      style={{border: "None"}}  
+                      disabled
+                      style={{ border: "None" }}
                       id="lastname"
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.last_name}
-                      onChange={handleInputChangeLastName}
+                      onChange={handleInput}
                     />
                   </motion.div>
                 </div>
                 <div className="row mt-3">
-                  <motion.div className="col-md-12" initial={{x: -100}} animate={{x: 0}}>
-                    <label className="labels fst-italic fs-6 mb-1 fw-normal" htmlFor="phonenumber">Telefono</label>
+                  <motion.div
+                    className="col-md-12"
+                    initial={{ x: -100 }}
+                    animate={{ x: 0 }}
+                  >
+                    <label
+                      className="labels fst-italic fs-6 mb-1 fw-normal"
+                      htmlFor="phonenumber"
+                    >
+                      Telefono
+                    </label>
                     <input
-                      style={{border: "None"}}
+                      style={{ border: "None" }}
                       id="phonenumber"
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.phoneNumber}
-                      onChange={handleInputChangePhoneNumber}
+                      onChange={handleInput}
                     />
                   </motion.div>
-                  <motion.div className="col-md-12" initial={{x: -100}} animate={{x: 0}}>
-                    <label className="labels fst-italic fs-6 mb-1 fw-normal mt-3" htmlFor="fiscalcode">Codice Fisacle</label>
+                  <motion.div
+                    className="col-md-12"
+                    initial={{ x: -100 }}
+                    animate={{ x: 0 }}
+                  >
+                    <label
+                      className="labels fst-italic fs-6 mb-1 fw-normal mt-3"
+                      htmlFor="fiscalcode"
+                    >
+                      Codice Fisacle
+                    </label>
                     <input
-                      style={{border: "None"}}
+                      style={{ border: "None" }}
                       id="fiscalcode"
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.cf}
-                      onChange={handleInputChangeFiscalCode}
+                      onChange={handleInput}
                     />
                   </motion.div>
-                  <motion.div className="col-md-12" initial={{x: -100}} animate={{x: 0}}>
-                    <label className="labels fst-italic fs-6 mb-1 fw-normal mt-3" htmlFor="email">Email ID</label>
+                  <motion.div
+                    className="col-md-12"
+                    initial={{ x: -100 }}
+                    animate={{ x: 0 }}
+                  >
+                    <label
+                      className="labels fst-italic fs-6 mb-1 fw-normal mt-3"
+                      htmlFor="email"
+                    >
+                      Email ID
+                    </label>
                     <input
-                      style={{border: "None"}}
+                      style={{ border: "None" }}
                       id="email"
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.email}
-                      onChange={handleInputChangeEmail}
+                      onChange={handleInput}
                     />
                   </motion.div>
-                  <motion.div className="col-md-12" initial={{x: -100}} animate={{x: 0}}>
-                    <label className="labels fst-italic fs-6 mb-1 fw-normal mt-3" htmlFor="iban">Iban</label>
+                  <motion.div
+                    className="col-md-12"
+                    initial={{ x: -100 }}
+                    animate={{ x: 0 }}
+                  >
+                    <label
+                      className="labels fst-italic fs-6 mb-1 fw-normal mt-3"
+                      htmlFor="iban"
+                    >
+                      Iban
+                    </label>
                     <input
-                      style={{border: "None"}}
+                      style={{ border: "None" }}
                       id="iban"
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.iban}
-                      onChange={handleInputChangeIban}
+                      onChange={handleInput}
                     />
                   </motion.div>
                 </div>
                 <div className="mt-5 text-center">
-                  <button onClick={() => updateEmployee()} className="btn btn-primary profile-button" type="button">
+                  <button
+                    onClick={() => updateEmployee()}
+                    className="btn btn-primary profile-button"
+                    type="button"
+                  >
                     Save Profile
                   </button>
                 </div>
@@ -257,34 +335,38 @@ export default function ContProfile() {
                 </div>
                 <br />
                 <div className="col-md-12">
-                  <label className="labels fst-italic fs-6 mb-1 fw-normal">User</label>
+                  <label className="labels fst-italic fs-6 mb-1 fw-normal">
+                    User
+                  </label>
                   <input
-                    style={{border: "None"}}
+                    disabled
+                    style={{ border: "None" }}
                     type="text"
                     className="form-control shadow"
-                    placeholder="experience"
-                    value={profile?.account.user}
+                    placeholder={profile?.account.user}
                   />
                 </div>
                 <br />
                 <div className="col-md-12">
-                  <label className="labels fst-italic fs-6 mb-1 fw-normal">Nuova Password</label>
+                  <label className="labels fst-italic fs-6 mb-1 fw-normal">
+                    Nuova Password
+                  </label>
                   <input
-                    style={{border: "None"}}
+                    style={{ border: "None" }}
                     type="password"
                     className="form-control shadow"
                     placeholder="Nuova Password"
-                    value=""
                   />
                 </div>
                 <div className="col-md-12">
-                  <label className="labels fst-italic fs-6 mb-1 fw-normal mt-3">Conferma Password</label>
+                  <label className="labels fst-italic fs-6 mb-1 fw-normal mt-3">
+                    Conferma Password
+                  </label>
                   <input
-                    style={{border: "None"}}
+                    style={{ border: "None" }}
                     type="password"
                     className="form-control shadow"
                     placeholder="Conferma Password"
-                    value=""
                   />
                 </div>
               </div>
@@ -298,19 +380,19 @@ export default function ContProfile() {
       )
     } else {
       return (
-        <motion.div className="container rounded bg-white mt-5 mb-5 text-center" initial={{y: -100}} animate={{y: 0}}>
-          <span style={{fontSize: "25px", letterSpacing: "3px"}}>LOADING</span>
+        <motion.div
+          className="container rounded bg-white mt-5 mb-5 text-center"
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+        >
+          <span style={{ fontSize: "25px", letterSpacing: "3px" }}>
+            LOADING
+          </span>
           <div className="loadbar shadow"></div>
         </motion.div>
-      )
+      );
     }
-  }
+  };
 
-  return (
-    <>
-      {
-        handleRevealProfilePage()
-      }
-    </>
-  );
+  return <>{handleRevealProfilePage()}</>;
 }
