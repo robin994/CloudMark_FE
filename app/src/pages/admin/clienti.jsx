@@ -86,19 +86,21 @@ export default function Clienti() {
 }
 
 function AddCustomerDialog(props) {
-    const { onClose, open } = props;
+  const { onClose, open } = props
+  const [missing, setMissing] = useState(false)
 
   const handleClose = () => {
-    onClose();
-  };
+    onClose()
+    setMissing(false)
+  }
   const handleChange = (e) => {
     const {id, value} = e.target
     console.log(id, value)
     newCustomer[id] = value
   }
   const handleAdd = () => {
-    if (Object.keys(newCustomer).lenght !== 9)
-        onClose()
+    if (Object.keys(newCustomer).length !== 9)
+        setMissing(true)
     else
         Axios(`${process.env.REACT_APP_FASTAPI_URL}/customer/create/`, {
             method: "POST",
@@ -122,7 +124,6 @@ function AddCustomerDialog(props) {
     {type: "text", id: "phone", label: "Phone"}
   ]
   return (
-    <form>
     <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New customer</DialogTitle>
         <DialogContent>
@@ -134,11 +135,11 @@ function AddCustomerDialog(props) {
                                           onChange={e => handleChange(e)}
                                       />
           )}
+          {missing && <h5 className="text-danger">Missing credentials, can't process this form</h5>}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleAdd}>Confirm</Button>
         </DialogActions>
     </Dialog>
-    </form>
   );
 }
