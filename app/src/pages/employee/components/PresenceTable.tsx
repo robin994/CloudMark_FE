@@ -27,13 +27,29 @@ import { motion } from "framer-motion";
 
 import "../styles/PresenceTable.css";
 import { randomId } from "@mui/x-data-grid-generator";
-import { Button } from "@mui/material";
+import { Box, Button, Fade, Typography } from "@mui/material";
 
 const types: { [key: string]: string } = {
   "ca34d37e-600c-452e-a8e4-2efb53161812": "Standard",
   "6dc55260-7150-4f76-8251-adc4c3fc15b4": "Assenza",
   "a8fd713d-36e8-440f-81e1-6e7314a3c417": "Festivo",
   "b867b283-38a0-4eb3-8df1-55ccb5f310df": "Malattia",
+};
+
+const style = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    borderRadius: "10px",
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
 };
 
 const PresenceTable = (props: any) => {
@@ -234,17 +250,43 @@ const PresenceTable = (props: any) => {
   }, [props]);
 
   // Handlers ----------------------------------------------------------------------------|
-  const handleAdd = () => {
-    const id = randomId();
-    setRowsBuffer((rowsBuffer) => [
-      ...rowsBuffer,
-      { id, date_presence: "", hours: "", type: "", order: orders[0], isNew: true },
-    ]);
-    handleEditClick(id);
-    setRowsMode((rowsMode) => ({
-      ...rowsMode,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "hours" },
-    }));
+  	const handleAdd = () => {
+    	const id = randomId();
+    	setRowsBuffer((rowsBuffer) => [
+      		...rowsBuffer,
+      		{ id, date_presence: "", hours: "", type: "", order: orders[0], isNew: true },
+    	]);
+		handleEditClick(id);
+		setRowsMode((rowsMode) => ({
+			...rowsMode,
+			[id]: { mode: GridRowModes.Edit, fieldToFocus: "hours" },
+		}));
+  	};
+
+  	const handleDeleteClick = () => () => {
+    	let id: GridRowId = "";
+    	let id_employee = "";
+    	if (IDRowToDelete !== undefined) {
+      		id = IDRowToDelete;
+      		for (let row of rowsBuffer) {
+				if (row["id"] === id) {
+					id_employee = row["id_employee"];
+				}
+      		}
+      axios
+        .request({
+          url: `${process.env.REACT_APP_FASTAPI_URL}/presence/delete/`,
+          method: "post",
+          params: {
+            id_presence: id,
+            id_employee: id_employee,
+          },
+        })
+        .then(() => {
+          setRowsBuffer(rowsBuffer.filter((row) => row.id !== id));
+          setOpen(false);
+        });
+    }
   };
 
   const handleRowEditStart = (
@@ -402,6 +444,37 @@ const PresenceTable = (props: any) => {
                     onRowDelete: ()
                 }} */
       />
+	  {open && (
+        <div>
+          <Fade in={open}>
+            <Box sx={style}>
+              <Typography
+                id="transition-modal-title"
+                variant="h6"
+                component="h2"
+              >
+                Vuoi cancellarlo?
+              </Typography>
+              <div style={{ display: "flex" }}>
+                <Button
+                  onClick={handleDeleteClick()}
+                  style={{ margin: "10px", height: "40px", width: "90px" }}
+                  variant="outlined"
+                >
+                  SI
+                </Button>
+                <Button
+                  onClick={() => setOpen(false)}
+                  style={{ margin: "10px", height: "40px", width: "90px" }}
+                  variant="outlined"
+                >
+                  NO
+                </Button>
+              </div>
+            </Box>
+          </Fade>
+        </div>
+      )}
     </motion.div>
   );
 };
