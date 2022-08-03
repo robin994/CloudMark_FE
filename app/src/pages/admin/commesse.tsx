@@ -19,6 +19,7 @@ import {
 } from "@mui/x-data-grid";
 import axios from "axios";
 import * as React from "react";
+import EditToolbarCommesse from "./components/commessa-component/EditToolbarCommessa";
 // import "./css_components/TabellaPresenze.css";
 
 const initialRows: GridRowsProp = [];
@@ -28,9 +29,8 @@ export default function FullFeaturedCrudGrid() {
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
-  const [tipiPresenza, setTipiPresenza] = React.useState([]);
-  const [aziende, setAziende] = React.useState([]);
-
+  const [business, setBusiness] = React.useState([]);
+  const [customer, setCustomer] = React.useState([]);
   async function getCommesse() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
       setRows(
@@ -48,10 +48,38 @@ export default function FullFeaturedCrudGrid() {
       );
     });
   }
+  function getCustomers() {
+    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/customer`).then((res) => {
+      let arr: any = [];
+      Object.values(res.data.data).forEach((el: any) => {
+        arr.push({
+          value: el.id_customer,
+          label: `${
+            el.name.charAt(0).toUpperCase() + el.name.slice(1)} (p.iva: ${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
+        });
+      });
+      setCustomer(arr);
+    });
+  }
+  function getBusiness() {
+    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/business`).then((res) => {
+      let arr: any = [];
+      Object.values(res.data.data).forEach((el: any) => {
+        arr.push({
+          value: el.id_business,
+          label: `${
+            el.name.charAt(0).toUpperCase() + el.name.slice(1)} (p.iva:${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
+        });
+      });
+      setBusiness(arr);
+    });
+  }
 
   console.log(rows);
   React.useEffect(() => {
     getCommesse();
+    getBusiness();
+    getCustomers();
   }, []);
   const handleRowEditStart = (
     params: GridRowParams,
@@ -263,11 +291,11 @@ export default function FullFeaturedCrudGrid() {
         processRowUpdate={processRowUpdate}
         components={
           {
-            // Toolbar: EditToolbar,
+            Toolbar: EditToolbarCommesse,
           }
         }
         componentsProps={{
-          toolbar: { setRows, setRowModesModel, rows, tipiPresenza, aziende },
+          toolbar: { setRows, setRowModesModel, rows,getCommesse,business,customer },
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
