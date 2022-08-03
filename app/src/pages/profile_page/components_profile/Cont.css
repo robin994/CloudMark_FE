@@ -1,0 +1,75 @@
+#root {
+    height: 100vh;
+}
+
+.loadbar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    width: 90%;
+    border-radius: 12px;
+    margin: auto;
+}
+
+.loadbar::after {
+    content: '';
+    position: absolute;
+    transition: 1s;
+    border-radius: 12px;
+    width: 0%;
+    height: 20px;
+    background-color: #682773;
+    animation: mymove 0.7s;
+}
+
+@keyframes mymove {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 99.5%;
+    }
+  }
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}

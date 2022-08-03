@@ -44,7 +44,7 @@
 
 
 .searchInputs {
-  margin-top: 105px;
+  marginTop: 105px;
   display: flex;
 }
 
@@ -70,7 +70,7 @@ input:focus {
 
 .dataResult {
   border-radius: 10px;
-  margin-top: 5px;
+  marginTop: 5px;
   width: 300px;
   height: 200px;
   background-color: white;
@@ -92,7 +92,7 @@ input:focus {
 }
 
 .dataItem p {
-  margin-left: 10px;
+  marginLeft: 10px;
 }
 
 
