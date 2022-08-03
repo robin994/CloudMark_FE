@@ -32,16 +32,13 @@ export default function FullFeaturedCrudGrid() {
   const [aziende, setAziende] = React.useState([]);
 
   async function getCommesse() {
-    axios
-    .get(
-      `${process.env.REACT_APP_FASTAPI_URL}/orders`
-    )
-    .then((res) => {
+    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
       setRows(
         Object.values(res.data.data).map((el: any) => {
+          console.log(el);
           return {
             id: el["id_order"],
-            description: el["descrption"],
+            description: el["description"],
             id_customer: el["id_customer"],
             id_business: el["id_business"],
             startDate: el["startDate"],
@@ -50,12 +47,11 @@ export default function FullFeaturedCrudGrid() {
         })
       );
     });
-}
+  }
 
- 
- console.log(rows)
+  console.log(rows);
   React.useEffect(() => {
-    getCommesse()
+    getCommesse();
   }, []);
   const handleRowEditStart = (
     params: GridRowParams,
@@ -89,7 +85,7 @@ export default function FullFeaturedCrudGrid() {
           method: "post",
           params: {
             id_order: id,
-          }
+          },
         })
         .then(() => {
           setRows(rows.filter((row) => row.id !== id));
@@ -162,17 +158,17 @@ export default function FullFeaturedCrudGrid() {
     },
     {
       field: "startDate",
-      type:"date",
+      type: "date",
       headerName: "Data Inizio",
       width: 279,
       editable: true,
     },
     {
       field: "endDate",
-      type :"date",
+      type: "date",
       headerName: "Data Fine",
       width: 279,
-      editable: true,    
+      editable: true,
     },
     {
       field: "actions",
@@ -256,7 +252,7 @@ export default function FullFeaturedCrudGrid() {
       }}
     >
       <DataGrid
-        style={{height: '89vh'}}
+        style={{ height: "89vh" }}
         autoHeight
         rows={rows}
         columns={columns}
@@ -265,9 +261,11 @@ export default function FullFeaturedCrudGrid() {
         onRowEditStart={handleRowEditStart}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
-        components={{
-          // Toolbar: EditToolbar,
-        }}
+        components={
+          {
+            // Toolbar: EditToolbar,
+          }
+        }
         componentsProps={{
           toolbar: { setRows, setRowModesModel, rows, tipiPresenza, aziende },
         }}
