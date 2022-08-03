@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Spacer from "./Spacer";
 import Axios from "axios";
 import jwtDecode from "jwt-decode";
+import Background from './Background';
 
 interface SessionInterface {
   id_account: string;
@@ -70,8 +71,9 @@ export default function Login() {
     }
     return (
     <>
+      <Background />
       <Spacer margin="20vh" />
-      <Container>
+      <Container style={{position: 'absolute', top: '25vh', left: '16vw'}}>
         <Card style={{ width: "24rem" }} className="mx-auto">
           <Card.Header className="text-center">
             <h1>Log In</h1>
