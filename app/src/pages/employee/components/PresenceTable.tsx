@@ -29,6 +29,10 @@ import "../styles/PresenceTable.css";
 import { randomId } from "@mui/x-data-grid-generator";
 import { Box, Button, Fade, Typography } from "@mui/material";
 
+
+const id_account = sessionStorage.id_account;
+const id_employee = sessionStorage.id_employee;
+
 const types: { [key: string]: string } = {
   "ca34d37e-600c-452e-a8e4-2efb53161812": "Standard",
   "6dc55260-7150-4f76-8251-adc4c3fc15b4": "Assenza",
@@ -53,13 +57,8 @@ const style = {
 };
 
 const PresenceTable = (props: any) => {
-  const [id_account, setIdAccount] = useState(sessionStorage.id_account);
-  const [id_employee, setIdEmployee] = useState(sessionStorage.id_employee);
   const [orders, setOrders] = useState([]);
-  const [ date, setDate ] = useState({ month: props.month, year: props.year })
-  const initialState: GridRowsProp = [];
-  const [presenze, setPresenze] = useState([]);
-  const [open, setOpen] = useState<any>(false);
+  const [open, setOpen] = useState(false);
   const [IDRowToDelete, setIDRowToDelete] = useState<GridRowId>();
   const [rowsBuffer, setRowsBuffer] = useState<GridRowsProp>([]);
   const [rowsMode, setRowsMode] = useState<GridRowModesModel>({});
