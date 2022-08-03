@@ -36,7 +36,7 @@ export default function TopMenu() {
                   >
                     logout
                   </Nav.Link>
-                  <Nav.Link href="profile">
+                  <Nav.Link href="/profile">
                     {sessionStorage.user}
                   </Nav.Link>
                 </>
