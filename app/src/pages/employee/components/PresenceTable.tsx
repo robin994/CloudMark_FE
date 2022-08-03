@@ -39,6 +39,7 @@ const PresenceTable = (props: any) => {
   const [id_account, setIdAccount] = useState(sessionStorage.id_account);
   const [id_employee, setIdEmployee] = useState(sessionStorage.id_employee);
   const [orders, setOrders] = useState([]);
+  const [ date, setDate ] = useState({ month: props.month, year: props.year })
   const initialState: GridRowsProp = [];
   const [presenze, setPresenze] = useState([]);
   const [open, setOpen] = useState<any>(false);
@@ -228,7 +229,7 @@ const PresenceTable = (props: any) => {
   useEffect(() => {
     initDataFetch();
     getRows();
-  }, []);
+  }, [props]);
 
   // Handlers ----------------------------------------------------------------------------|
   const handleAdd = () => {
