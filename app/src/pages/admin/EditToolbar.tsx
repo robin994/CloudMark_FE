@@ -12,6 +12,7 @@ import Select from "react-select";
 
 interface EditToolbarProps {
   tipiPresenza: [];
+  aziende: [];
   rows: any;
   setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
   setRowModesModel: (
@@ -20,7 +21,7 @@ interface EditToolbarProps {
 }
 
 function EditToolbar(props: EditToolbarProps) {
-  const { setRows, rows, tipiPresenza } = props;
+  const { setRows, rows, tipiPresenza, aziende } = props;
   const [show, setShow] = React.useState(false);
   const [idEmployee, setIdEmployee] = React.useState("");
   const [employee, setEmployee] = React.useState([])
@@ -33,15 +34,15 @@ function EditToolbar(props: EditToolbarProps) {
   const handleClose = () => setShow(false);
   let handleShow = () => {
     getEmployees()
-    console.log(employee)
+    console.log(aziende)
     setShow(true);
   };
-  
-    function getEmployees() {
+
+  function getEmployees() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`).then((res) => {
       let arr: any = [];
       Object.values(res.data.data).forEach((el: any) => {
-        arr.push({ value : el.id_employee, label : `${el.first_name.charAt(0).toUpperCase() + el.first_name.slice(1)} ${el.last_name.charAt(0).toUpperCase() + el.last_name.slice(1)}`});
+        arr.push({ value: el.id_employee, label: `${el.first_name.charAt(0).toUpperCase() + el.first_name.slice(1)} ${el.last_name.charAt(0).toUpperCase() + el.last_name.slice(1)} (${el.email})` });
         console.log(arr)
       });
       setEmployee(arr);
@@ -95,7 +96,7 @@ function EditToolbar(props: EditToolbarProps) {
           <Modal.Title>Aggiungi Presenza</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Select
+          <Select
             hideSelectedOptions={false}
             placeholder="Seleziona Dipendente"
             isSearchable
@@ -104,16 +105,6 @@ function EditToolbar(props: EditToolbarProps) {
             }}
             options={employee}
           />
-          {/* <input
-            name="id"
-            value={idEmployee}
-            onChange={(e) => setIdEmployee(e.target.value)}
-            id="id_dipendente"
-            type="text"
-            className="form-control"
-            placeholder="id dipendente"
-            style={{ marginTop: "1vh" }}
-          ></input> */}
           <input
             value={datePresence}
             onChange={(e) => setDatePresence(e.target.value)}
@@ -132,15 +123,15 @@ function EditToolbar(props: EditToolbarProps) {
             }}
             options={tipiPresenza}
           />
-          <input
-            value={idOrder}
-            onChange={(e) => setIdOrder(e.target.value)}
-            id="idCommessa"
-            className="form-control"
-            type="text"
-            placeholder="Id Commessa"
-            style={{ marginTop: "1vh" }}
-          ></input>
+          <Select
+            hideSelectedOptions={false}
+            placeholder="Seleziona Commessa"
+            isSearchable
+            onChange={(e: any) => {
+              setIdOrder(e.value);
+            }}
+            options={aziende}
+          />
           <input
             value={hours}
             onChange={(e) => setHours(e.target.value)}

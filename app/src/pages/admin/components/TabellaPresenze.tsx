@@ -339,7 +339,7 @@ export default function FullFeaturedCrudGrid() {
           Toolbar: EditToolbar,
         }}
         componentsProps={{
-          toolbar: { setRows, setRowModesModel, rows, tipiPresenza },
+          toolbar: { setRows, setRowModesModel, rows, tipiPresenza, aziende },
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
