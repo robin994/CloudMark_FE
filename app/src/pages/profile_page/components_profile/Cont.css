@@ -73,3 +73,7 @@
     cursor: pointer;
     border: solid 1px #BA68C8
 }
+
+input:disabled:hover {
+    cursor: not-allowed;
+}
