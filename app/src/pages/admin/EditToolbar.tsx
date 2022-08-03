@@ -34,7 +34,6 @@ function EditToolbar(props: EditToolbarProps) {
   const handleClose = () => setShow(false);
   let handleShow = () => {
     getEmployees()
-    console.log(aziende)
     setShow(true);
   };
 
@@ -43,7 +42,6 @@ function EditToolbar(props: EditToolbarProps) {
       let arr: any = [];
       Object.values(res.data.data).forEach((el: any) => {
         arr.push({ value: el.id_employee, label: `${el.first_name.charAt(0).toUpperCase() + el.first_name.slice(1)} ${el.last_name.charAt(0).toUpperCase() + el.last_name.slice(1)} (${el.email})` });
-        console.log(arr)
       });
       setEmployee(arr);
     });
@@ -96,51 +94,62 @@ function EditToolbar(props: EditToolbarProps) {
           <Modal.Title>Aggiungi Presenza</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Select
-            hideSelectedOptions={false}
-            placeholder="Seleziona Dipendente"
-            isSearchable
-            onChange={(e: any) => {
-              setIdEmployee(e.value);
-            }}
-            options={employee}
-          />
-          <input
-            value={datePresence}
-            onChange={(e) => setDatePresence(e.target.value)}
-            id="dataPresenza"
-            type="date"
-            className="form-control"
-            placeholder="data presenza"
-            style={{ marginTop: "1vh" }}
-          ></input>
-          <Select
-            hideSelectedOptions={false}
-            placeholder="Seleziona Tipo Presenza"
-            isSearchable
-            onChange={(e: any) => {
-              setIdTipoPresenza(e.value);
-            }}
-            options={tipiPresenza}
-          />
-          <Select
-            hideSelectedOptions={false}
-            placeholder="Seleziona Commessa"
-            isSearchable
-            onChange={(e: any) => {
-              setIdOrder(e.value);
-            }}
-            options={aziende}
-          />
-          <input
-            value={hours}
-            onChange={(e) => setHours(e.target.value)}
-            id="hours"
-            className="form-control"
-            type="number"
-            placeholder="Ore"
-            style={{ marginTop: "1vh" }}
-          ></input>
+          <div>
+            <p>
+            <Select
+              hideSelectedOptions={false}
+              placeholder="Seleziona Dipendente"
+              isSearchable
+              onChange={(e: any) => {
+                setIdEmployee(e.value);
+              }}
+              options={employee}
+            />
+            </p>
+            <p>
+              <input
+                value={datePresence}
+                onChange={(e) => setDatePresence(e.target.value)}
+                id="dataPresenza"
+                type="date"
+                className="form-control"
+                placeholder="data presenza"
+                style={{ marginTop: "1vh" }}
+              ></input>
+            </p>
+            <p>
+              <Select
+                hideSelectedOptions={false}
+                placeholder="Seleziona Tipo Presenza"
+                isSearchable
+                onChange={(e: any) => {
+                  setIdTipoPresenza(e.value);
+                }}
+                options={tipiPresenza}
+              />
+            </p>
+            <p>
+              <Select
+                hideSelectedOptions={false}
+                placeholder="Seleziona Commessa"
+                isSearchable
+                onChange={(e: any) => {
+                  setIdOrder(e.value);
+                }}
+                options={aziende}
+              /></p>
+            <p>
+              <input
+                value={hours}
+                onChange={(e) => setHours(e.target.value)}
+                id="hours"
+                className="form-control"
+                type="number"
+                placeholder="Ore"
+                style={{ marginTop: "1vh" }}
+              ></input>
+            </p>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button type="submit" onClick={createPresence}>
