@@ -62,6 +62,7 @@ export default function ContProfile() {
   const [tipoContratto, setTipoContratto] = React.useState<tipoContratto>();
   const [data, setData] = useState<SessionInterface>();
   const [business, setBusiness] = useState<BusinessInterface>();
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     loadProfileData();
@@ -75,6 +76,7 @@ export default function ContProfile() {
       )
       .then((res) => {
         let profile: ProfileInterface = res.data.data;
+        console.log(profile.employee)
         loadTypeContract(profile.employee.id_contractType);
         loadBusiness(profile.id_business);
         setProfile(res.data.data);
@@ -111,6 +113,12 @@ export default function ContProfile() {
         "email": profile?.employee.email,
         "phoneNumber": profile?.employee.phoneNumber,
         "id_employee": profile?.employee.id_employee
+      }).then(res=>{
+        if(res.status === 200){
+        setSuccess(true)
+        setTimeout(()=>{
+          setSuccess(false)
+        },3500)}
       });
   }
 
@@ -138,9 +146,11 @@ export default function ContProfile() {
     profile!.employee.iban = event.target.value;
   };
 
+
   const handleRevealProfilePage = () => {
     if (profile && tipoContratto && business) {
       return (
+        <>
         <motion.div className="container rounded bg-white mt-5 mb-5" initial={{y: -100}} animate={{y: 0}}>
           <div className="row">
             <div className="col-md-3 border-right">
@@ -215,7 +225,7 @@ export default function ContProfile() {
                     <input
                       style={{border: "None"}}
                       id="email"
-                      type="email"
+                      type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.email}
                       onChange={handleInputChangeEmail}
@@ -281,6 +291,10 @@ export default function ContProfile() {
             </div>
           </div>
         </motion.div>
+        {success && <div className="alert alert-success position-fixed fixed-bottom start-50 w-30 translate-middle text-center">
+          Dati correttamente inviati
+        </div>}
+        </>
       )
     } else {
       return (
