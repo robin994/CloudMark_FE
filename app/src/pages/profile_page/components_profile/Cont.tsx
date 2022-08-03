@@ -73,6 +73,7 @@ export default function ContProfile() {
   const [tipoContratto, setTipoContratto] = React.useState<tipoContratto>();
   const [payload, setPayload] = useState<PayloadInterface>();
   const [business, setBusiness] = useState<BusinessInterface>();
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     loadProfileData();
@@ -86,6 +87,7 @@ export default function ContProfile() {
       )
       .then((res) => {
         let profile: ProfileInterface = res.data.data;
+        console.log(profile.employee)
         loadTypeContract(profile.employee.id_contractType);
         loadBusiness(profile.id_business);
         setProfile(res.data.data);
@@ -124,7 +126,13 @@ export default function ContProfile() {
     axios.post(
       `${process.env.REACT_APP_FASTAPI_URL}/employee/update/`,
       payload
-    );
+    ).then(res=>{
+      if(res.status === 200){
+      setSuccess(true)
+      setTimeout(()=>{
+        setSuccess(false)
+      },3500)}
+    });
   }
 
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -152,9 +160,11 @@ export default function ContProfile() {
     setPayload(toUpdate);
   };
 
+
   const handleRevealProfilePage = () => {
     if (profile && tipoContratto && business) {
       return (
+        <>
         <motion.div
           className="container rounded bg-white mt-5 mb-5"
           initial={{ y: -100 }}
@@ -280,7 +290,7 @@ export default function ContProfile() {
                     <input
                       style={{ border: "None" }}
                       id="email"
-                      type="email"
+                      type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.email}
                       onChange={handleInput}
@@ -363,7 +373,11 @@ export default function ContProfile() {
             </div>
           </div>
         </motion.div>
-      );
+        {success && <div className="alert alert-success position-fixed fixed-bottom start-50 w-30 translate-middle text-center">
+          Dati correttamente inviati
+        </div>}
+        </>
+      )
     } else {
       return (
         <motion.div
