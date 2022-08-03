@@ -1,8 +1,5 @@
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import CustomCard from '../../components/CustomCard';
-import Spacer from '../../components/Spacer';
 import { motion } from "framer-motion";
 import './dashboard-css/style.css';
 import Background from '../../components/Background';
@@ -19,7 +16,7 @@ export default function Dashboard() {
   return (
     <>
       <Background />
-      <div className="container" style={{position: "absolute", top: "12vh", left: "15vw"}}>
+      <div className="container" style={{position: "absolute", top: "calc(50% - 407.5px)", right: "calc(50% - 648.5px)"}}>
         <Row className='my-5 justify-content-center align-items-center'>
           <motion.div className='col-3 d-flex justify-content-center' initial={{ x: -100 }} animate={{ x: 0 }}>
             <CustomCard
