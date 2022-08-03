@@ -24,7 +24,7 @@ function EditToolbar(props: EditToolbarProps) {
   const { setRows, rows, tipiPresenza, aziende } = props;
   const [show, setShow] = React.useState(false);
   const [idEmployee, setIdEmployee] = React.useState("");
-  const [employee, setEmployee] = React.useState([])
+  const [employee, setEmployee] = React.useState([]);
   const [datePresence, setDatePresence] = React.useState(
     new Date().toDateString()
   );
@@ -33,7 +33,7 @@ function EditToolbar(props: EditToolbarProps) {
   const [hours, setHours] = React.useState("");
   const handleClose = () => setShow(false);
   let handleShow = () => {
-    getEmployees()
+    getEmployees();
     setShow(true);
   };
 
@@ -41,7 +41,14 @@ function EditToolbar(props: EditToolbarProps) {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`).then((res) => {
       let arr: any = [];
       Object.values(res.data.data).forEach((el: any) => {
-        arr.push({ value: el.id_employee, label: `${el.first_name.charAt(0).toUpperCase() + el.first_name.slice(1)} ${el.last_name.charAt(0).toUpperCase() + el.last_name.slice(1)} (${el.email})` });
+        arr.push({
+          value: el.id_employee,
+          label: `${
+            el.first_name.charAt(0).toUpperCase() + el.first_name.slice(1)
+          } ${el.last_name.charAt(0).toUpperCase() + el.last_name.slice(1)} (${
+            el.email
+          })`,
+        });
       });
       setEmployee(arr);
     });
@@ -95,18 +102,18 @@ function EditToolbar(props: EditToolbarProps) {
         </Modal.Header>
         <Modal.Body>
           <div>
-            <p>
-            <Select
-              hideSelectedOptions={false}
-              placeholder="Seleziona Dipendente"
-              isSearchable
-              onChange={(e: any) => {
-                setIdEmployee(e.value);
-              }}
-              options={employee}
-            />
-            </p>
-            <p>
+            <div>
+              <Select
+                hideSelectedOptions={false}
+                placeholder="Seleziona Dipendente"
+                isSearchable
+                onChange={(e: any) => {
+                  setIdEmployee(e.value);
+                }}
+                options={employee}
+              />
+            </div>
+            <div>
               <input
                 value={datePresence}
                 onChange={(e) => setDatePresence(e.target.value)}
@@ -114,10 +121,9 @@ function EditToolbar(props: EditToolbarProps) {
                 type="date"
                 className="form-control"
                 placeholder="data presenza"
-                style={{ marginTop: "1vh" }}
               ></input>
-            </p>
-            <p>
+            </div>
+            <div>
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Tipo Presenza"
@@ -127,8 +133,8 @@ function EditToolbar(props: EditToolbarProps) {
                 }}
                 options={tipiPresenza}
               />
-            </p>
-            <p>
+            </div>
+            <div>
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Commessa"
@@ -137,8 +143,9 @@ function EditToolbar(props: EditToolbarProps) {
                   setIdOrder(e.value);
                 }}
                 options={aziende}
-              /></p>
-            <p>
+              />
+            </div>
+            <div>
               <input
                 value={hours}
                 onChange={(e) => setHours(e.target.value)}
@@ -146,9 +153,8 @@ function EditToolbar(props: EditToolbarProps) {
                 className="form-control"
                 type="number"
                 placeholder="Ore"
-                style={{ marginTop: "1vh" }}
               ></input>
-            </p>
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>

@@ -4,10 +4,14 @@ import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 
 const cardStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   width: "18rem",
   height: "20rem",
   marginTop: "20px",
   marginBottom: "20px",
+  borderRadius: "10px"
 };
 
 const imgStyle = {
@@ -38,7 +42,7 @@ export default function CustomCard(props: CardProps) {
 
   return (
     <>
-      <Card style={cardStyle} className="">
+      <Card style={cardStyle} className="shadow border-0">
         <Container className="my-auto mx-auto">
           <Card.Img style={imgStyle} variant="top" src={props.imgSrc} />
           <Card.Body className="text-center">

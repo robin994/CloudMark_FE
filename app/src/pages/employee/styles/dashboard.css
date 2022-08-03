@@ -1,12 +1,12 @@
 #root, .modal{
-    width: 100vw;
+
     overflow-x: hidden;
 }
 .MuiDataGrid-virtualScrollerContent, .MuiDataGrid-columnHeaders{
     overflow: visible;
 }
 .modal-dialog{
-    width: 100vw;
+
     box-sizing: border-box;
 }
 .calendario, .commesse, .presenze{

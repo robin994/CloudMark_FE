@@ -1,106 +1,307 @@
-import { useEffect, useState } from 'react'
-import DataTable from '../../components/DataTable'
-import Axios from 'axios'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import CancelIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import { Button, Fade, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColumns,
+  GridEventListener,
+  GridRowId,
+  GridRowModel,
+  GridRowModes,
+  GridRowModesModel,
+  GridRowParams,
+  GridRowsProp,
+  MuiEvent,
+} from "@mui/x-data-grid";
+import axios from "axios";
+import * as React from "react";
+// import "./css_components/TabellaPresenze.css";
 
+const initialRows: GridRowsProp = [];
 
-const heading = {
-  id_order: "ID commessa",
-  id_customer: "ID cliente",
-  id_business: "ID azienda",
-  description: "Descrizione",
-  startDate: "Data inizio",
-  endDate: "Data fine"
-}
+export default function FullFeaturedCrudGrid() {
+  const [rows, setRows] = React.useState(initialRows);
+  const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
+    {}
+  );
+  const [tipiPresenza, setTipiPresenza] = React.useState([]);
+  const [aziende, setAziende] = React.useState([]);
 
-
-
-export default function Commesse() {
-
-
-  const [commesse, setCommesse] = useState([])
-
-  useEffect( () => {
-    Axios(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then( resp => {
-      const data = resp.data.data
-      setCommesse(Object.values(data))
-  }).catch( err => { throw err })
-  }, [])
-
-
-  const[id_customer,setCustomer] = useState('')
-  const[id_business,setBusiness] =useState('')
-  const[description,setDescription] =useState('')
-  const[startDate,setStartDate] = useState('')
-  const[endDate,setEndDate] = useState('')
-
-  function postData (){
-   
-    Axios.post(`${process.env.REACT_APP_FASTAPI_URL}/orders/create/`,{
-      customer:id_customer,
-      business:id_business,
-      descrizione:description,
-      startdate:startDate,
-      enddate:endDate
-
-    }).then(res=>{console.log(res)
-    }).catch(err=>{console.log(err)})
-    console.log('click funzia')
+  async function getCommesse() {
+    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
+      setRows(
+        Object.values(res.data.data).map((el: any) => {
+          console.log(el);
+          return {
+            id: el["id_order"],
+            description: el["description"],
+            id_customer: el["id_customer"],
+            id_business: el["id_business"],
+            startDate: el["startDate"],
+            endDate: el["endDate"],
+          };
+        })
+      );
+    });
   }
 
-  const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  console.log(rows);
+  React.useEffect(() => {
+    getCommesse();
+  }, []);
+  const handleRowEditStart = (
+    params: GridRowParams,
+    event: MuiEvent<React.SyntheticEvent>
+  ) => {
+    event.defaultMuiPrevented = true;
+  };
+  const handleRowEditStop: GridEventListener<"rowEditStop"> = (
+    params,
+    event
+  ) => {
+    event.defaultMuiPrevented = true;
+  };
 
+  const handleEditClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const handleDeleteClick = () => () => {
+    let id: GridRowId = "";
+    if (IDRowToDelete !== undefined) {
+      id = IDRowToDelete;
+
+      axios
+        .request({
+          url: `${process.env.REACT_APP_FASTAPI_URL}/orders/delete/`,
+          method: "post",
+          params: {
+            id_order: id,
+          },
+        })
+        .then(() => {
+          setRows(rows.filter((row) => row.id !== id));
+          setOpen(false);
+        });
+    }
+  };
+
+  const handleCancelClick = (id: GridRowId) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    const editedRow = rows.find((row) => row.id === id);
+    if (editedRow!.isNew) {
+      setRows(rows.filter((row) => row.id !== id));
+    }
+  };
+
+  const processRowUpdate = (newRow: GridRowModel) => {
+    const updatedRow = { ...newRow, isNew: false };
+    console.log("aggiorno");
+    axios
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update`, {
+        description: updatedRow.description,
+        id_customer: updatedRow.id_customer,
+        id_business: updatedRow.id_business,
+        startDate: updatedRow.startDate.toISOString().split("T")[0],
+        endDate: updatedRow.endDate.toISOString().split("T")[0],
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    return updatedRow;
+  };
+
+  const columns: GridColumns = [
+    {
+      field: "id",
+      headerName: "Id Commessa",
+      width: 279,
+      editable: false,
+      hide: true,
+    },
+    {
+      field: "description",
+      headerName: "Descrizione",
+      width: 279,
+      editable: true,
+      hide: false,
+    },
+    {
+      field: "id_employee",
+      headerName: "Id Dipendente",
+      width: 279,
+      editable: false,
+      hide: true,
+    },
+    {
+      field: "id_business",
+      headerName: "Id Azienda",
+      width: 279,
+      editable: false,
+    },
+    {
+      field: "startDate",
+      type: "date",
+      headerName: "Data Inizio",
+      width: 279,
+      editable: true,
+    },
+    {
+      field: "endDate",
+      type: "date",
+      headerName: "Data Fine",
+      width: 279,
+      editable: true,
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 100,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={() => handleOpen(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+  ];
+
+  const style = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    borderRadius: "10px",
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [open, setOpen] = React.useState<any>(false);
+  const [IDRowToDelete, setIDRowToDelete] = React.useState<GridRowId>();
+  const handleOpen = (id: GridRowId) => {
+    setOpen(true);
+    setIDRowToDelete(id);
+  };
 
   return (
-    <>
-
-    <div style={{backgroundColor:"gainsboro",borderBottom: "1px solid black",borderTop: "1px solid black",padding:"0.5rem",marginTop: "5vh",display: "flex"}}>
-    <div>
-      <h1>Commessa</h1>
-     
-      <Button variant="primary" onClick={handleShow}>
-      Aggiungi Commessa
-    </Button>
-    
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Inserisci Commessa</Modal.Title>
-      </Modal.Header>
-      <form>
-      <Modal.Body>
-       
-
-        <input onChange={(val)=> {setCustomer(val.target.value)}} type="text" placeholder="ID Cliente" className="form-control" style={{marginTop:"1vh"}} required></input>
-        <input onChange={(val)=> {setBusiness(val.target.value)}} type="text" placeholder="ID Azienda" className="form-control" style={{marginTop:"1vh"}} required></input>
-        <input onChange={(val)=>{setDescription(val.target.value)}} type="text" placeholder="Descrizione" className="form-control" style={{marginTop:"1vh"}} required></input>
-        <input onChange={(val)=> {setStartDate(val.target.value)}} type="date" placeholder="Data Inizio" className="form-control" style={{marginTop:"1vh"}} required></input>
-        <input onChange={(val)=> {setEndDate(val.target.value)}} type="date" placeholder="Data Fine" className="form-control" style={{marginTop:"1vh"}} required></input>
- 
-        </Modal.Body>
-        
-        <Modal.Footer>
-          <Button onClick={postData} type="button">
-            Inserisci Dati
-          </Button>
-
-        
-        </Modal.Footer>
-        </form>
-      </Modal>
-     
-  
-    </div>
-
-    </div>
-
-       <DataTable id="id_order" col={heading} rows={commesse} />
-       
-    </>
- 
-
-    
-  )
+    <Box
+      sx={{
+        height: "89vh",
+        width: "100%",
+        "& .actions": {
+          color: "text.secondary",
+        },
+        "& .textPrimary": {
+          color: "text.primary",
+        },
+      }}
+    >
+      <DataGrid
+        style={{ height: "89vh" }}
+        autoHeight
+        rows={rows}
+        columns={columns}
+        editMode="row"
+        rowModesModel={rowModesModel}
+        onRowEditStart={handleRowEditStart}
+        onRowEditStop={handleRowEditStop}
+        processRowUpdate={processRowUpdate}
+        components={
+          {
+            // Toolbar: EditToolbar,
+          }
+        }
+        componentsProps={{
+          toolbar: { setRows, setRowModesModel, rows, tipiPresenza, aziende },
+        }}
+        experimentalFeatures={{ newEditingApi: true }}
+      />
+      {open && (
+        <div>
+          <Fade in={open}>
+            <Box sx={style}>
+              <Typography
+                id="transition-modal-title"
+                variant="h6"
+                component="h2"
+              >
+                Vuoi cancellarlo?
+              </Typography>
+              <div style={{ display: "flex" }}>
+                <Button
+                  onClick={handleDeleteClick()}
+                  style={{ margin: "10px", height: "40px", width: "90px" }}
+                  variant="outlined"
+                >
+                  SI
+                </Button>
+                <Button
+                  onClick={() => setOpen(false)}
+                  style={{ margin: "10px", height: "40px", width: "90px" }}
+                  variant="outlined"
+                >
+                  NO
+                </Button>
+              </div>
+            </Box>
+          </Fade>
+        </div>
+      )}
+    </Box>
+  );
 }
