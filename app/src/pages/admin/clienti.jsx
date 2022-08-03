@@ -28,7 +28,7 @@ export default function Clienti() {
             headers: {accept: "application/json"},
             params: {id_customer: id_customer}
         }).catch(err => {
-            console.log("errore", err)
+            console.log("errore ", err)
         })
         getDipendenti()
     }
@@ -75,7 +75,7 @@ export default function Clienti() {
             <ListGroup.Item>
               
                 <div style={{ display: 'flex', height: "100%" }}>
-                    <DataGrid autoHeight autoHeight rows={rows} columns={columns}/>
+                    <DataGrid autoHeight rows={rows} columns={columns}/>
                 </div>
             </ListGroup.Item>
             <ListGroup.Item>
