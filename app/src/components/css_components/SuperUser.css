@@ -1,5 +1,5 @@
 .searchInputs {
-    margin-top: 105px;
+    marginTop: 105px;
     display: flex;
   }
   
@@ -24,7 +24,7 @@
   
   
   .dataResult {
-    margin-top: 5px;
+    marginTop: 5px;
     width: 300px;
     height: 200px;
     background-color: white;
@@ -47,7 +47,7 @@
   }
   
   .dataItem p {
-    margin-left: 10px;
+    marginLeft: 10px;
   }
   
   

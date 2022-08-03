@@ -42,12 +42,16 @@ export default function FullFeaturedCrudGrid() {
           res.data.data?.map((el: any) => {
             return {
               date_presence: el["date_presence"],
-              first_name: el["first_name"].charAt(0).toUpperCase() + el["first_name"].slice(1),
+              first_name:
+                el["first_name"].charAt(0).toUpperCase() +
+                el["first_name"].slice(1),
               hours: el["hours"],
               id: el["id_presence"],
               id_employee: el["id_employee"],
               id_order: el["id_order"],
-              last_name: el["last_name"].charAt(0).toUpperCase() + el["last_name"].slice(1),
+              last_name:
+                el["last_name"].charAt(0).toUpperCase() +
+                el["last_name"].slice(1),
               nome_azienda: el["id_business"],
               tipoPresenza: el["id_type_presence"],
             };
@@ -328,6 +332,7 @@ export default function FullFeaturedCrudGrid() {
       }}
     >
       <DataGrid
+        autoHeight
         rows={rows}
         columns={columns}
         editMode="row"

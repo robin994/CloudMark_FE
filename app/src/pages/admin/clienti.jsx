@@ -71,10 +71,11 @@ export default function Clienti() {
         <Button color="primary" startIcon={<AddIcon />} onClick={handleAddCustomer}>
             ADD CUSTOMER
         </Button>
-        <ListGroup horizontal="md" variant="flush">
+        <ListGroup horizontal="md" >
             <ListGroup.Item>
-                <div style={{ height: 700, width: '100%' }}>
-                    <DataGrid rows={rows} columns={columns}/>
+              
+                <div style={{ display: 'flex', height: "100%" }}>
+                    <DataGrid autoHeight autoHeight rows={rows} columns={columns}/>
                 </div>
             </ListGroup.Item>
             <ListGroup.Item>

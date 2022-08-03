@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     width: 80%;
-    margin-left: 10%;
+    marginLeft: 10%;
   }
   #main_body{
     border: 0.3vh solid black;
@@ -15,8 +15,8 @@
   #main_body input{
     display: block;
     border-radius: 5%;
-    margin-top: 3vh;
-    margin-bottom: 3vh;
+    marginTop: 3vh;
+    marginBottom: 3vh;
   }
 
   #main_body h3{
