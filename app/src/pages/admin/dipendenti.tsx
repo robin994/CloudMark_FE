@@ -161,7 +161,7 @@ const ListaDipendenti = (props: any) => {
   }
 
 
-  let list = dipendenti.map((el:any,key:number) => {
+  let list = dipendenti.map((el) => {
     return {
       first_name: el["first_name"],
       last_name: el["last_name"],
@@ -180,7 +180,7 @@ const ListaDipendenti = (props: any) => {
       id_business: el["id_business"],
       start_date: el["start_date"],
       end_date: el["end_date"],
-      serial_num: el["serial_num"]
+      serial_num: el["serial_num"],
 
     };
   });
@@ -196,16 +196,13 @@ const ListaDipendenti = (props: any) => {
       hide:true,
       width: 279,
       editable: true,
-      
-      
     },
     {
       field: "end_date",
-      headerName: "end_date",
+      headerName: "end date",
       hide:true,
       width: 279,
       editable: true,
-      
     },
     {
       field: "start_date",
@@ -228,7 +225,6 @@ const ListaDipendenti = (props: any) => {
       width: 279,
       editable: true,
     },
-    
     {
       field: "id_tipo_account",
       headerName: "id_tipo_account",
@@ -245,20 +241,21 @@ const ListaDipendenti = (props: any) => {
     },
     {
       field: "password",
-      headerName: "Password",
+      headerName: "password",
       hide:true,
       width: 279,
       editable: true,
     },
     {
       field: "user",
-      headerName: "User",
+      headerName: "user",
       hide:true,
       width: 279,
       editable: true,
     },
+
     {
-      field: "id",
+      field: "id employee",
       headerName: "id employee",
       hide:true,
       width: 279,
@@ -356,7 +353,7 @@ const ListaDipendenti = (props: any) => {
           <input
               value={updateid_employee}
               onChange={(e) =>  updatesetId_employee(e.target.value)}
-              id="id_employees"
+              id="id_employee"
               type="text"
               className="form-control"
               placeholder="id dipendente"
@@ -367,7 +364,7 @@ const ListaDipendenti = (props: any) => {
           <input
               value={updatefirst_name}
               onChange={(e) => updatesetFirstName(e.target.value)}
-              id="first_names"
+              id="first_name"
               type="text"
               className="form-control"
               placeholder="nome"
@@ -377,7 +374,7 @@ const ListaDipendenti = (props: any) => {
             <input
               value={updatelast_name}
               onChange={(e) => updatesetLastName(e.target.value)}
-              id="last_names"
+              id="last_name"
               type="text"
               className="form-control"
               placeholder="cognome"
@@ -387,7 +384,7 @@ const ListaDipendenti = (props: any) => {
             <input
               value={updatecf}
               onChange={(e) => updatesetCf(e.target.value)}
-              id="cfs"
+              id="cf"
               className="form-control"
               type="text"
               placeholder="codice fiscale"
@@ -397,7 +394,7 @@ const ListaDipendenti = (props: any) => {
             <input
               value={updateiban}
               onChange={(e) => updatesetIban(e.target.value)}
-              id="ibans"
+              id="iban"
               className="form-control"
               type="text"
               placeholder="iban"
@@ -407,7 +404,7 @@ const ListaDipendenti = (props: any) => {
             <input
               value={updateid_contractType}
               onChange={(e) => updatesetId_contractType(e.target.value)}
-              id="id_contractTypes"
+              id="id_contractType"
               className="form-control"
               type="text"
               placeholder="tipo contratto"
@@ -417,7 +414,7 @@ const ListaDipendenti = (props: any) => {
             <input
               value={updateemail}
               onChange={(e) => updatesetEmail(e.target.value)}
-              id="emails"
+              id="email"
               className="form-control"
               type="email"
               placeholder="email"
@@ -427,7 +424,7 @@ const ListaDipendenti = (props: any) => {
             <input
               value={updatephoneNumber}
               onChange={(e) => updatesetPhoneNumber(e.target.value)}
-              id="telefono"
+              id="phoneNumber"
               type="tel"
               className="form-control"
               placeholder="telefono"
@@ -696,17 +693,18 @@ const ListaDipendenti = (props: any) => {
       </div>
 
       <div style={{ height: "80vh", width: "100%" }} className="custom-grid">
-      
         <DataGrid
-          rows={rows}
+         rows={[
+          { id: 1, rows },
+        
+        ]}
           columns={columns}
           pageSize={5}
-          
-          
           editMode="row"
           rowsPerPageOptions={[5]}
+         
           checkboxSelection
-
+          
           
           sx={{
             boxShadow: 20,

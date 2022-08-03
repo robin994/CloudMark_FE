@@ -22,9 +22,10 @@ export default function App() {
               <Route path="/admin" element={<Admin.Dashboard />} />
               <Route path="/dipendenti" element={<Admin.Dipendenti/>} />
               <Route path="/presenze" element={<Admin.Presenze/>} />
-              <Route path="/clienti" element={<Admin.Clienti/>} />
+              <Route path="/clienti" element={<Admin.Clienti/>} >
+                <Route path=":id_customer" element={<Admin.Cliente />} />
+              </Route>
               <Route path="/commesse" element={<Admin.Commesse/>} />
-              <Route path="/cliente/:id_customer" element={<Admin.Cliente />} />
               <Route path="/dipendente/:id_dipendente" element={<Admin.Dipendente />} />
             </Route>
 

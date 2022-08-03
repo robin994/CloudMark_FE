@@ -27,7 +27,7 @@ export default function CardCommessa(props:CardCommessaProps) {
 
     const RenderListElements = (element: any, key:number) => {
         return (
-            <Card>
+            <Card key={key}>
                 <Container fluid>
                     <Row className='nomeCliente'>
                         <Col>

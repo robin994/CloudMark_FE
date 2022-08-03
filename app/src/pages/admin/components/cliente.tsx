@@ -15,9 +15,7 @@ export default function Cliente() {
     }).catch( err => {
         setCustomer(err)
     })}, [id_customer])
-
     return (
-        <div className="mycentereddiv">
             <Card style={{ width: '18rem' }}>
             <Card.Header className="text-center"><h3>{`${customer.name}`}</h3></Card.Header>
                 <Card.Img src="/statics/customer.jpg" />
@@ -29,8 +27,8 @@ export default function Cliente() {
                     <ListGroup.Item>{`Email: ${customer.email}`}</ListGroup.Item>
                     <ListGroup.Item>{`PEC: ${customer.pec}`}</ListGroup.Item>
                     <ListGroup.Item>{`FAX: ${customer.fax}`}</ListGroup.Item>
+                    <ListGroup.Item>{`Phone: ${customer.phone}`}</ListGroup.Item>
                 </ListGroup>
             </Card>
-        </div>
     )
 }
