@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
-import Spacer from "./Spacer";
 import Axios from "axios";
 import jwtDecode from "jwt-decode";
 import Background from './Background';
@@ -72,8 +71,7 @@ export default function Login() {
     return (
     <>
       <Background />
-      <Spacer margin="20vh" />
-      <Container style={{position: 'absolute', top: '25vh', left: '16vw'}}>
+      <Container style={{position: 'absolute', top: "calc(50% - 117.7px)", right: "calc(50% - 660px)"}}>
         <Card style={{ width: "24rem" }} className="mx-auto">
           <Card.Header className="text-center">
             <h1>Log In</h1>

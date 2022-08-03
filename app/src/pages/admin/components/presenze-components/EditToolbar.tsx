@@ -102,7 +102,7 @@ function EditToolbar(props: EditToolbarProps) {
         </Modal.Header>
         <Modal.Body>
           <div>
-            <div>
+            <div className="my-2">
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Dipendente"
@@ -113,7 +113,7 @@ function EditToolbar(props: EditToolbarProps) {
                 options={employee}
               />
             </div>
-            <div>
+            <div className="my-2">
               <input
                 value={datePresence}
                 onChange={(e) => setDatePresence(e.target.value)}
@@ -123,7 +123,7 @@ function EditToolbar(props: EditToolbarProps) {
                 placeholder="data presenza"
               ></input>
             </div>
-            <div>
+            <div className="my-2">
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Tipo Presenza"
@@ -134,7 +134,7 @@ function EditToolbar(props: EditToolbarProps) {
                 options={tipiPresenza}
               />
             </div>
-            <div>
+            <div className="my-2">
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Commessa"
@@ -145,7 +145,7 @@ function EditToolbar(props: EditToolbarProps) {
                 options={aziende}
               />
             </div>
-            <div>
+            <div className="my-2">
               <input
                 value={hours}
                 onChange={(e) => setHours(e.target.value)}
