@@ -2,6 +2,37 @@
     height: 100vh;
 }
 
+.loadbar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    width: 90%;
+    border-radius: 12px;
+    margin: auto;
+}
+
+.loadbar::after {
+    content: '';
+    position: absolute;
+    transition: 1s;
+    border-radius: 12px;
+    width: 0%;
+    height: 20px;
+    background-color: #682773;
+    animation: mymove 0.7s;
+}
+
+@keyframes mymove {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 99.5%;
+    }
+  }
+
 .form-control:focus {
     box-shadow: none;
     border-color: #BA68C8

@@ -2,6 +2,7 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import "./Cont.css";
+import { motion } from 'framer-motion'
 import ProfiloUtente from '../PaginaProfilo';
 import EmployeeCheck from '../../../components/EmployeeCheck';
 
@@ -137,137 +138,162 @@ export default function ContProfile() {
     profile!.employee.iban = event.target.value;
   };
 
+  const handleRevealProfilePage = () => {
+    if (profile && tipoContratto && business) {
+      return (
+        <motion.div className="container rounded bg-white mt-5 mb-5" initial={{y: -100}} animate={{y: 0}}>
+          <div className="row">
+            <div className="col-md-3 border-right">
+              <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img
+                  className="rounded-circle mt-5"
+                  width="150px"
+                  src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+                />
+                <span className="font-weight-bold">
+                  {profile?.employee.first_name} {profile?.employee.last_name}
+                </span>
+                <span className="text-black-50">{profile?.employee.email}</span>
+                <span className="text-black-50">{tipoContratto?.name}</span>
+                <span className="text-black-50">{business?.name}</span>
+              </div>
+            </div>
+            <div className="col-md-5 border-right">
+              <div className="p-3 py-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h4 className="text-right">Impostazioni profilo</h4>
+                </div>
+                <div className="row mt-2">
+                  <motion.div className="col-md-6" initial={{x: -100}} animate={{x: 0}}>
+                    <label className="labels fst-italic fs-6 mb-1 fw-normal" htmlFor="firstname">Nome</label>
+                    <input
+                      style={{border: "None"}}
+                      id="firstname"
+                      type="text"
+                      className="form-control shadow"
+                      placeholder={profile?.employee.first_name}
+                      onChange={handleInputChangeFirstName}
+                    />
+                  </motion.div>
+                  <motion.div className="col-md-6" initial={{x: 100}} animate={{x: 0}}>
+                    <label className="labels fst-italic fs-6 mb-1 fw-normal" htmlFor="lastname">Cognome</label>
+                    <input
+                      style={{border: "None"}}  
+                      id="lastname"
+                      type="text"
+                      className="form-control shadow"
+                      placeholder={profile?.employee.last_name}
+                      onChange={handleInputChangeLastName}
+                    />
+                  </motion.div>
+                </div>
+                <div className="row mt-3">
+                  <motion.div className="col-md-12" initial={{x: -100}} animate={{x: 0}}>
+                    <label className="labels fst-italic fs-6 mb-1 fw-normal" htmlFor="phonenumber">Telefono</label>
+                    <input
+                      style={{border: "None"}}
+                      id="phonenumber"
+                      type="text"
+                      className="form-control shadow"
+                      placeholder={profile?.employee.phoneNumber}
+                      onChange={handleInputChangePhoneNumber}
+                    />
+                  </motion.div>
+                  <motion.div className="col-md-12" initial={{x: -100}} animate={{x: 0}}>
+                    <label className="labels fst-italic fs-6 mb-1 fw-normal mt-3" htmlFor="fiscalcode">Codice Fisacle</label>
+                    <input
+                      style={{border: "None"}}
+                      id="fiscalcode"
+                      type="text"
+                      className="form-control shadow"
+                      placeholder={profile?.employee.cf}
+                      onChange={handleInputChangeFiscalCode}
+                    />
+                  </motion.div>
+                  <motion.div className="col-md-12" initial={{x: -100}} animate={{x: 0}}>
+                    <label className="labels fst-italic fs-6 mb-1 fw-normal mt-3" htmlFor="email">Email ID</label>
+                    <input
+                      style={{border: "None"}}
+                      id="email"
+                      type="email"
+                      className="form-control shadow"
+                      placeholder={profile?.employee.email}
+                      onChange={handleInputChangeEmail}
+                    />
+                  </motion.div>
+                  <motion.div className="col-md-12" initial={{x: -100}} animate={{x: 0}}>
+                    <label className="labels fst-italic fs-6 mb-1 fw-normal mt-3" htmlFor="iban">Iban</label>
+                    <input
+                      style={{border: "None"}}
+                      id="iban"
+                      type="text"
+                      className="form-control shadow"
+                      placeholder={profile?.employee.iban}
+                      onChange={handleInputChangeIban}
+                    />
+                  </motion.div>
+                </div>
+                <div className="mt-5 text-center">
+                  <button onClick={() => updateEmployee()} className="btn btn-primary profile-button" type="button">
+                    Save Profile
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="p-3 py-5">
+                <div className="d-flex justify-content-between align-items-center experience">
+                  <span>Account</span>
+                </div>
+                <br />
+                <div className="col-md-12">
+                  <label className="labels fst-italic fs-6 mb-1 fw-normal">User</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="experience"
+                    value={profile?.account.user}
+                  />
+                </div>{" "}
+                <br />
+                <div className="col-md-12">
+                  <label className="labels fst-italic fs-6 mb-1 fw-normal">Nuova Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Nuova Password"
+                    value=""
+                  />
+                </div>
+                <div className="col-md-12">
+                  <label className="labels fst-italic fs-6 mb-1 fw-normal">Conferma Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Conferma Password"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )
+    } else {
+      return (
+        <motion.div className="container rounded bg-white mt-5 mb-5 text-center" initial={{y: -100}} animate={{y: 0}}>
+          <span style={{fontSize: "25px", letterSpacing: "3px"}}>LOADING</span>
+          <div className="loadbar shadow"></div>
+        </motion.div>
+      )
+    }
+  }
+
   return (
-    <div className="container rounded bg-white mt-5 mb-5">
-      <div className="row">
-        <div className="col-md-3 border-right">
-          <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-            <img
-              className="rounded-circle mt-5"
-              width="150px"
-              src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-            />
-            <span className="font-weight-bold">
-              {profile?.employee.first_name} {profile?.employee.last_name}
-            </span>
-            <span className="text-black-50">{profile?.employee.email}</span>
-            <span className="text-black-50">{tipoContratto?.name}</span>
-            <span className="text-black-50">{business?.name}</span>
-          </div>
-        </div>
-        <div className="col-md-5 border-right">
-          <div className="p-3 py-5">
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h4 className="text-right">Impostazioni profilo</h4>
-            </div>
-            <div className="row mt-2">
-              <div className="col-md-6">
-                <label htmlFor="firstname" className="labels">Nome</label>
-                <input
-                  id="firstname"
-                  type="text"
-                  className="form-control"
-                  placeholder={profile?.employee.first_name}
-                  onChange={handleInputChangeFirstName}
-                />
-              </div>
-              <div className="col-md-6">
-                <label className="labels" htmlFor="lastname">Cognome</label>
-                <input
-                  id="lastname"
-                  type="text"
-                  className="form-control"
-                  placeholder={profile?.employee.last_name}
-                  onChange={handleInputChangeLastName}
-                />
-              </div>
-            </div>
-            <div className="row mt-3">
-              <div className="col-md-12">
-                <label className="labels" htmlFor="phonenumber">Telefono</label>
-                <input
-                  id="phonenumber"
-                  type="text"
-                  className="form-control"
-                  placeholder={profile?.employee.phoneNumber}
-                  onChange={handleInputChangePhoneNumber}
-                />
-              </div>
-              <div className="col-md-12">
-                <label className="labels" htmlFor="fiscalcode">Codice Fisacle</label>
-                <input
-                  id="fiscalcode"
-                  type="text"
-                  className="form-control"
-                  placeholder={profile?.employee.cf}
-                  onChange={handleInputChangeFiscalCode}
-                />
-              </div>
-              <div className="col-md-12">
-                <label className="labels" htmlFor="email">Email ID</label>
-                <input
-                  id="email"
-                  type="email"
-                  className="form-control"
-                  placeholder={profile?.employee.email}
-                  onChange={handleInputChangeEmail}
-                />
-              </div>
-              <div className="col-md-12">
-                <label className="labels" htmlFor="iban">Iban</label>
-                <input
-                  id="iban"
-                  type="text"
-                  className="form-control"
-                  placeholder={profile?.employee.iban}
-                  onChange={handleInputChangeIban}
-                />
-              </div>
-            </div>
-            <div className="mt-5 text-center">
-              <button onClick={() => updateEmployee()} className="btn btn-primary profile-button" type="button">
-                Save Profile
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="p-3 py-5">
-            <div className="d-flex justify-content-between align-items-center experience">
-              <span>Account</span>
-            </div>
-            <br />
-            <div className="col-md-12">
-              <label className="labels">User</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="experience"
-                value={profile?.account.user}
-              />
-            </div>{" "}
-            <br />
-            <div className="col-md-12">
-              <label className="labels">Nuova Password</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Nuova Password"
-                value=""
-              />
-            </div>
-            <div className="col-md-12">
-              <label className="labels">Conferma Password</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Conferma Password"
-                value=""
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      {
+        handleRevealProfilePage()
+      }
+    </>
   );
 }
