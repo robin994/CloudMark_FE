@@ -176,6 +176,7 @@ const PresenceTable = (props: any) => {
         resp.data.data.map((e: any) => {
           e["id"] = e["id_presence"];
           e["type"] = types[e["id_tipoPresenza"]];
+          e["order"] = e["id_order"]
           console.log("PresenceTable ----> PARSED resp: ", [e]);
           return e;
         })
