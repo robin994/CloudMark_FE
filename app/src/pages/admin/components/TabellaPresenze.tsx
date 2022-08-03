@@ -66,7 +66,7 @@ export default function FullFeaturedCrudGrid() {
       .then((res) => {
         let arr: any = [];
         res.data.data.forEach((el: any) => {
-          arr.push({ value: el.id_presence_type, label: el.name });
+          arr.push({ value: el.id_presence_type, label: el.name.charAt(0).toUpperCase() + el.name.slice(1) });
         });
         setTipiPresenza(arr);
       });
@@ -76,7 +76,7 @@ export default function FullFeaturedCrudGrid() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/business`).then((res) => {
       let arr: any = [];
       Object.values(res.data.data).forEach((el: any) => {
-        arr.push({ value: el.id_business, label: el.name });
+        arr.push({ value: el.id_business, label: `${el.name.charAt(0).toUpperCase() + el.name.slice(1)}   (P.IVA: ${el.p_iva})` });
       });
       setAziende(arr);
     });
@@ -332,6 +332,7 @@ export default function FullFeaturedCrudGrid() {
       }}
     >
       <DataGrid
+        style={{height: '89vh'}}
         autoHeight
         rows={rows}
         columns={columns}

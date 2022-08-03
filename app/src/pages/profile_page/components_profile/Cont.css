@@ -74,6 +74,8 @@
     border: solid 1px #BA68C8
 }
 
-input:disabled:hover {
-    cursor: not-allowed;
-}
+input:disabled  {
+    cursor:not-allowed !important;
+    text-decoration: None !important; 
+} 
+   

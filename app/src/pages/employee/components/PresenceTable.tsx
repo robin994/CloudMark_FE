@@ -37,8 +37,9 @@ const types: { [key: string]: string } = {
 
 const PresenceTable = (props: any) => {
   const [id_account, setIdAccount] = useState(sessionStorage.id_account);
-  const [id_employee, setIdEmployee] = useState("");
+  const [id_employee, setIdEmployee] = useState(sessionStorage.id_employee);
   const [orders, setOrders] = useState([]);
+  const [ date, setDate ] = useState({ month: props.month, year: props.year })
   const initialState: GridRowsProp = [];
   const [presenze, setPresenze] = useState([]);
   const [open, setOpen] = useState<any>(false);
@@ -72,8 +73,15 @@ const PresenceTable = (props: any) => {
       width: 279,
       editable: true,
       valueOptions: Object.keys(types).map((element) => {
-        return { label: element, value: types[element] };
+        return { label: types[element], value: element };
       }),
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
       align: "right",
       headerAlign: "right",
     },
@@ -84,12 +92,18 @@ const PresenceTable = (props: any) => {
       width: 279,
       editable: true,
       valueOptions: Object.values(orders).map((element) => {
-        console.log("ELEMEMEEMEM", element);
         return {
           label: element[`id_order`],
           value: element[`id_order`],
         };
       }),
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
       align: "right",
       headerAlign: "right",
     },
@@ -162,6 +176,7 @@ const PresenceTable = (props: any) => {
         resp.data.data.map((e: any) => {
           e["id"] = e["id_presence"];
           e["type"] = types[e["id_tipoPresenza"]];
+          e["order"] = e["id_order"]
           console.log("PresenceTable ----> PARSED resp: ", [e]);
           return e;
         })
@@ -171,7 +186,7 @@ const PresenceTable = (props: any) => {
     }
   }
 
-  async function getOrders() {
+/*   async function getOrders() {
     console.log("ID EMPLOYE IN GETORDERS: ", id_employee);
     console.log(
       `${process.env.REACT_APP_FASTAPI_URL}/orders/employee/${id_employee}`
@@ -185,7 +200,7 @@ const PresenceTable = (props: any) => {
     } catch (err) {
       console.log(err);
     }
-  }
+  } */
 
   // Initializing base data on first render
   async function initDataFetch() {
@@ -215,14 +230,14 @@ const PresenceTable = (props: any) => {
   useEffect(() => {
     initDataFetch();
     getRows();
-  }, []);
+  }, [props]);
 
   // Handlers ----------------------------------------------------------------------------|
   const handleAdd = () => {
     const id = randomId();
     setRowsBuffer((rowsBuffer) => [
       ...rowsBuffer,
-      { id, date_presence: "", hours: "", type: "", isNew: true },
+      { id, date_presence: "", hours: "", type: "", order: orders[0], isNew: true },
     ]);
     handleEditClick(id);
     setRowsMode((rowsMode) => ({
@@ -267,47 +282,61 @@ const PresenceTable = (props: any) => {
     setIDRowToDelete(id);
   };
 
+  // TODO: Adapt editing request, ternary operator?
   const processRowUpdate = (newRow: GridRowModel) => {
     console.log([newRow]);
     newRow.isNew && createPresence(newRow);
     const updatedRow = { ...newRow, isNew: false };
-
-    axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/presence/insertUpdate`, {
-        id_presence: updatedRow.id,
-        id_employee: updatedRow.id_employee,
-        date_presence: updatedRow.date_presence.toISOString().split("T")[0],
-        id_tipoPresenza: updatedRow.tipoPresenza,
-        id_order: updatedRow.nome_azienda,
-        hours: updatedRow.hours,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    setRowsBuffer(
-      rowsBuffer.map((row) => (row.id === newRow.id ? updatedRow : row))
-    );
-    return updatedRow;
+	editPresence(updatedRow);
   };
 
   async function createPresence(newRow: GridRowModel) {
-    console.log("NEWROW", [newRow]);
+    console.log("ATTEMPTING TO CREATE NEW PRESENCE...", [newRow]);
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_FASTAPI_URL}/presence/inserPresences`,
+        `${process.env.REACT_APP_FASTAPI_URL}/presence/create`,
         {
           id_employee: id_employee,
-          date_presence: newRow.date_presence,
-          id_tipoPresenza: newRow.idTipoPresenza,
-          id_order: newRow.id_order,
+          date_presence: `${newRow.date_presence.getFullYear()}-${newRow.date_presence.getMonth()+1}-${newRow.date_presence.getDate()}`,
+          id_tipoPresenza: newRow.type,
+          id_order: newRow.order,
           hours: newRow.hours,
+        },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json"
+          }
         }
       );
-      console.log("CREATION REQUEST RESPONSE: ---->", res);
+      console.log("CREATION REQUEST SUCCESSFUL: ---->", res);
+      getRows();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function editPresence(updatedRow: GridRowModel) {
+    console.log("ATTEMPTING TO UPDATE PRESENCE...", [updatedRow]);
+    try {
+      	const res = await axios.post(
+			`${process.env.REACT_APP_FASTAPI_URL}/presence/update`,
+        {
+          id_employee: id_employee,
+          date_presence: `${updatedRow.date_presence.getFullYear()}-${updatedRow.date_presence.getMonth()+1}-${updatedRow.date_presence.getDate()}`,
+          id_tipoPresenza: updatedRow.type,
+          id_order: updatedRow.order,
+          hours: updatedRow.hours,
+          id_presence: updatedRow.id,
+        },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      console.log("UPDATE REQUEST SUCCESSFUL: ---->", res);
       getRows();
     } catch (err) {
       console.log(err);
@@ -343,11 +372,12 @@ const PresenceTable = (props: any) => {
         // loading
         rows={rowsBuffer}
         columns={heading}
-        pageSize={32}
+        pageSize={20}
         editMode="row"
         rowModesModel={rowsMode}
         onRowEditStart={handleRowEditStart}
         processRowUpdate={processRowUpdate}
+		onProcessRowUpdateError={console.log}
         rowsPerPageOptions={[20]}
         checkboxSelection
         components={{

@@ -1,7 +1,6 @@
 import { ListGroup } from "react-bootstrap"
 import { useNavigate, Outlet } from "react-router-dom"
 import { useEffect, useState } from "react"
-import Axios from 'axios'
 import axios from 'axios'
 import { DataGrid, GridActionsCellItem} from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
@@ -15,6 +14,7 @@ let newCustomer = {}
 export default function Clienti() {
 
     const navigate = useNavigate()
+    const [refresh, pressRefresh] = useState(false)
     const [customers, setCustomers] = useState({})
     const [id_customer, setId_customer] = useState("")
     const [openAddCustomer, setOpenAddCustomer] = useState(false)
@@ -23,14 +23,14 @@ export default function Clienti() {
         setId_customer(id_customer)
     }
     const handleDelete = id_customer => {
-        Axios(`${process.env.REACT_APP_FASTAPI_URL}/customer/delete/`, {
-            method: "POST",
+        axios.post(`${process.env.REACT_APP_FASTAPI_URL}/customer/delete/`, null, {
             headers: {accept: "application/json"},
             params: {id_customer: id_customer}
+        }).then(() => {
+          pressRefresh(!refresh)
         }).catch(err => {
-            console.log("errore", err)
+            console.log("errore ", err)
         })
-        getDipendenti()
     }
     const handleAddCustomer = () => setOpenAddCustomer(true)
     const handleClose = () => {
@@ -64,7 +64,7 @@ export default function Clienti() {
       }
     useEffect( () => {
         getDipendenti()
-    }, [])
+    }, [refresh])
     return (
         <>
         <AddCustomerDialog onClose={handleClose} open={openAddCustomer}/>
@@ -75,7 +75,7 @@ export default function Clienti() {
             <ListGroup.Item>
               
                 <div style={{ display: 'flex', height: "100%" }}>
-                    <DataGrid autoHeight autoHeight rows={rows} columns={columns}/>
+                    <DataGrid autoHeight rows={rows} columns={columns}/>
                 </div>
             </ListGroup.Item>
             <ListGroup.Item>
@@ -103,10 +103,8 @@ function AddCustomerDialog(props) {
     if (Object.keys(newCustomer).length !== 9)
         setMissing(true)
     else
-        Axios(`${process.env.REACT_APP_FASTAPI_URL}/customer/create/`, {
-            method: "POST",
-            headers: {accept: "application/json", "Content-Type": "application/json"},
-            data: newCustomer
+        axios.post(`${process.env.REACT_APP_FASTAPI_URL}/customer/create/`, newCustomer, {
+            headers: {accept: "application/json", "Content-Type": "application/json"}
         }).then(resp => {
             onClose()
         }).catch(err => {
