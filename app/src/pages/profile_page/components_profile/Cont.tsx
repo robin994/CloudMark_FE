@@ -8,7 +8,7 @@ import EmployeeCheck from "../../../components/EmployeeCheck";
 
 interface ProfileInterface {
   employee: {
-    first_name: string | undefined;
+    first_name: string;
     last_name: string;
     cf: string;
     iban: string;
@@ -57,10 +57,21 @@ interface BusinessInterface {
   id_business: string;
 }
 
+interface PayloadInterface {
+  first_name: string;
+  last_name: string;
+  cf: string;
+  iban: string;
+  id_contractType: string;
+  email: string;
+  phoneNumber: string;
+  id_employee: string;
+}
+
 export default function ContProfile() {
   const [profile, setProfile] = React.useState<ProfileInterface>();
   const [tipoContratto, setTipoContratto] = React.useState<tipoContratto>();
-  const [data, setData] = useState<SessionInterface>();
+  const [payload, setPayload] = useState<PayloadInterface>();
   const [business, setBusiness] = useState<BusinessInterface>();
 
   useEffect(() => {
@@ -78,6 +89,16 @@ export default function ContProfile() {
         loadTypeContract(profile.employee.id_contractType);
         loadBusiness(profile.id_business);
         setProfile(res.data.data);
+        setPayload({
+          first_name: profile.employee.first_name,
+          last_name: profile.employee.last_name,
+          cf: profile.employee.cf,
+          iban: profile.employee.iban,
+          id_contractType: profile.employee.id_contractType,
+          email: profile.employee.email,
+          phoneNumber: profile.employee.phoneNumber,
+          id_employee: profile.employee.id_employee,
+        });
       });
   }
 
@@ -100,44 +121,35 @@ export default function ContProfile() {
   }
 
   async function updateEmployee() {
-    axios.post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, {
-      first_name: profile?.employee.first_name,
-      last_name: profile?.employee.last_name,
-      cf: profile?.employee.cf,
-      iban: profile?.employee.iban,
-      id_contractType: profile?.employee.id_contractType,
-      email: profile?.employee.email,
-      phoneNumber: profile?.employee.phoneNumber,
-      id_employee: profile?.employee.id_employee,
-    });
+    axios.post(
+      `${process.env.REACT_APP_FASTAPI_URL}/employee/update/`,
+      payload
+    );
   }
 
-  const handleInputChangeFirstName = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.first_name = event.target.value;
-  };
-
-  const handleInputChangeLastName = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.last_name = event.target.value;
-  };
-
-  const handleInputChangePhoneNumber = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    profile!.employee.phoneNumber = event.target.value;
-  };
-
-  const handleInputChangeFiscalCode = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    profile!.employee.cf = event.target.value;
-  };
-
-  const handleInputChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.email = event.target.value;
-  };
-
-  const handleInputChangeIban = (event: ChangeEvent<HTMLInputElement>) => {
-    profile!.employee.iban = event.target.value;
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    let toUpdate = JSON.parse(JSON.stringify(payload));
+    switch (event.target.id) {
+      case "first_name":
+        toUpdate!.first_name = event.target.value;
+        break;
+      case "last_name":
+        toUpdate!.last_name = event.target.value;
+        break;
+      case "cf":
+        toUpdate!.cf = event.target.value;
+        break;
+      case "iban":
+        toUpdate!.iban = event.target.value;
+        break;
+      case "email":
+        toUpdate!.email = event.target.value;
+        break;
+      case "phonenumber":
+        toUpdate!.phoneNumber = event.target.value;
+        break;
+    }
+    setPayload(toUpdate);
   };
 
   const handleRevealProfilePage = () => {
@@ -182,12 +194,13 @@ export default function ContProfile() {
                       Nome
                     </label>
                     <input
+                      disabled
                       style={{ border: "None" }}
                       id="firstname"
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.first_name}
-                      onChange={handleInputChangeFirstName}
+                      onChange={handleInput}
                     />
                   </motion.div>
                   <motion.div
@@ -202,12 +215,13 @@ export default function ContProfile() {
                       Cognome
                     </label>
                     <input
+                      disabled
                       style={{ border: "None" }}
                       id="lastname"
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.last_name}
-                      onChange={handleInputChangeLastName}
+                      onChange={handleInput}
                     />
                   </motion.div>
                 </div>
@@ -229,7 +243,7 @@ export default function ContProfile() {
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.phoneNumber}
-                      onChange={handleInputChangePhoneNumber}
+                      onChange={handleInput}
                     />
                   </motion.div>
                   <motion.div
@@ -249,7 +263,7 @@ export default function ContProfile() {
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.cf}
-                      onChange={handleInputChangeFiscalCode}
+                      onChange={handleInput}
                     />
                   </motion.div>
                   <motion.div
@@ -269,7 +283,7 @@ export default function ContProfile() {
                       type="email"
                       className="form-control shadow"
                       placeholder={profile?.employee.email}
-                      onChange={handleInputChangeEmail}
+                      onChange={handleInput}
                     />
                   </motion.div>
                   <motion.div
@@ -289,7 +303,7 @@ export default function ContProfile() {
                       type="text"
                       className="form-control shadow"
                       placeholder={profile?.employee.iban}
-                      onChange={handleInputChangeIban}
+                      onChange={handleInput}
                     />
                   </motion.div>
                 </div>
