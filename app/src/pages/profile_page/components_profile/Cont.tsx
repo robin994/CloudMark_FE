@@ -252,8 +252,7 @@ export default function ContProfile() {
                     style={{border: "None"}}
                     type="text"
                     className="form-control shadow"
-                    placeholder="experience"
-                    value={profile?.account.user}
+                    placeholder={profile?.account.user}
                   />
                 </div>
                 <br />
@@ -264,7 +263,6 @@ export default function ContProfile() {
                     type="password"
                     className="form-control shadow"
                     placeholder="Nuova Password"
-                    value=""
                   />
                 </div>
                 <div className="col-md-12">
@@ -274,7 +272,6 @@ export default function ContProfile() {
                     type="password"
                     className="form-control shadow"
                     placeholder="Conferma Password"
-                    value=""
                   />
                 </div>
               </div>
