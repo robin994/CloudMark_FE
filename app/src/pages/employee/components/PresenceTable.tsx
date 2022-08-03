@@ -414,9 +414,10 @@ const PresenceTable = (props: any) => {
       initial={{ x: 100 }}
       animate={{ x: 0 }}
       className="custom-grid"
-      style={{ height: "80vh", width: "100%" }}
+      style={{ width: "100%" }}
     >
       <DataGrid
+	  	style={{ height: "90vh" }}
         autoHeight
         // components={{
         //     LoadingOverlay: LinearProgress
