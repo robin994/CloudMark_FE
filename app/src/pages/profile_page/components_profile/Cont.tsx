@@ -249,27 +249,30 @@ export default function ContProfile() {
                 <div className="col-md-12">
                   <label className="labels fst-italic fs-6 mb-1 fw-normal">User</label>
                   <input
+                    style={{border: "None"}}
                     type="text"
-                    className="form-control"
+                    className="form-control shadow"
                     placeholder="experience"
                     value={profile?.account.user}
                   />
-                </div>{" "}
+                </div>
                 <br />
                 <div className="col-md-12">
                   <label className="labels fst-italic fs-6 mb-1 fw-normal">Nuova Password</label>
                   <input
+                    style={{border: "None"}}
                     type="password"
-                    className="form-control"
+                    className="form-control shadow"
                     placeholder="Nuova Password"
                     value=""
                   />
                 </div>
                 <div className="col-md-12">
-                  <label className="labels fst-italic fs-6 mb-1 fw-normal">Conferma Password</label>
+                  <label className="labels fst-italic fs-6 mb-1 fw-normal mt-3">Conferma Password</label>
                   <input
+                    style={{border: "None"}}
                     type="password"
-                    className="form-control"
+                    className="form-control shadow"
                     placeholder="Conferma Password"
                     value=""
                   />
