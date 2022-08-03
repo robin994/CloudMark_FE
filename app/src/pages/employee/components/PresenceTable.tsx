@@ -4,6 +4,7 @@ import {
   DataGrid,
   GridActionsCellItem,
   GridColumns,
+  GridEventListener,
   GridRowId,
   GridRowModel,
   GridRowModes,
@@ -253,9 +254,12 @@ const PresenceTable = (props: any) => {
     event.defaultMuiPrevented = true;
   };
 
-  const handleRowEditStop = () => {};
-
-  const handlePushChanges = () => {};
+  const handleRowEditStop: GridEventListener<"rowEditStop"> = (
+    params,
+    event
+  ) => {
+    event.defaultMuiPrevented = true;
+  };
 
   const handleEditClick = (id: GridRowId) => () => {
     setRowsMode({ ...rowsMode, [id]: { mode: GridRowModes.Edit } });
@@ -282,42 +286,16 @@ const PresenceTable = (props: any) => {
     setIDRowToDelete(id);
   };
 
+  // TODO: Adapt editing request, ternary operator?
   const processRowUpdate = (newRow: GridRowModel) => {
     console.log([newRow]);
     newRow.isNew && createPresence(newRow);
     const updatedRow = { ...newRow, isNew: false };
-
-    axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/presence/insertUpdate`, {
-        id_presence: updatedRow.id,
-        id_employee: updatedRow.id_employee,
-        date_presence: updatedRow.date_presence.toISOString().split("T")[0],
-        id_tipoPresenza: updatedRow.tipoPresenza,
-        id_order: updatedRow.nome_azienda,
-        hours: updatedRow.hours,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    setRowsBuffer(
-      rowsBuffer.map((row) => (row.id === newRow.id ? updatedRow : row))
-    );
-    return updatedRow;
+	return editPresence(updatedRow);
   };
 
   async function createPresence(newRow: GridRowModel) {
-    console.log("ATTEMPTING TO CREATE A NEW PRESENCE...", [newRow]);
-    console.log('DATA:',{
-      id_employee: id_employee,
-      date_presence: (`${newRow.date_presence.getFullYear()}-${newRow.date_presence.getMonth()+1}-${newRow.date_presence.getDate()}`),
-      id_tipoPresenza: newRow.type,
-      id_order: newRow.order,
-      hours: newRow.hours,
-    });
+    console.log("ATTEMPTING TO CREATE NEW PRESENCE...", [newRow]);
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_FASTAPI_URL}/presence/create`,
@@ -337,6 +315,40 @@ const PresenceTable = (props: any) => {
       );
       console.log("CREATION REQUEST SUCCESSFUL: ---->", res);
       getRows();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function editPresence(updatedRow: GridRowModel) {
+	if(updatedRow.date_presence instanceof Date) {
+		updatedRow.date_presence = 	`${updatedRow.date_presence.getFullYear()}-`+
+									`${updatedRow.date_presence.getMonth()+1}-`+
+									`${updatedRow.date_presence.getDate()}`
+	}
+    console.log("ATTEMPTING TO UPDATE PRESENCE...", [updatedRow]);
+    try {
+		console.log('ID PRESENZA UPDATING: ', updatedRow.id);
+      	const res = await axios.post(
+			`${process.env.REACT_APP_FASTAPI_URL}/presence/update`,
+        {
+          id_employee: id_employee,
+          date_presence: updatedRow.date_presence,
+          id_tipoPresenza: updatedRow.type,
+          id_order: updatedRow.order,
+          hours: updatedRow.hours,
+          id_presence: updatedRow.id,
+        },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      console.log("UPDATE REQUEST SUCCESSFUL: ---->", res);
+      getRows();
+	  return updatedRow;
     } catch (err) {
       console.log(err);
     }
@@ -375,7 +387,9 @@ const PresenceTable = (props: any) => {
         editMode="row"
         rowModesModel={rowsMode}
         onRowEditStart={handleRowEditStart}
+		onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
+		onProcessRowUpdateError={console.log}
         rowsPerPageOptions={[20]}
         checkboxSelection
         components={{
