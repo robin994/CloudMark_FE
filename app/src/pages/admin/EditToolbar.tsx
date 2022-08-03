@@ -102,7 +102,7 @@ function EditToolbar(props: EditToolbarProps) {
         </Modal.Header>
         <Modal.Body>
           <div>
-            <p>
+            <div>
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Dipendente"
@@ -112,8 +112,8 @@ function EditToolbar(props: EditToolbarProps) {
                 }}
                 options={employee}
               />
-            </p>
-            <p>
+            </div>
+            <div>
               <input
                 value={datePresence}
                 onChange={(e) => setDatePresence(e.target.value)}
@@ -121,10 +121,9 @@ function EditToolbar(props: EditToolbarProps) {
                 type="date"
                 className="form-control"
                 placeholder="data presenza"
-                style={{ marginTop: "1vh" }}
               ></input>
-            </p>
-            <p>
+            </div>
+            <div>
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Tipo Presenza"
@@ -134,8 +133,8 @@ function EditToolbar(props: EditToolbarProps) {
                 }}
                 options={tipiPresenza}
               />
-            </p>
-            <p>
+            </div>
+            <div>
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Commessa"
@@ -145,8 +144,8 @@ function EditToolbar(props: EditToolbarProps) {
                 }}
                 options={aziende}
               />
-            </p>
-            <p>
+            </div>
+            <div>
               <input
                 value={hours}
                 onChange={(e) => setHours(e.target.value)}
@@ -154,9 +153,8 @@ function EditToolbar(props: EditToolbarProps) {
                 className="form-control"
                 type="number"
                 placeholder="Ore"
-                style={{ marginTop: "1vh" }}
               ></input>
-            </p>
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
