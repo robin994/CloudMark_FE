@@ -8,6 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Dialog, DialogTitle, DialogActions, 
          DialogContent, DialogContentText, TextField } from "@mui/material"        
+import Spacer from "../../components/Spacer";
 
 let newCustomer = {}
 
@@ -18,8 +19,13 @@ export default function Clienti() {
     const [customers, setCustomers] = useState({})
     const [id_customer, setId_customer] = useState("")
     const [openAddCustomer, setOpenAddCustomer] = useState(false)
-    useEffect(() => navigate(`/clienti/${id_customer}`), [id_customer])
-    const handleDetails = id_customer => {
+    useEffect( () => {
+      getDipendenti()
+    }, [refresh])
+    useEffect(() => {
+      navigate(`/clienti/${id_customer}`)
+    }, [id_customer])
+    const handleEdit = id_customer => {
         setId_customer(id_customer)
     }
     const handleDelete = id_customer => {
@@ -42,7 +48,7 @@ export default function Clienti() {
         { field: 'name', headerName: 'Nome', width: 150 },
         { field: 'actions', type: "actions", getActions: customer_row => [
             <GridActionsCellItem icon={<EditIcon />} label="Info"
-            onClick={() => handleDetails(customer_row.id)}
+            onClick={() => handleEdit(customer_row.id)}
             />,
             <GridActionsCellItem icon={<DeleteIcon />} label="Delete"
             onClick={() => handleDelete(customer_row.id)}
@@ -62,12 +68,10 @@ export default function Clienti() {
           console.log(error)
         }
       }
-    useEffect( () => {
-        getDipendenti()
-    }, [refresh])
     return (
-        <>
+      <>
         <AddCustomerDialog onClose={handleClose} open={openAddCustomer}/>
+        <Spacer margin="1rem" />
         <Button color="primary" startIcon={<AddIcon />} onClick={handleAddCustomer}>
             ADD CUSTOMER
         </Button>
@@ -79,10 +83,11 @@ export default function Clienti() {
                 </div>
             </ListGroup.Item>
             <ListGroup.Item>
-                <Outlet/>
+                <Outlet context={getDipendenti}/>
             </ListGroup.Item>
         </ListGroup>
-        </>
+        <Spacer margin="1rem" />
+      </>
     )
 }
 
@@ -100,17 +105,15 @@ function AddCustomerDialog(props) {
     newCustomer[id] = value
   }
   const handleAdd = () => {
-    if (Object.keys(newCustomer).length !== 9)
-        setMissing(true)
-    else
-        axios.post(`${process.env.REACT_APP_FASTAPI_URL}/customer/create/`, newCustomer, {
-            headers: {accept: "application/json", "Content-Type": "application/json"}
-        }).then(resp => {
-            onClose()
-        }).catch(err => {
-            console.log("errore", err)
-        })
+      axios.post(`${process.env.REACT_APP_FASTAPI_URL}/customer/create/`, newCustomer, {
+          headers: {accept: "application/json", "Content-Type": "application/json"}
+      }).then(resp => {
+          onClose()
+      }).catch(err => {
+          console.log("errore", err)
+      })
   }
+
   const inputsAttrs = [
     {type: "text", id: "name", label: "Name"},
     {type: "text", id: "p_iva", label: "IVA"},
