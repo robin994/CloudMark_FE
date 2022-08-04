@@ -32,11 +32,11 @@
         width: 99.5%;
     }
   }
-
+/* 
 .form-control:focus {
     box-shadow: none;
     border-color: #BA68C8
-}
+} */
 
 .profile-button {
     background: rgb(99, 39, 120);
@@ -67,12 +67,12 @@
     font-size: 11px
 }
 
-.add-experience:hover {
+/* .add-experience:hover {
     background: #BA68C8;
     color: #fff;
     cursor: pointer;
     border: solid 1px #BA68C8
-}
+} */
 
 input:disabled  {
     cursor:not-allowed !important;
