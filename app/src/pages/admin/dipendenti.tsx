@@ -236,9 +236,7 @@ const ListaDipendenti = (props: any) => {
           editMode="row"
           rowsPerPageOptions={[5]}
           checkboxSelection
-          sx={{
-            boxShadow: 20,
-          }}
+
         />
       </div>
     </>
