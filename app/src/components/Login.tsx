@@ -71,7 +71,7 @@ export default function Login() {
     return (
     <>
       <Background />
-      <Container style={{position: 'absolute', top: "calc(50% - 117.7px)", right: "calc(50% - 660px)"}}>
+      <Container style={{position: 'absolute', top: "50%", right: "50%", transform: "translate(50%, -50%)"}}>
         <Card style={{ width: "24rem" }} className="mx-auto">
           <Card.Header className="text-center">
             <h1>Log In</h1>
