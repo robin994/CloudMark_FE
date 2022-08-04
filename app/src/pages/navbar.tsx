@@ -1,4 +1,4 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Badge } from "react-bootstrap";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Offcanvas } from "react-bootstrap";
 import { useState } from "react";
@@ -9,16 +9,19 @@ export default function TopMenu() {
   const toggleCollapse = () => {
     setCollapse(!collapse)
   }
-  const brand = ( <Navbar.Brand href="/">
-                  <img
-                    src="/statics/Risorsa 22.png"
-                    className="d-inline-block align-top"
-                    width="auto"
-                    height="40"
-                    alt="React Bootstrap logo"
-                  />
-                  Cloudmark
-                </Navbar.Brand>
+  const brand = ( <>
+                    <Navbar.Brand href="/">
+                      <img
+                        src="/statics/Risorsa 22.png"
+                        className="d-inline-block align-top"
+                        width="auto"
+                        height="40"
+                        alt="React Bootstrap logo"
+                      />
+                      Cloudmark
+                    </Navbar.Brand>
+                    <Badge>{sessionStorage.employer}</Badge>
+                  </>
   )
   return (
     <>
