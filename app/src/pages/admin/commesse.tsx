@@ -32,7 +32,6 @@ export default function FullFeaturedCrudGrid() {
   const [business, setBusiness] = React.useState([]);
   const [customer, setCustomer] = React.useState([]);
 
-
   async function getCommesse() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
       setRows(
@@ -55,7 +54,9 @@ export default function FullFeaturedCrudGrid() {
       Object.values(res.data.data).forEach((el: any) => {
         arr.push({
           value: el.id_customer,
-          label: `${el.name.charAt(0).toUpperCase() + el.name.slice(1)} (p.iva: ${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
+          label: `${
+            el.name.charAt(0).toUpperCase() + el.name.slice(1)
+          } (p.iva: ${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
         });
       });
       setCustomer(arr);
@@ -67,7 +68,9 @@ export default function FullFeaturedCrudGrid() {
       Object.values(res.data.data).forEach((el: any) => {
         arr.push({
           value: el.id_business,
-          label: `${el.name.charAt(0).toUpperCase() + el.name.slice(1)} (p.iva:${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
+          label: `${
+            el.name.charAt(0).toUpperCase() + el.name.slice(1)
+          } (p.iva:${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
         });
       });
       setBusiness(arr);
@@ -132,22 +135,24 @@ export default function FullFeaturedCrudGrid() {
     }
   };
 
-  const updateError = ()=>{
-    return "Errore"
-  }
+  const updateError = () => {
+    return "Errore";
+  };
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
-    console.log("aggiorno");
+    let startData = updatedRow.startDate.toString().split("T")[0];
+    let endDate = updatedRow.endDate.toString().split("T")[0];
+    let payload = {
+      id_order: updatedRow.id,
+      description: updatedRow.description,
+      id_customer: updatedRow.id_customer,
+      id_business: updatedRow.id_business,
+      startDate: startData,
+      endDate: endDate,
+    };
     axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update/`, {
-        id_order : updatedRow.id,
-        description: updatedRow.description,
-        id_customer: updatedRow.id_customer,
-        id_business: updatedRow.id_business,
-        startDate: updatedRow.startDate.toISOString().split("T")[0],
-        endDate: updatedRow.endDate.toISOString().split("T")[0],
-      })
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update/`, payload)
       .then((res) => {
         console.log(res);
       })
@@ -311,11 +316,9 @@ export default function FullFeaturedCrudGrid() {
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
         onProcessRowUpdateError={updateError}
-        components={
-          {
-            Toolbar: EditToolbarCommesse,
-          }
-        }
+        components={{
+          Toolbar: EditToolbarCommesse,
+        }}
         componentsProps={{
           toolbar: { getCommesse, business, customer },
         }}
