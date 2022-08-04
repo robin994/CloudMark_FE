@@ -27,6 +27,7 @@ export default function App() {
               </Route>
               <Route path="/commesse" element={<Admin.Commesse/>} />
               <Route path="/dipendente/:id_dipendente" element={<Admin.Dipendente />} />
+              <Route path="/add_dipendenti" element={<Admin.AddDipendente/>} />
             </Route>
 
             <Route element={<Comps.EmployeeCheck />}>
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="/addazienda" element={<Comps.AddAzienda/>}/>
             <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
             <Route path="/tabledipendenti" element={<Comps.TableDipendenti/>} />
+          
             <Route path="/pagination" element={<Comps.Pagination />} />
           </Route>
           <Route path="/signup" element={<Comps.Registrazione />} />
