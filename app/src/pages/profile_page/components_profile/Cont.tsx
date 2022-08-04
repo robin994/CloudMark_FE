@@ -74,6 +74,7 @@ export default function ContProfile() {
   const [payload, setPayload] = useState<PayloadInterface>();
   const [business, setBusiness] = useState<BusinessInterface>();
   const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     loadProfileData();
@@ -87,7 +88,6 @@ export default function ContProfile() {
       )
       .then((res) => {
         let profile: ProfileInterface = res.data.data;
-        console.log(profile.employee)
         loadTypeContract(profile.employee.id_contractType);
         loadBusiness(profile.id_business);
         setProfile(res.data.data);
@@ -132,6 +132,11 @@ export default function ContProfile() {
       setTimeout(()=>{
         setSuccess(false)
       },3500)}
+      if(res.status === 404){
+        setError(true)
+        setTimeout(()=>{
+          setError(false)
+      },3500)}
     });
   }
 
@@ -160,6 +165,7 @@ export default function ContProfile() {
     setPayload(toUpdate);
   };
 
+//task optional: quando si avrà risposta da backend aggiungere validazione password prima di poter mandare dati
 
   const handleRevealProfilePage = () => {
     if (profile && tipoContratto && business) {
@@ -375,6 +381,9 @@ export default function ContProfile() {
         </motion.div>
         {success && <div className="alert alert-success position-fixed fixed-bottom start-50 w-30 translate-middle text-center">
           Dati correttamente inviati
+        </div>}
+        {error && <div className="alert alert-danger position-fixed fixed-bottom start-50 w-30 translate-middle text-center">
+          Errore server, riprovare tra qualche minuto
         </div>}
         </>
       )
