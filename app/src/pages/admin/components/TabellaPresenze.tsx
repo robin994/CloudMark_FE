@@ -19,6 +19,7 @@ import {
 } from "@mui/x-data-grid";
 import axios from "axios";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import "./css_components/TabellaPresenze.css";
 import EditToolbar from "./presenze-components/EditToolbar";
 
@@ -33,6 +34,7 @@ export default function FullFeaturedCrudGrid() {
   );
   const [tipiPresenza, setTipiPresenza] = React.useState([]);
   const [aziende, setAziende] = React.useState([]);
+  const naviga = useNavigate()
 
   async function getPresenze() {
     axios
