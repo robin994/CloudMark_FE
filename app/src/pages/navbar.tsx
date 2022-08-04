@@ -9,19 +9,20 @@ export default function TopMenu() {
   const toggleCollapse = () => {
     setCollapse(!collapse)
   }
-  const brand = ( <>
-                    <Navbar.Brand href="/">
-                      <img
-                        src="/statics/Risorsa 22.png"
-                        className="d-inline-block align-top"
-                        width="auto"
-                        height="40"
-                        alt="React Bootstrap logo"
-                      />
-                      Cloudmark
-                    </Navbar.Brand>
-                    <Badge>{sessionStorage.employer}</Badge>
-                  </>
+  const brand = ( 
+	<>
+		<Navbar.Brand href="/">
+			<img
+			src="/statics/Risorsa 22.png"
+			className="d-inline-block align-top"
+			width="auto"
+			height="40"
+			alt="React Bootstrap logo"
+			/>
+			Cloudmark
+		</Navbar.Brand>
+		<Badge>{sessionStorage.business_name}</Badge>
+                </>
   )
   return (
     <>
