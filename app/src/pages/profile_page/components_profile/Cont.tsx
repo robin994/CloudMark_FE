@@ -3,8 +3,9 @@ import jwt_decode from "jwt-decode";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import "./Cont.css";
 import { motion } from "framer-motion";
-import ProfiloUtente from "../PaginaProfilo";
-import EmployeeCheck from "../../../components/EmployeeCheck";
+import * as Admin from '../../admin'
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
+
 
 interface ProfileInterface {
   employee: {
@@ -75,6 +76,12 @@ export default function ContProfile() {
   const [business, setBusiness] = useState<BusinessInterface>();
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
+
+  const naviga = useNavigate()
+
+  function ChiamaPath(){
+    naviga("/presenze")
+  }
 
   useEffect(() => {
     loadProfileData();
@@ -190,8 +197,7 @@ export default function ContProfile() {
                 <span className="text-black-50">{profile?.employee.email}</span>
                 <span className="text-black-50">{tipoContratto?.name}</span>
                 <span className="text-black-50">{business?.name}</span>
-                <a className="link-primary" href="/presenze">Visualizza Presenze</a>
-
+                  <a href="#" onClick={ChiamaPath} className="link-primary">Vedi Presenze</a>
               </div>
             </div>
             <div className="col-md-5 border-right">
@@ -380,7 +386,6 @@ export default function ContProfile() {
               </div>
             </div>
           </div>
-
         </motion.div>
         {success && <div className="alert alert-success position-fixed fixed-bottom start-50 w-30 translate-middle text-center">
           Dati correttamente inviati
