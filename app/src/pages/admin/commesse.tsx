@@ -3,6 +3,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { Button, Fade, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -15,10 +16,11 @@ import {
   GridRowModesModel,
   GridRowParams,
   GridRowsProp,
-  MuiEvent,
+  MuiEvent
 } from "@mui/x-data-grid";
 import axios from "axios";
 import * as React from "react";
+
 import EditToolbarCommesse from "./components/commessa-component/EditToolbarCommessa";
 // import "./css_components/TabellaPresenze.css";
 
@@ -31,6 +33,7 @@ export default function FullFeaturedCrudGrid() {
   );
   const [business, setBusiness] = React.useState([]);
   const [customer, setCustomer] = React.useState([]);
+  const navigate = useNavigate();
 
   async function getCommesse() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
@@ -183,6 +186,7 @@ export default function FullFeaturedCrudGrid() {
       field: "id_customer",
       headerName: "Cliente",
       type: "singleSelect",
+      
       width: 279,
       editable: true,
       hide: false,
@@ -201,6 +205,7 @@ export default function FullFeaturedCrudGrid() {
       type: "singleSelect",
       width: 279,
       editable: false,
+      // renderCell:(cellValues) =>{return <Link to="/clienti"/>},
       valueOptions: business,
       valueFormatter: ({ value, field, api }) => {
         const colDef = api.getColumn(field);
@@ -311,6 +316,14 @@ export default function FullFeaturedCrudGrid() {
         rows={rows}
         columns={columns}
         editMode="row"
+        onRowClick={(el)=>{
+          console.log(el.row.id_customer)
+      }
+    }
+        onCellDoubleClick={(el)=>{
+          if(el.field === "id_customer")
+          return navigate(`/clienti:${el.row.id_customer}}`)
+        }}
         rowModesModel={rowModesModel}
         onRowEditStart={handleRowEditStart}
         onRowEditStop={handleRowEditStop}
