@@ -1,14 +1,20 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { Outlet, useNavigate } from "react-router-dom";
-
+import { Offcanvas } from "react-bootstrap";
 export default function TopMenu() {
   const navigate = useNavigate();
   return (
     <>
-      <Navbar sticky="top" bg="dark" variant="dark">
+      <Navbar sticky="top" bg="dark" variant="dark" expand="lg" key="lg">
         <Container fluid>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Toggle aria-controls="offcanvasNavbar-expand-lg" />
+          <Navbar.Offcanvas
+              id="offcanvasNavbar-expand-lg"
+              aria-labelledby="offcanvasNavbar-expand-lg"
+              placement="start"
+            >
           <Navbar.Collapse id="responsive-navbar-nav">
+          <Offcanvas.Header closeButton>
             <Navbar.Brand href="/">
               <img
                 src="/statics/Risorsa 22.png"
@@ -19,6 +25,7 @@ export default function TopMenu() {
               />
               Cloudmark
             </Navbar.Brand>
+          </Offcanvas.Header>
             <Nav className="me-auto">
               {/* <Nav.Link href="/employee">Dipendente</Nav.Link> */}
               <Nav.Link href="/admin">Admin</Nav.Link>
@@ -48,6 +55,7 @@ export default function TopMenu() {
               )}
             </Nav>
           </Navbar.Collapse>
+          </Navbar.Offcanvas>
         </Container>
       </Navbar>
       <Outlet />
