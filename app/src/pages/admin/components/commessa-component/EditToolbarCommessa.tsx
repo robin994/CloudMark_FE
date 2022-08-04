@@ -19,7 +19,7 @@ function EditToolbarCommesse(props: EditToolbarProps) {
   const [show, setShow] = React.useState(false);
   const [idCustomer, setIdCustomer] = React.useState("");
   const [idBusiness, setIdBusiness] = React.useState("");
-  const [startDate, setStartDate] = React.useState<any>("");
+  const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
   const [description, setDescription] = React.useState("");
   const handleClose = () => setShow(false);

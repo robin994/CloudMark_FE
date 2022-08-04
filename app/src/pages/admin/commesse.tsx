@@ -132,11 +132,16 @@ export default function FullFeaturedCrudGrid() {
     }
   };
 
+  const updateError = ()=>{
+    return "Errore"
+  }
+
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
     console.log("aggiorno");
     axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update`, {
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update/`, {
+        id_order : updatedRow.id,
         description: updatedRow.description,
         id_customer: updatedRow.id_customer,
         id_business: updatedRow.id_business,
@@ -188,6 +193,7 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "id_business",
       headerName: "Id Azienda",
+      type: "singleSelect",
       width: 279,
       editable: false,
       valueOptions: business,
@@ -304,13 +310,14 @@ export default function FullFeaturedCrudGrid() {
         onRowEditStart={handleRowEditStart}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
+        onProcessRowUpdateError={updateError}
         components={
           {
             Toolbar: EditToolbarCommesse,
           }
         }
         componentsProps={{
-          toolbar: { setRows, setRowModesModel, rows, getCommesse, business, customer },
+          toolbar: { getCommesse, business, customer },
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
