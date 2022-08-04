@@ -80,7 +80,7 @@ export default function ContProfile() {
   const naviga = useNavigate()
 
   function ChiamaPath(){
-    naviga("/presenze")
+    naviga("/employee")
   }
 
   useEffect(() => {
