@@ -190,8 +190,6 @@ export default function ContProfile() {
                 <span className="text-black-50">{profile?.employee.email}</span>
                 <span className="text-black-50">{tipoContratto?.name}</span>
                 <span className="text-black-50">{business?.name}</span>
-                <a className="link-primary" href="/presenze">Visualizza Presenze</a>
-
               </div>
             </div>
             <div className="col-md-5 border-right">
@@ -380,7 +378,6 @@ export default function ContProfile() {
               </div>
             </div>
           </div>
-
         </motion.div>
         {success && <div className="alert alert-success position-fixed fixed-bottom start-50 w-30 translate-middle text-center">
           Dati correttamente inviati
