@@ -1,0 +1,10 @@
+@media screen and (max-width: 991px){
+    .adm, .superuse, .login, .prof{
+        border-top: 2px solid #00bfff;
+        text-align: center;
+        color: #00bfff;
+    }.prof{
+        border-bottom: 2px solid #00bfff;
+    }
+
+}
