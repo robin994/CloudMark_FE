@@ -3,7 +3,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { Button, Fade, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -317,12 +317,12 @@ export default function FullFeaturedCrudGrid() {
         columns={columns}
         editMode="row"
         onRowClick={(el)=>{
-          console.log(el.row.id_customer)
+          // console.log(el.row.id_customer)
       }
     }
         onCellDoubleClick={(el)=>{
           if(el.field === "id_customer")
-          return navigate(`/clienti:${el.row.id_customer}}`)
+          return navigate(`/clienti/${el.row.id_customer}`)
         }}
         rowModesModel={rowModesModel}
         onRowEditStart={handleRowEditStart}
