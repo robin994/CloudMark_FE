@@ -58,8 +58,8 @@ export default function Cliente() {
                 {inputsAttrs.map(attrs => <TextField {...attrs} autoFocus margin="dense"
                                           fullWidth variant="outlined"
                                           onChange={e => handleChange(e)}
-                                      />
-                )}
+                                      />)
+                }
                 </ListGroup>
                 <Button variant="contained" onClick={handleSendUpdate}>Save</Button>
             </Card>

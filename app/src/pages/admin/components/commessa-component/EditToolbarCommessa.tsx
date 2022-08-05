@@ -24,7 +24,6 @@ function EditToolbarCommesse(props: EditToolbarProps) {
   const [description, setDescription] = React.useState("");
   const handleClose = () => setShow(false);
   let handleShow = () => {
-    createOrder();
     setShow(true);
   };
   React.useEffect(() => {
@@ -59,7 +58,7 @@ function EditToolbarCommesse(props: EditToolbarProps) {
         </Modal.Header>
         <Modal.Body>
           <div>
-            <div>
+            <div className="mb-2">
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Cliente"
@@ -70,7 +69,7 @@ function EditToolbarCommesse(props: EditToolbarProps) {
                 options={customer}
               />
             </div>
-            <div>
+            <div className="mb-2">
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Azienda"
@@ -81,7 +80,7 @@ function EditToolbarCommesse(props: EditToolbarProps) {
                 options={business}
               />
             </div>
-            <div>
+            <div className="mb-2">
               <input
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

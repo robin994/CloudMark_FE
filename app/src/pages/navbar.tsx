@@ -29,16 +29,16 @@ export default function TopMenu() {
     <>
       <Navbar sticky="top" bg="dark" variant="dark" expand="lg" key="lg">
         <Container fluid>
-          {collapse || brand}
+          {brand}
           <Navbar.Toggle aria-controls="offcanvasNavbar-expand-lg" onClick={toggleCollapse}/>
           <Navbar.Offcanvas
               id="offcanvasNavbar-expand-lg"
               aria-labelledby="offcanvasNavbar-expand-lg"
               placement="start"
             >
-          <Navbar.Collapse   id="responsive-navbar-nav" className="bg-dark">
-          <Offcanvas.Header closeButton onClick={toggleCollapse}>
-            {collapse && brand}
+          <Navbar.Collapse  id="responsive-navbar-nav" className="bg-dark">
+          <Offcanvas.Header closeButton >
+            <Offcanvas.Title >{brand}</Offcanvas.Title>
           </Offcanvas.Header>
             <Nav className="me-auto">
               {/* <Nav.Link href="/employee">Dipendente</Nav.Link> */}
