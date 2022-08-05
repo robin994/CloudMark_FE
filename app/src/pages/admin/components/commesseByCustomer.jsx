@@ -8,6 +8,7 @@ export default function CommesseByCustomer({id_customer}) {
         axios.post(`${process.env.REACT_APP_FASTAPI_URL}/orders/customer/`, {
             id_customer: id_customer,
             id_business: sessionStorage.business_id ? sessionStorage.business_id : "124e4567-e85b-1fd3-a456-426614474000"
+            // id_business should only get business_id (REMOVE TERNARY ASAP)
         }, { 
             headers: {accept: 'application/json', 'Content-Type': 'application/json'}
         }).then(resp => {
