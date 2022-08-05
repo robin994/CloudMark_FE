@@ -3,7 +3,7 @@ import { useOutletContext, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { TextField, Button } from "@mui/material"
 import axios from "axios"
-import { getListaDipendenti } from "../../../data_mock"
+import CommessaByCustomer from "./commessaByCustomer"
 
 export default function Cliente() {
     const [customer, setCustomer] = useState({})
@@ -52,16 +52,19 @@ export default function Cliente() {
         {type: "text", id: "phone", label: `Phone: ${customer.phone}`}
     ]
     return (
-            <Card style={{ width: '18rem' }}>
-                <Card.Img src="/statics/customer.jpg" />
-                <ListGroup variant="flush">
-                {inputsAttrs.map(attrs => <TextField {...attrs} autoFocus margin="dense"
-                                          fullWidth variant="outlined"
-                                          onChange={e => handleChange(e)}
-                                      />)
-                }
-                </ListGroup>
-                <Button variant="contained" onClick={handleSendUpdate}>Save</Button>
-            </Card>
+            <>
+                <Card style={{ width: '18rem' }}>
+                    <Card.Img src="/statics/customer.jpg" />
+                    <ListGroup variant="flush">
+                    {inputsAttrs.map(attrs => <TextField {...attrs} autoFocus margin="dense"
+                                              fullWidth variant="outlined"
+                                              onChange={e => handleChange(e)}
+                                          />)
+                    }
+                    </ListGroup>
+                    <Button variant="contained" onClick={handleSendUpdate}>Save</Button>
+                </Card>
+                <CommessaByCustomer id_customer={id_customer}/>
+            </>
     )
 }
