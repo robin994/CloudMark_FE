@@ -43,7 +43,7 @@ export default function Clienti() {
         getDipendenti()
     }
     const columns = [
-        { field: 'name', headerName: 'Nome', width: 150 },
+        { field: 'name', headerName: 'Nome', width: 100},
         { field: 'actions', type: "actions", getActions: customer_row => [
             <GridActionsCellItem icon={<EditIcon />} label="Info"
             onClick={() => handleEdit(customer_row.id)}
@@ -80,9 +80,7 @@ export default function Clienti() {
                     <DataGrid autoHeight rows={rows} columns={columns}/>
                 </div>
             </ListGroup.Item>
-            <ListGroup.Item>
-                <Outlet context={getDipendenti}/>
-            </ListGroup.Item>
+            <Outlet context={getDipendenti}/>
         </ListGroup>
         <Spacer margin="1rem" />
       </>
