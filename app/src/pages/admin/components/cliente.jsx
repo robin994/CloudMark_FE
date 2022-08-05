@@ -1,9 +1,9 @@
-import { Card, ListGroup } from "react-bootstrap"
 import { useOutletContext, useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+import CommesseByCustomer from "./commesseByCustomer"
+import { Card, ListGroup } from "react-bootstrap"
 import { TextField, Button } from "@mui/material"
+import { useEffect, useState } from "react"
 import axios from "axios"
-import CommessaByCustomer from "./commessaByCustomer"
 
 export default function Cliente() {
     const [customer, setCustomer] = useState({})
@@ -64,7 +64,7 @@ export default function Cliente() {
                     </ListGroup>
                     <Button variant="contained" onClick={handleSendUpdate}>Save</Button>
                 </Card>
-                <CommessaByCustomer id_customer={id_customer}/>
+                <CommesseByCustomer id_customer={id_customer}/>
             </>
     )
 }
