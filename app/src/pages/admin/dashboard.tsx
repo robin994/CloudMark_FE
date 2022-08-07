@@ -47,6 +47,9 @@ export default function Dashboard() {
             />
           </motion.div>
         </Row>
+
+        <h1 style={{position: "absolute", top: "50%", right: "50%", transform: "translate(50%, -50%)"}}>Benvenuto Admin</h1>
+        
         <Row className='my-5 justify-content-center align-items-center'>
           <motion.div className='col-3 d-flex justify-content-center' initial={{ y: 100 }} animate={{ y: 0 }}>
             <CustomCard
