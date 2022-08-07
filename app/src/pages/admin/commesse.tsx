@@ -3,6 +3,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { Button, Fade, Typography } from "@mui/material";
+import { useNavigate,useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -15,10 +16,11 @@ import {
   GridRowModesModel,
   GridRowParams,
   GridRowsProp,
-  MuiEvent,
+  MuiEvent
 } from "@mui/x-data-grid";
 import axios from "axios";
 import * as React from "react";
+
 import EditToolbarCommesse from "./components/commessa-component/EditToolbarCommessa";
 // import "./css_components/TabellaPresenze.css";
 
@@ -31,7 +33,7 @@ export default function FullFeaturedCrudGrid() {
   );
   const [business, setBusiness] = React.useState([]);
   const [customer, setCustomer] = React.useState([]);
-
+  const navigate = useNavigate();
 
   async function getCommesse() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
@@ -55,7 +57,9 @@ export default function FullFeaturedCrudGrid() {
       Object.values(res.data.data).forEach((el: any) => {
         arr.push({
           value: el.id_customer,
-          label: `${el.name.charAt(0).toUpperCase() + el.name.slice(1)} (p.iva: ${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
+          label: `${
+            el.name.charAt(0).toUpperCase() + el.name.slice(1)
+          } (p.iva: ${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
         });
       });
       setCustomer(arr);
@@ -67,7 +71,9 @@ export default function FullFeaturedCrudGrid() {
       Object.values(res.data.data).forEach((el: any) => {
         arr.push({
           value: el.id_business,
-          label: `${el.name.charAt(0).toUpperCase() + el.name.slice(1)} (p.iva:${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
+          label: `${
+            el.name.charAt(0).toUpperCase() + el.name.slice(1)
+          } (p.iva:${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
         });
       });
       setBusiness(arr);
@@ -132,17 +138,24 @@ export default function FullFeaturedCrudGrid() {
     }
   };
 
+  const updateError = () => {
+    return "Errore";
+  };
+
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
-    console.log("aggiorno");
+    let startData = updatedRow.startDate.toString().split("T")[0];
+    let endDate = updatedRow.endDate.toString().split("T")[0];
+    let payload = {
+      id_order: updatedRow.id,
+      description: updatedRow.description,
+      id_customer: updatedRow.id_customer,
+      id_business: updatedRow.id_business,
+      startDate: startData,
+      endDate: endDate,
+    };
     axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update`, {
-        description: updatedRow.description,
-        id_customer: updatedRow.id_customer,
-        id_business: updatedRow.id_business,
-        startDate: updatedRow.startDate.toISOString().split("T")[0],
-        endDate: updatedRow.endDate.toISOString().split("T")[0],
-      })
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update/`, payload)
       .then((res) => {
         console.log(res);
       })
@@ -173,6 +186,7 @@ export default function FullFeaturedCrudGrid() {
       field: "id_customer",
       headerName: "Cliente",
       type: "singleSelect",
+      
       width: 279,
       editable: true,
       hide: false,
@@ -188,8 +202,10 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "id_business",
       headerName: "Id Azienda",
+      type: "singleSelect",
       width: 279,
       editable: false,
+      // renderCell:(cellValues) =>{return <Link to="/clienti"/>},
       valueOptions: business,
       valueFormatter: ({ value, field, api }) => {
         const colDef = api.getColumn(field);
@@ -300,17 +316,24 @@ export default function FullFeaturedCrudGrid() {
         rows={rows}
         columns={columns}
         editMode="row"
+        onRowClick={(el)=>{
+          // console.log(el.row.id_customer)
+      }
+    }
+        onCellDoubleClick={(el)=>{
+          if(el.field === "id_customer")
+          return navigate(`/clienti/${el.row.id_customer}`)
+        }}
         rowModesModel={rowModesModel}
         onRowEditStart={handleRowEditStart}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
-        components={
-          {
-            Toolbar: EditToolbarCommesse,
-          }
-        }
+        onProcessRowUpdateError={updateError}
+        components={{
+          Toolbar: EditToolbarCommesse,
+        }}
         componentsProps={{
-          toolbar: { setRows, setRowModesModel, rows, getCommesse, business, customer },
+          toolbar: { getCommesse, business, customer },
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
