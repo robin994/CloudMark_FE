@@ -2,9 +2,11 @@ import CancelIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
-import Modal from 'react-bootstrap/Modal';
+
 import { Button, Fade, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+
+import CustomToolbar from "./components/dipendenti-component/export"
 
 import {
   DataGrid,
@@ -33,33 +35,69 @@ export default function FullFeaturedCrudGrid() {
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
-  const [tipiPresenza, setTipiPresenza] = React.useState([]);
-  const [aziende, setAziende] = React.useState([]);
+  const [dip, setDip] = React.useState([]);
+  const [dipendentis, setdipendentis] = React.useState([]);
 
 
 
+
+  const types: { [key: string]: string } = {
+
+    "52fbe812-08f6-11ed-861d-0242ac120002":"determinato",
+    "198ef11d-cf73-4245-8469-2ddfa9979acf":"indeterminato",
+    "7e55494c-08f4-11ed-861d-0242ac120002":"administrator",
+    "7e554b54-08f4-11ed-861d-0242ac120002":"dipendente",
+
+    "124e4567-e85b-1fd3-a456-426614474000":"markup",
+    "11111111-e85b-1fd3-a456-426614474000":"tamtung",
+    "12455557-444b-1333-a886-426699994000":"pokia",
+    "f565cec2-a3d9-4b9d-8600-0a3fd43dd5fb":"MARCO"
+  };
 
 
 
   async function getCommesse() {
-    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`).then((res) => {
+    axios.get('http://127.0.0.1:8000/all/employees/account/business').then((res) => {
       setRows(
-        Object.values(res.data.data).map((el: any) => {
+        Object.values(res.data.data).map((el: any) => {  //.employee , account, business
           console.log(el);
           return {
-            id: el["id_employee"],
-            first_name: el["first_name"],
-            last_name: el["last_name"],
-            cf: el["cf"],
-            iban: el["iban"],
-            id_contractType: el["id_contractType"],
-            email: el["email"],
-            phoneNumber: el["phoneNumber"],
+            
+            id: el.employee["id_employee"],
+            first_name: el.employee["first_name"],
+            last_name: el.employee["last_name"],
+            cf: el.employee["cf"],
+            iban: el.employee["iban"],
+            id_contractType: el.employee["id_contractType"],
+            email: el.employee["email"],
+            phoneNumber: el.employee["phoneNumber"],
+
+            id_employee:el.employee["id_employee"],
+
+            user:el.account["user"],
+            password: el.account["password"],
+            abilitato: el.account["abilitato"],
+            id_tipo_account: el.account["id_tipo_account"],
+            id_account: el.account["id_account"],
+
+            id_business: el.business["id_business"],
+            start_date: el.business["start_date"],
+            end_date: el.business["end_date"],
+            serial_num: el.business["serial_num"],
+
+            //el.account
+            //el.business
          
          
           };
+          
+
+          
+
         })
+        
       );
+
     });
   }
 
@@ -95,7 +133,7 @@ export default function FullFeaturedCrudGrid() {
 
       axios
         .request({
-          url: `${process.env.REACT_APP_FASTAPI_URL}/employee/delete/`,
+          url: 'http://127.0.0.1:8000/employee/delete/',
           method: "post",
           params: {
             id_employee: id,
@@ -124,7 +162,7 @@ export default function FullFeaturedCrudGrid() {
     const updatedRow = { ...newRow, isNew: false };
     console.log("aggiorno");
     axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, {
+      .post('http://127.0.0.1:8000/employee/update/', {
         first_name: updatedRow.first_name,
         last_name: updatedRow.last_name,
         cf: updatedRow.cf,
@@ -147,36 +185,38 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const columns: GridColumns = [
+
     {
-      field: "serial_num",
-      headerName: "Serial Num",
-      type: "number",
+      field: "first_name",
+      headerName: "First Name",
       width: 279,
       editable: true,
-      hide: true,
+     
     },
     {
-      field: "end_date",
-      headerName: "End Date",
-      type: "date",
+      field: "last_name",
+      headerName: "Last Name",
       width: 279,
       editable: true,
-      hide: true,
-    },
-    {
-      field: "start_date",
-      headerName: "Start Date",
-      type: "date",
-      width: 279,
-      editable: true,
-      hide: true,
+     
     },
     {
       field: "id_business",
-      headerName: "Id Business",
+      headerName: "Nome Azienda",
       width: 279,
       editable: true,
-      hide: true,
+      
+      valueOptions: Object.keys(types).map((element) => {
+        return { label: types[element], value: element };
+      }),
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
+      
     },
     {
       field: "id_account",
@@ -184,13 +224,43 @@ export default function FullFeaturedCrudGrid() {
       width: 279,
       editable: true,
       hide: true,
+     
     },
+    {
+      field: "start_date",
+      headerName: "Start Date",
+      type: "date",
+      width: 279,
+      editable: true,
+     
+    },
+
+    {
+      field: "end_date",
+      headerName: "End Date",
+      type: "date",
+      width: 279,
+      editable: true,
+      
+    },
+  
+
     {
       field: "id_tipo_account",
       headerName: "Tipo Account",
       width: 279,
       editable: true,
-      hide: true,
+      valueOptions: Object.keys(types).map((element) => {
+        return { label: types[element], value: element };
+      }),
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
+     
     },
     {
       field: "abilitato",
@@ -198,14 +268,14 @@ export default function FullFeaturedCrudGrid() {
       type: "number",
       width: 279,
       editable: true,
-      hide: true,
+     
     },
     {
       field: "password",
       headerName: "Password",
       width: 279,
       editable: true,
-      hide: true,
+      
     },
 
     {
@@ -213,29 +283,17 @@ export default function FullFeaturedCrudGrid() {
       headerName: "User",
       width: 279,
       editable: true,
-      hide: true,
+      
     },
   
-    {
-      field: "first_name",
-      headerName: "First Name",
-      width: 279,
-      editable: true,
-      hide: false,
-    },
-    {
-      field: "last_name",
-      headerName: "Last Name",
-      width: 279,
-      editable: true,
-      hide: false,
-    },
+    
     {
       field: "id_employee",
       headerName: "Id Dipendente",
       width: 279,
       editable: false,
       hide: true,
+     
     },
     {
       field: "cf",
@@ -256,6 +314,16 @@ export default function FullFeaturedCrudGrid() {
       headerName: "Tipo Contratto",
       width: 279,
       editable: true,
+      valueOptions: Object.keys(types).map((element) => {
+        return { label: types[element], value: element };
+      }),
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
     },
     {
       field: "email",
@@ -270,6 +338,15 @@ export default function FullFeaturedCrudGrid() {
       headerName: "Telephone",
       width: 279,
       editable: true,
+    },
+    {
+      field: "serial_num",
+      headerName: "Serial Num",
+      type: "number",
+      width: 279,
+      editable: true,
+     
+     
     },
     {
       field: "actions",
@@ -339,13 +416,22 @@ export default function FullFeaturedCrudGrid() {
     setIDRowToDelete(id);
   };
 
+
+
+
+
   return (
   <>
   
   <div style={{backgroundColor:"gainsboro",padding:"0.5rem",borderBottom: "1px solid solid black",borderTop: "1px solid black"}}>
-    <Button >
+    
+    <a href="add_dipendenti">
+    <Button>
       +Aggiungi Dipendente
     </Button>
+    </a>
+    
+ 
 
     
           
@@ -374,11 +460,11 @@ export default function FullFeaturedCrudGrid() {
         processRowUpdate={processRowUpdate}
         components={
           {
-            // Toolbar: EditToolbar,
+            Toolbar: CustomToolbar
           }
         }
         componentsProps={{
-          toolbar: { setRows, setRowModesModel, rows, tipiPresenza, aziende },
+          toolbar: { setRows, setRowModesModel, rows, dip, dipendentis },
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
@@ -391,7 +477,8 @@ export default function FullFeaturedCrudGrid() {
                 variant="h6"
                 component="h2"
               >
-                Vuoi cancellarlo?
+                Il Dipendente non può essere Cancellato,
+                Vuoi Disabilitarlo?
               </Typography>
               <div style={{ display: "flex" }}>
                 <Button
