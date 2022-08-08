@@ -52,7 +52,7 @@ const CreateEmployee=(e:any)=>{
             last_name:last_name,
             cf: cf,
             iban: iban,
-            id_contractType: types[id_contractType],
+            id_contractType: id_contractType,
             email: email,
             phoneNumber: phoneNumber,
 
@@ -61,11 +61,11 @@ const CreateEmployee=(e:any)=>{
             user: user,
             password: password,
             abilitato:abilitato,
-            id_tipo_account: types[id_tipo_account],
+            id_tipo_account: id_tipo_account,
 
         },
     
-        id_business: types[id_business],
+        id_business: id_business,
         start_date: start_date,
         end_date: end_date,
         serial_num: serial_num,

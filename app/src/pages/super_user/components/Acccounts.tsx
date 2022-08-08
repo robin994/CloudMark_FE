@@ -5,6 +5,7 @@ import {
   GridColumns,
   GridRowsProp,
 } from "@mui/x-data-grid";
+import EditIcon from '@mui/icons-material/Edit';
 import axios from "axios";
 
 const initialRows: GridRowsProp = [];
@@ -26,7 +27,7 @@ const Account = () => {
                         id_account: el.id_account, 
                         user: el.user,
                         password: el.password,
-                        abilitato: el.abilitato,
+                        abilitato: el.abilitato === 1 ? 'Si' : 'No',
                         id_tipo_account: el.id_tipo_account
                     });
                     id += 1
@@ -75,7 +76,32 @@ const Account = () => {
             width: 350,
             editable: false,
             hide: false,
-        }
+        },
+        // {
+        //     field: 'actions',
+        //     type: 'actions',
+        //     headerName: 'Actions',
+        //     width: 100,
+        //     cellClassName: 'actions',
+        //     getActions: ({ id }) => {
+        //       const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+      
+        //       if (isInEditMode) {
+        //         return [
+        //           <GridActionsCellItem
+        //             icon={<SaveIcon />}
+        //             label="Save"
+        //             onClick={handleSaveClick(id)}
+        //           />,
+        //           <GridActionsCellItem
+        //             icon={<CancelIcon />}
+        //             label="Cancel"
+        //             className="textPrimary"
+        //             onClick={handleCancelClick(id)}
+        //             color="inherit"
+        //           />,
+        //         ];
+        //       }
     ]
        
   return (
@@ -98,6 +124,7 @@ const Account = () => {
             pagination
             rows={rows}
             columns={columns}
+            editMode="row"
         />
     </Box>
   );
