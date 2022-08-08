@@ -25,7 +25,7 @@ export default function Dashboard() {
           transform: "translate(50%, -50%)",
         }}
       >
-        <Row className="my-5 justify-content-center align-items-center">
+        <Row className="mt-10 justify-content-center align-items-center d-grid rowCont">
           <motion.div
             className="col-3 d-flex justify-content-center"
             initial={{ x: -100 }}
