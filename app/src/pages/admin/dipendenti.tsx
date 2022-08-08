@@ -56,7 +56,7 @@ export default function FullFeaturedCrudGrid() {
 
 
 
-  async function getCommesse() {
+  async function getDipendenti() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/all/employees/account/business`).then((res) => {
       setRows(
         Object.values(res.data.data).map((el: any) => {  //.employee , account, business
@@ -103,7 +103,7 @@ export default function FullFeaturedCrudGrid() {
 
   console.log(rows);
   React.useEffect(() => {
-    getCommesse();
+    getDipendenti();
   }, []);
   const handleRowEditStart = (
     params: GridRowParams,
