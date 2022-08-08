@@ -82,12 +82,6 @@ p {
   animation-delay: -5s;
   animation-duration: 20s;
 }
-.rowCont{
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-.rowCont div{
-  width: 100%;
-}
 @keyframes move-forever {
   0% {
    transform: translate3d(-90px,0,0);
@@ -107,17 +101,6 @@ p {
   }
   h1 {
     font-size:24px;
-  }
-}
-@media (max-width: 1266px) {
-  .d-grid{
-    grid-template-columns: 1fr 1fr
-  }
-}
-
-@media (max-width: 626px){
-  .rowCont{
-    grid-template-columns: 1fr;
   }
 }
 
