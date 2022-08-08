@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { Offcanvas } from "react-bootstrap";
 import { useState } from "react";
 import './navbar.css'
+import { margin } from "@mui/system";
 
 export default function TopMenu() {
   const navigate = useNavigate();
@@ -12,15 +13,21 @@ export default function TopMenu() {
   }
   const brand = ( 
 	<>
-    <Navbar.Brand href="/">
+    <Navbar.Brand 
+      href="/" 
+      style={{
+        display: 'flex', 
+        alignItems: 'center', 
+        marginLeft: '10px'
+      }}>
       <img
-      src="/statics/Risorsa 22.png"
-      className="d-inline-block align-top"
-      width="auto"
-      height="40"
-      alt="React Bootstrap logo"
+        src="/statics/Risorsa 22.png"
+        className="d-inline-block align-top"
+        width="auto"
+        height="40"
+        alt="React Bootstrap logo"
       />
-      Cloudmark
+      <span style={{marginLeft: '5px'}}>Cloudmark</span>
     </Navbar.Brand>
     <Badge>{sessionStorage.business_name}</Badge>
   </>
@@ -41,9 +48,6 @@ export default function TopMenu() {
             <Offcanvas.Title >{brand}</Offcanvas.Title>
           </Offcanvas.Header>
             <Nav className="me-auto">
-              {/* <Nav.Link href="/employee">Dipendente</Nav.Link> */}
-              <Nav.Link href="/admin" className="adm">Admin</Nav.Link>
-              <Nav.Link href="/superuser" className="superuse">Superuser</Nav.Link>
             </Nav>
             <Nav className="d-flex">
               {sessionStorage.bearer ? 
