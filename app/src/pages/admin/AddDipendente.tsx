@@ -46,7 +46,7 @@ const AddDipendente = () => {
 
 const CreateEmployee=(e:any)=>{
     e.preventDefault()
-    axios.post('http://127.0.0.1:8000/employee/create/account', {
+    axios.post(`${process.env.REACT_APP_FASTAPI_URL}/employee/create/account`, {
         new_employee:{
             first_name:first_name,
             last_name:last_name,

@@ -57,7 +57,7 @@ export default function FullFeaturedCrudGrid() {
 
 
   async function getCommesse() {
-    axios.get('http://127.0.0.1:8000/all/employees/account/business').then((res) => {
+    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/all/employees/account/business`).then((res) => {
       setRows(
         Object.values(res.data.data).map((el: any) => {  //.employee , account, business
           console.log(el);
@@ -162,7 +162,7 @@ export default function FullFeaturedCrudGrid() {
     const updatedRow = { ...newRow, isNew: false };
     console.log("aggiorno");
     axios
-      .post('http://127.0.0.1:8000/employee/update/', {
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, {
         first_name: updatedRow.first_name,
         last_name: updatedRow.last_name,
         cf: updatedRow.cf,
