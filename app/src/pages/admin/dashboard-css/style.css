@@ -83,7 +83,7 @@ p {
   animation-duration: 20s;
 }
 .rowCont{
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 .rowCont div{
   width: 100%;
