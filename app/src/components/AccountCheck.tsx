@@ -11,7 +11,7 @@ export default function AccountCheck() {
             case "dipendente":
                 navigate("/employee", {replace: true})
                 break
-            case "superuser":
+            case "super":
                 navigate("/superuser", {replace: true})
                 break
         }

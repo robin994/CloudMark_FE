@@ -9,25 +9,24 @@ import axios from "axios";
 
 const initialRows: GridRowsProp = [];
 
-const Account = () => {
+const TipoPresenza = () => {
 
     const [pageSize, setPageSize] = React.useState<number>(14);
     const [rows, setRows] = React.useState(initialRows);
 
-    async function getAccounts() {
+    async function getTypePresences() {
         axios
         .get(
-            `${process.env.REACT_APP_FASTAPI_URL}/account`).then((res) => {
+            `${process.env.REACT_APP_FASTAPI_URL}/type/presence`).then((res) => {
                 let arr: any = [];
                 let id = 1
                 Object.values(res.data.data).forEach((el: any) => {
                     arr.push({
                         id: id, 
-                        id_account: el.id_account, 
-                        user: el.user,
-                        password: el.password,
-                        abilitato: el.abilitato,
-                        id_tipo_account: el.id_tipo_account
+                        name: el.name, 
+                        percentage_increase: el.percentage_increase,
+                        hourly_pay: el.hourly_pay === null ? "Non presente" : el.hourly_pay,
+                        id_presence_type: el.id_presence_type
                     });
                     id += 1
                 });
@@ -37,41 +36,34 @@ const Account = () => {
 
 
     React.useEffect(() => {
-        getAccounts();
-      }, []);
+        getTypePresences();
+    }, []);
 
     const columns: GridColumns = [
         {
-            field: "id_account",
-            headerName: "id account",
+            field: "name",
+            headerName: "Nome",
             width: 350,
             editable: false,
             hide: false,
         },
         {
-            field: "user",
-            headerName: "nome utente",
+            field: "percentage_increase",
+            headerName: "Percentuale maggiorazione",
             width: 350,
             editable: false,
             hide: false,
         },
         {
-            field: "password",
-            headerName: "password",
+            field: "hourly_pay",
+            headerName: "Paga oraria",
             width: 350,
             editable: false,
             hide: false,
         },
         {
-            field: "abilitato",
-            headerName: "abilitato",
-            width: 350,
-            editable: false,
-            hide: false,
-        },
-        {
-            field: "id_tipo_account",
-            headerName: "id tipo account",
+            field: "id_presence_type",
+            headerName: "id tipo presenza",
             width: 350,
             editable: false,
             hide: false,
@@ -103,4 +95,4 @@ const Account = () => {
   );
 }
 
-export default Account
+export default TipoPresenza
