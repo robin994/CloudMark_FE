@@ -19,6 +19,8 @@ export default function App() {
               <Route path="/azienda" element={<SU.Azienda />} />
               <Route path="/accounts" element={<SU.Accounts />} />
               <Route path="/tipo/account" element={<SU.TipoAccount />} />
+              <Route path="/tipo/contratto" element={<SU.TipoContratto />} />
+              <Route path="/tipo/presenza" element={<SU.TipoPresenza />} />
             </Route>
             
             <Route element={<Comps.AdminCheck />}>
