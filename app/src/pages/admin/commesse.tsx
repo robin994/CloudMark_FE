@@ -16,7 +16,8 @@ import {
   GridRowModesModel,
   GridRowParams,
   GridRowsProp,
-  MuiEvent
+  MuiEvent,
+  ValueOptions
 } from "@mui/x-data-grid";
 import axios from "axios";
 import * as React from "react";
@@ -34,7 +35,6 @@ export default function FullFeaturedCrudGrid() {
   const [business, setBusiness] = React.useState([]);
   const [customer, setCustomer] = React.useState([]);
   const navigate = useNavigate();
-
   async function getCommesse() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
       setRows(
@@ -79,7 +79,15 @@ export default function FullFeaturedCrudGrid() {
       setBusiness(arr);
     });
   }
-
+  let getCells : any = (value : any , field : any, api : any ) => {
+    const colDef = api.getColumn(field);
+    const option = colDef.valueOptions.find((el: any) => {
+      if (el.value === value) {
+        return el;
+      }
+    });
+    return option && option.label ? option.label : null;
+  }
   React.useEffect(() => {
     getCommesse();
     getBusiness();
@@ -166,7 +174,7 @@ export default function FullFeaturedCrudGrid() {
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
-
+  console.log(rows)
   const columns: GridColumns = [
     {
       field: "id",
@@ -186,18 +194,34 @@ export default function FullFeaturedCrudGrid() {
       field: "id_customer",
       headerName: "Cliente",
       type: "singleSelect",
-      
       width: 279,
       editable: true,
       hide: false,
       valueOptions: customer,
       valueFormatter: ({ value, field, api }) => {
         const colDef = api.getColumn(field);
-        const option = colDef.valueOptions.find((el: any, val: any) => {
-          if (el.value === value) return el;
+        const option = colDef.valueOptions.find((el: any) => {
+          if (el.value === value) {
+            return el;
+          }
         });
         return option && option.label ? option.label : null;
       },
+      renderCell:(el) => ( 
+        
+        <strong>
+          {el.formattedValue}
+          <Button
+            // onClick={}
+            variant="contained"
+            size="small"
+            style={{ marginLeft : 15, blockSize:25,right : 0 }}
+          >
+            Open
+          </Button>
+        </strong>
+      ),
+
     },
     {
       field: "id_business",
@@ -317,7 +341,7 @@ export default function FullFeaturedCrudGrid() {
         columns={columns}
         editMode="row"
         onRowClick={(el)=>{
-          // console.log(el.row.id_customer)
+          
       }
     }
         onCellDoubleClick={(el)=>{
@@ -329,11 +353,15 @@ export default function FullFeaturedCrudGrid() {
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
         onProcessRowUpdateError={updateError}
+  
         components={{
           Toolbar: EditToolbarCommesse,
         }}
         componentsProps={{
           toolbar: { getCommesse, business, customer },
+          row:{
+            style:{cursor : "context-menu"}
+          }
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
