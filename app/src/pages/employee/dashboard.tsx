@@ -33,7 +33,13 @@ const StyledCalendar = styled(Calendar, {})({
 })
 
 const StyledPresenceTable = styled(PresenceTable, {})({
-  borderRadius: '80px',
+  '.dataGrid_component': {
+    borderRadius: '15px',
+    border: '0',
+    boxShadow: '10px 10px 10px',
+    margin: '20px',
+    height: "90vh"
+  }
 });
 
 export default function Dashboard() {
