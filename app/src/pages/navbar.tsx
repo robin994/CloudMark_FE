@@ -1,31 +1,64 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Badge } from "react-bootstrap";
 import { Outlet, useNavigate } from "react-router-dom";
+import { Offcanvas } from "react-bootstrap";
+import { useState } from "react";
+import './navbar.css'
 
 export default function TopMenu() {
   const navigate = useNavigate();
+  const [collapse, setCollapse] = useState(false)
+  const toggleCollapse = () => {
+    setCollapse(!collapse)
+  }
+  const brand = ( 
+	<>
+    <Navbar.Brand href="/">
+      <img
+      src="/statics/Risorsa 22.png"
+      className="d-inline-block align-top"
+      width="auto"
+      height="40"
+      alt="React Bootstrap logo"
+      />
+      Cloudmark
+    </Navbar.Brand>
+    <Badge>{sessionStorage.business_name}</Badge>
+  </>
+  )
   return (
     <>
-      <Navbar sticky="top" bg="dark" variant="dark">
+      <Navbar sticky="top" bg="dark" variant="dark" expand="lg" key="lg">
         <Container fluid>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Navbar.Brand href="/">
-              <img
-                src="/statics/Risorsa 22.png"
-                className="d-inline-block align-top"
-                width="auto"
-                height="40"
-                alt="React Bootstrap logo"
-              />
-              Cloudmark
-            </Navbar.Brand>
+          {brand}
+          <Navbar.Toggle aria-controls="offcanvasNavbar-expand-lg" onClick={toggleCollapse}/>
+          <Navbar.Offcanvas
+              id="offcanvasNavbar-expand-lg"
+              aria-labelledby="offcanvasNavbar-expand-lg"
+              placement="start"
+            >
+          <Navbar.Collapse  id="responsive-navbar-nav" className="bg-dark">
+          <Offcanvas.Header closeButton >
+            <Offcanvas.Title >{brand}</Offcanvas.Title>
+          </Offcanvas.Header>
             <Nav className="me-auto">
               {/* <Nav.Link href="/employee">Dipendente</Nav.Link> */}
-              <Nav.Link href="/admin">Admin</Nav.Link>
-              <Nav.Link href="/superuser">Superuser</Nav.Link>
+              <Nav.Link href="/admin" className="adm">Admin</Nav.Link>
+              <Nav.Link href="/superuser" className="superuse">Superuser</Nav.Link>
             </Nav>
             <Nav className="d-flex">
-              {sessionStorage.bearer ? (
+              {sessionStorage.bearer ? 
+              sessionStorage.accountTypeName === 'super' ? (
+                <Nav.Link
+                    href="/login"
+                    onClick={() => {
+                      sessionStorage.clear();
+                      navigate("/login");
+                    }}
+                >
+                  logout
+                </Nav.Link>
+              ) : 
+              (
                 <>
                   <Nav.Link
                     href="/login"
@@ -33,10 +66,11 @@ export default function TopMenu() {
                       sessionStorage.clear();
                       navigate("/login");
                     }}
+                    className="login"
                   >
                     logout
                   </Nav.Link>
-                  <Nav.Link href="/profile">
+                  <Nav.Link href="/profile" className="prof">
                     {sessionStorage.user}
                   </Nav.Link>
                 </>
@@ -48,6 +82,7 @@ export default function TopMenu() {
               )}
             </Nav>
           </Navbar.Collapse>
+          </Navbar.Offcanvas>
         </Container>
       </Navbar>
       <Outlet />

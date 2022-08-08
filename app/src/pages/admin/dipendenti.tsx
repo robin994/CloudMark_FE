@@ -475,8 +475,7 @@ export default function FullFeaturedCrudGrid() {
               <Typography
                 id="transition-modal-title"
                 variant="h6"
-                component="h2"
-              >
+                component="h2">
                 Il Dipendente non può essere Cancellato,
                 Vuoi Disabilitarlo?
               </Typography>
@@ -501,6 +500,7 @@ export default function FullFeaturedCrudGrid() {
         </div>
       )}
     </Box>
+
     </>
   );
 }
