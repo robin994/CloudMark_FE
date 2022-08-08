@@ -40,6 +40,8 @@ export default function TopMenu() {
           <Offcanvas.Header closeButton >
             <Offcanvas.Title >{brand}</Offcanvas.Title>
           </Offcanvas.Header>
+            <Nav className="me-auto">
+            </Nav>
             <Nav className="d-flex">
               {sessionStorage.bearer ? 
               sessionStorage.accountTypeName === 'super' ? (
