@@ -3,7 +3,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { Button, Fade, Typography } from "@mui/material";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -17,12 +17,13 @@ import {
   GridRowParams,
   GridRowsProp,
   MuiEvent,
-  ValueOptions
+  ValueOptions,
 } from "@mui/x-data-grid";
 import axios from "axios";
 import * as React from "react";
 
 import EditToolbarCommesse from "./components/commessa-component/EditToolbarCommessa";
+import { Container, Row } from "react-bootstrap";
 // import "./css_components/TabellaPresenze.css";
 
 const initialRows: GridRowsProp = [];
@@ -79,7 +80,7 @@ export default function FullFeaturedCrudGrid() {
       setBusiness(arr);
     });
   }
-  let getCells : any = (value : any , field : any, api : any ) => {
+  let getCells: any = (value: any, field: any, api: any) => {
     const colDef = api.getColumn(field);
     const option = colDef.valueOptions.find((el: any) => {
       if (el.value === value) {
@@ -87,7 +88,7 @@ export default function FullFeaturedCrudGrid() {
       }
     });
     return option && option.label ? option.label : null;
-  }
+  };
   React.useEffect(() => {
     getCommesse();
     getBusiness();
@@ -174,7 +175,7 @@ export default function FullFeaturedCrudGrid() {
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
-  console.log(rows)
+  console.log(rows);
   const columns: GridColumns = [
     {
       field: "id",
@@ -182,6 +183,7 @@ export default function FullFeaturedCrudGrid() {
       width: 279,
       editable: false,
       hide: true,
+      flex: 0.3,
     },
     {
       field: "description",
@@ -189,6 +191,7 @@ export default function FullFeaturedCrudGrid() {
       width: 279,
       editable: true,
       hide: false,
+      flex: 0.3,
     },
     {
       field: "id_customer",
@@ -207,21 +210,26 @@ export default function FullFeaturedCrudGrid() {
         });
         return option && option.label ? option.label : null;
       },
-      renderCell:(el) => ( 
-        
-        <strong>
-          {el.formattedValue}
-          <Button
-            // onClick={}
-            variant="contained"
-            size="small"
-            style={{ marginLeft : 15, blockSize:25,right : 0 }}
-          >
-            Open
-          </Button>
-        </strong>
+      flex: 0.3,
+      renderCell: (el) => (
+        <Container>
+          <Row justify-center>
+            <div className="col-8">
+              <strong>{el.formattedValue}</strong>
+            </div>
+            <div className="col-2 offset-1">
+              <Button
+                // onClick={}
+                variant="contained"
+                size="small"
+                style={{ marginLeft: 0, blockSize: 25 }}
+              >
+                Open
+              </Button>
+            </div>
+          </Row>
+        </Container>
       ),
-
     },
     {
       field: "id_business",
@@ -229,6 +237,7 @@ export default function FullFeaturedCrudGrid() {
       type: "singleSelect",
       width: 279,
       editable: false,
+      flex: 0.3,
       // renderCell:(cellValues) =>{return <Link to="/clienti"/>},
       valueOptions: business,
       valueFormatter: ({ value, field, api }) => {
@@ -245,6 +254,7 @@ export default function FullFeaturedCrudGrid() {
       headerName: "Data Inizio",
       width: 279,
       editable: true,
+      flex: 0.3,
     },
     {
       field: "endDate",
@@ -252,12 +262,14 @@ export default function FullFeaturedCrudGrid() {
       headerName: "Data Fine",
       width: 279,
       editable: true,
+      flex: 0.3,
     },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
       width: 100,
+      flex: 0.1,
       cellClassName: "actions",
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -340,28 +352,24 @@ export default function FullFeaturedCrudGrid() {
         rows={rows}
         columns={columns}
         editMode="row"
-        onRowClick={(el)=>{
-          
-      }
-    }
-        onCellDoubleClick={(el)=>{
-          if(el.field === "id_customer")
-          return navigate(`/clienti/${el.row.id_customer}`)
+        onRowClick={(el) => {}}
+        onCellDoubleClick={(el) => {
+          if (el.field === "id_customer")
+            return navigate(`/clienti/${el.row.id_customer}`);
         }}
         rowModesModel={rowModesModel}
         onRowEditStart={handleRowEditStart}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
         onProcessRowUpdateError={updateError}
-  
         components={{
           Toolbar: EditToolbarCommesse,
         }}
         componentsProps={{
           toolbar: { getCommesse, business, customer },
-          row:{
-            style:{cursor : "context-menu"}
-          }
+          row: {
+            style: { cursor: "context-menu" },
+          },
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />

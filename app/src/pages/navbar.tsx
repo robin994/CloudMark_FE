@@ -41,9 +41,6 @@ export default function TopMenu() {
             <Offcanvas.Title >{brand}</Offcanvas.Title>
           </Offcanvas.Header>
             <Nav className="me-auto">
-              {/* <Nav.Link href="/employee">Dipendente</Nav.Link> */}
-              <Nav.Link href="/admin" className="adm">Admin</Nav.Link>
-              <Nav.Link href="/superuser" className="superuse">Superuser</Nav.Link>
             </Nav>
             <Nav className="d-flex">
               {sessionStorage.bearer ? 
