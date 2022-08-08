@@ -88,7 +88,7 @@ export default function Dashboard() {
             <CustomCard
               cardTitle="Grafico Commesse"
               imgSrc="https://www.svgrepo.com/show/35765/graph.svg"
-              navPath="/chart"
+              navPath="/grafico/commesse"
               buttonText="Mostra"
               textDesc={textDesc[4]}
             />
