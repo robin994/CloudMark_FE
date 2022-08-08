@@ -79,6 +79,20 @@ export default function Dashboard() {
               textDesc={textDesc[3]}
             />
           </motion.div>
+
+          <motion.div
+            className="col-3 d-flex justify-content-center"
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+          >
+            <CustomCard
+              cardTitle="Grafico"
+              imgSrc="https://www.svgrepo.com/show/40077/briefcase.svg"
+              navPath="/chart"
+              buttonText="Mostra"
+              textDesc={textDesc[3]}
+            />
+          </motion.div>
         </Row>
       </div>
     </>
