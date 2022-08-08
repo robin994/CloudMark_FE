@@ -84,24 +84,24 @@ const Account = () => {
         //     width: 100,
         //     cellClassName: 'actions',
         //     getActions: ({ id }) => {
-        //       const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+        //         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
       
-        //       if (isInEditMode) {
-        //         return [
-        //           <GridActionsCellItem
-        //             icon={<SaveIcon />}
-        //             label="Save"
-        //             onClick={handleSaveClick(id)}
-        //           />,
-        //           <GridActionsCellItem
-        //             icon={<CancelIcon />}
-        //             label="Cancel"
-        //             className="textPrimary"
-        //             onClick={handleCancelClick(id)}
-        //             color="inherit"
-        //           />,
+        //         if (isInEditMode) {
+        //             return [
+        //             <GridActionsCellItem
+        //                 icon={<SaveIcon />}
+        //                 label="Save"
+        //                 onClick={handleSaveClick(id)}
+        //             />,
+        //             <GridActionsCellItem
+        //                 icon={<CancelIcon />}
+        //                 label="Cancel"
+        //                 className="textPrimary"
+        //                 onClick={handleCancelClick(id)}
+        //                 color="inherit"
+        //             />,
         //         ];
-        //       }
+        // }
     ]
        
   return (
