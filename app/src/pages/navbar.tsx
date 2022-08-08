@@ -46,7 +46,19 @@ export default function TopMenu() {
               <Nav.Link href="/superuser" className="superuse">Superuser</Nav.Link>
             </Nav>
             <Nav className="d-flex">
-              {sessionStorage.bearer ? (
+              {sessionStorage.bearer ? 
+              sessionStorage.accountTypeName === 'super' ? (
+                <Nav.Link
+                    href="/login"
+                    onClick={() => {
+                      sessionStorage.clear();
+                      navigate("/login");
+                    }}
+                >
+                  logout
+                </Nav.Link>
+              ) : 
+              (
                 <>
                   <Nav.Link
                     href="/login"

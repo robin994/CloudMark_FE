@@ -138,12 +138,12 @@ export default function ContProfile() {
       setSuccess(true)
       setTimeout(()=>{
         setSuccess(false)
-      },3500)}
+      },3000)}
       if(res.status === 404){
         setError(true)
         setTimeout(()=>{
           setError(false)
-      },3500)}
+      },3000)}
     });
   }
 
