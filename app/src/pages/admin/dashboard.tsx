@@ -10,7 +10,7 @@ textDesc[0] = "Operazioni sui Dipendenti";
 textDesc[1] = "Lista di tutti i dipendenti";
 textDesc[2] = "Ricerca di un singolo cliente";
 textDesc[3] = "Lista di tutti i clienti";
-textDesc[4] = "Visualizzare le presenze tramite il calendario";
+textDesc[4] = "Visualizza l'andamento dei prezzi delle commesse";
 
 export default function Dashboard() {
   return (
@@ -86,11 +86,11 @@ export default function Dashboard() {
             animate={{ y: 0 }}
           >
             <CustomCard
-              cardTitle="Grafico"
-              imgSrc="https://www.svgrepo.com/show/40077/briefcase.svg"
+              cardTitle="Grafico Commesse"
+              imgSrc="https://www.svgrepo.com/show/35765/graph.svg"
               navPath="/chart"
               buttonText="Mostra"
-              textDesc={textDesc[3]}
+              textDesc={textDesc[4]}
             />
           </motion.div>
         </Row>
