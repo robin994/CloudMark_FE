@@ -19,6 +19,8 @@ export default function App() {
               <Route path="/azienda" element={<SU.Azienda />} />
               <Route path="/accounts" element={<SU.Accounts />} />
               <Route path="/tipo/account" element={<SU.TipoAccount />} />
+              <Route path="/tipo/contratto" element={<SU.TipoContratto />} />
+              <Route path="/tipo/presenza" element={<SU.TipoPresenza />} />
             </Route>
             
             <Route element={<Comps.AdminCheck />}>
@@ -30,6 +32,7 @@ export default function App() {
               </Route>
               <Route path="/commesse" element={<Admin.Commesse/>} />
               <Route path="/dipendente/:id_dipendente" element={<Admin.Dipendente />} />
+              <Route path="/add_dipendenti" element={<Admin.AddDipendente/>} />
             </Route>
 
             <Route element={<Comps.EmployeeCheck />}>
@@ -42,6 +45,7 @@ export default function App() {
             <Route path="/addazienda" element={<Comps.AddAzienda/>}/>
             <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
             <Route path="/tabledipendenti" element={<Comps.TableDipendenti/>} />
+          
             <Route path="/pagination" element={<Comps.Pagination />} />
           </Route>
           <Route path="/signup" element={<Comps.Registrazione />} />

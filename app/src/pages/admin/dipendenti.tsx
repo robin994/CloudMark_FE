@@ -1,54 +1,177 @@
+import CancelIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+
+import { Button, Fade, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+
+import CustomToolbar from "./components/dipendenti-component/export"
+
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColumns,
+  GridEventListener,
+  GridRowId,
+  GridRowModel,
+  GridRowModes,
+  GridRowModesModel,
+  GridRowParams,
+  GridRowsProp,
+  MuiEvent,
+} from "@mui/x-data-grid";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import * as React from "react";
+// import "./css_components/TabellaPresenze.css";
 
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import "./components/css_components/TabellaDipendenti.css";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+const initialRows: GridRowsProp = [];
 
-const ListaDipendenti = (props: any) => {
-  const [dipendenti, setDipendenti] = useState([]);
+export default function FullFeaturedCrudGrid() {
 
-  const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [first_name, setFirstName] = useState("");
-  const [last_name, setLastName] = useState("");
-  const [cf, setCf] = useState("");
-  const [iban, setIban] = useState("");
-  const [id_contractType, setId_contractType] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
 
-  const types: any = {
-    "198ef11d-cf73-4245-8469-2ddfa9979acf": "Indeterminato",
-    "52fbe812-08f6-11ed-861d-0242ac120002": "Determinato",
+  const [rows, setRows] = React.useState(initialRows);
+  const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
+    {}
+  );
+  const [dip, setDip] = React.useState([]);
+  const [dipendentis, setdipendentis] = React.useState([]);
+
+
+
+
+  const types: { [key: string]: string } = {
+
+    "52fbe812-08f6-11ed-861d-0242ac120002":"determinato",
+    "198ef11d-cf73-4245-8469-2ddfa9979acf":"indeterminato",
+    "7e55494c-08f4-11ed-861d-0242ac120002":"administrator",
+    "7e554b54-08f4-11ed-861d-0242ac120002":"dipendente",
+
+    "124e4567-e85b-1fd3-a456-426614474000":"markup",
+    "11111111-e85b-1fd3-a456-426614474000":"tamtung",
+    "12455557-444b-1333-a886-426699994000":"pokia",
+    "f565cec2-a3d9-4b9d-8600-0a3fd43dd5fb":"MARCO"
   };
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_FASTAPI_URL}/employee`)
-      .then((resp) => {
-        const data = resp.data.data;
-        setDipendenti(Object.values(data));
-      })
-      .catch((err) => {
-        throw err;
-      });
-  }, []);
-  console.log(dipendenti);
 
-  function handleSubmit() {
+
+  async function getCommesse() {
+    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/all/employees/account/business`).then((res) => {
+      setRows(
+        Object.values(res.data.data).map((el: any) => {  //.employee , account, business
+          console.log(el);
+          return {
+            
+            id: el.employee["id_employee"],
+            first_name: el.employee["first_name"],
+            last_name: el.employee["last_name"],
+            cf: el.employee["cf"],
+            iban: el.employee["iban"],
+            id_contractType: el.employee["id_contractType"],
+            email: el.employee["email"],
+            phoneNumber: el.employee["phoneNumber"],
+
+            id_employee:el.employee["id_employee"],
+
+            user:el.account["user"],
+            password: el.account["password"],
+            abilitato: el.account["abilitato"],
+            id_tipo_account: el.account["id_tipo_account"],
+            id_account: el.account["id_account"],
+
+            id_business: el.business["id_business"],
+            start_date: el.business["start_date"],
+            end_date: el.business["end_date"],
+            serial_num: el.business["serial_num"],
+
+            //el.account
+            //el.business
+         
+         
+          };
+          
+
+          
+
+        })
+        
+      );
+
+    });
+  }
+
+  console.log(rows);
+  React.useEffect(() => {
+    getCommesse();
+  }, []);
+  const handleRowEditStart = (
+    params: GridRowParams,
+    event: MuiEvent<React.SyntheticEvent>
+  ) => {
+    event.defaultMuiPrevented = true;
+  };
+  const handleRowEditStop: GridEventListener<"rowEditStop"> = (
+    params,
+    event
+  ) => {
+    event.defaultMuiPrevented = true;
+  };
+
+  const handleEditClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (id: GridRowId) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const handleDeleteClick = () => () => {
+    let id: GridRowId = "";
+    if (IDRowToDelete !== undefined) {
+      id = IDRowToDelete;
+
+      axios
+        .request({
+          url: 'http://127.0.0.1:8000/employee/delete/',
+          method: "post",
+          params: {
+            id_employee: id,
+          },
+        })
+        .then(() => {
+          setRows(rows.filter((row) => row.id !== id));
+          setOpen(false);
+        });
+    }
+  };
+
+  const handleCancelClick = (id: GridRowId) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    const editedRow = rows.find((row) => row.id === id);
+    if (editedRow!.isNew) {
+      setRows(rows.filter((row) => row.id !== id));
+    }
+  };
+
+  const processRowUpdate = (newRow: GridRowModel) => {
+    const updatedRow = { ...newRow, isNew: false };
+    console.log("aggiorno");
     axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/create/`, {
-        first_name: first_name,
-        last_name: last_name,
-        cf: cf,
-        iban: iban,
-        id_contractType: id_contractType,
-        email: email,
-        phoneNumber: phoneNumber,
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/employee/update/`, {
+        first_name: updatedRow.first_name,
+        last_name: updatedRow.last_name,
+        cf: updatedRow.cf,
+        iban: updatedRow.iban,
+        id_contractType: updatedRow.id_contractType,
+        email: updatedRow.email,
+        phoneNumber: updatedRow.phoneNumber,
+        id_employee: updatedRow.id,
+       
       })
       .then((res) => {
         console.log(res);
@@ -57,189 +180,327 @@ const ListaDipendenti = (props: any) => {
         console.log(err);
       });
 
-    console.log(
-      first_name,
-      last_name,
-      cf,
-      iban,
-      id_contractType,
-      email,
-      phoneNumber
-    );
-  }
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    return updatedRow;
+  };
 
-  let list = dipendenti.map((el) => {
-    return {
-      first_name: el["first_name"],
-      last_name: el["last_name"],
-      cf: el["cf"],
-      iban: el["iban"],
-      id_contractType: types[el["id_contractType"]],
-      email: el["email"],
-      phoneNumber: el["phoneNumber"],
-      id: el["id_employee"],
-    };
-  });
-  const rows = list;
-  const columns: GridColDef[] = [
+  const columns: GridColumns = [
+
     {
       field: "first_name",
-      headerName: "First name",
+      headerName: "First Name",
       width: 279,
       editable: true,
+     
     },
-    { field: "last_name", headerName: "Last name", width: 279, editable: true },
+    {
+      field: "last_name",
+      headerName: "Last Name",
+      width: 279,
+      editable: true,
+     
+    },
+    {
+      field: "id_business",
+      headerName: "Nome Azienda",
+      width: 279,
+      editable: true,
+      
+      valueOptions: Object.keys(types).map((element) => {
+        return { label: types[element], value: element };
+      }),
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
+      
+    },
+    {
+      field: "id_account",
+      headerName: "Id Account",
+      width: 279,
+      editable: true,
+      hide: true,
+     
+    },
+    {
+      field: "start_date",
+      headerName: "Start Date",
+      type: "date",
+      width: 279,
+      editable: true,
+     
+    },
+
+    {
+      field: "end_date",
+      headerName: "End Date",
+      type: "date",
+      width: 279,
+      editable: true,
+      
+    },
+  
+
+    {
+      field: "id_tipo_account",
+      headerName: "Tipo Account",
+      width: 279,
+      editable: true,
+      valueOptions: Object.keys(types).map((element) => {
+        return { label: types[element], value: element };
+      }),
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
+     
+    },
+    {
+      field: "abilitato",
+      headerName: "Abilitato",
+      type: "number",
+      width: 279,
+      editable: true,
+     
+    },
+    {
+      field: "password",
+      headerName: "Password",
+      width: 279,
+      editable: true,
+      
+    },
+
+    {
+      field: "user",
+      headerName: "User",
+      width: 279,
+      editable: true,
+      
+    },
+  
+    
+    {
+      field: "id_employee",
+      headerName: "Id Dipendente",
+      width: 279,
+      editable: false,
+      hide: true,
+     
+    },
     {
       field: "cf",
-      headerName: "Codice Fiscale",
-      type: "string",
+      headerName: "CF",
+      width: 279,
+      editable: false,
+    },
+    {
+      field: "iban",
+      
+      headerName: "Iban",
       width: 279,
       editable: true,
     },
-    { field: "iban", headerName: "iban", width: 279, editable: true },
     {
       field: "id_contractType",
+      
       headerName: "Tipo Contratto",
       width: 279,
       editable: true,
+      valueOptions: Object.keys(types).map((element) => {
+        return { label: types[element], value: element };
+      }),
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
     },
-    { field: "email", headerName: "email", width: 279, editable: true },
     {
-      field: "phoneNumber",
-      headerName: "Telefono",
+      field: "email",
+      
+      headerName: "Email",
       width: 279,
       editable: true,
     },
+    {
+      field: "phoneNumber",
+      
+      headerName: "Telephone",
+      width: 279,
+      editable: true,
+    },
+    {
+      field: "serial_num",
+      headerName: "Serial Num",
+      type: "number",
+      width: 279,
+      editable: true,
+     
+     
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 100,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={() => handleOpen(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
   ];
+
+  const style = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    borderRadius: "10px",
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [open, setOpen] = React.useState<any>(false);
+  const [IDRowToDelete, setIDRowToDelete] = React.useState<GridRowId>();
+  const handleOpen = (id: GridRowId) => {
+    setOpen(true);
+    setIDRowToDelete(id);
+  };
+
+
+
+
+
   return (
-    <>
-      <div
-        style={{
-          marginTop: "2vh",
-          backgroundColor: "#ffffff",
-          borderBottom: "1px solid black",
-          borderTop: "1px solid black",
-          padding: "0.5rem",
-          marginBottom: "2vh",
+  <>
+  
+  <div style={{backgroundColor:"gainsboro",padding:"0.5rem",borderBottom: "1px solid solid black",borderTop: "1px solid black"}}>
+    
+    <a href="add_dipendenti">
+    <Button>
+      +Aggiungi Dipendente
+    </Button>
+    </a>
+    
+ 
+
+    
+          
+  </div>
+    <Box
+      sx={{
+        height: "89vh",
+        width: "100%",
+        "& .actions": {
+          color: "text.secondary",
+        },
+        "& .textPrimary": {
+          color: "text.primary",
+        },
+      }}
+    >
+      <DataGrid
+        style={{ height: "89vh" }}
+        autoHeight
+        rows={rows}
+        columns={columns}
+        editMode="row"
+        rowModesModel={rowModesModel}
+        onRowEditStart={handleRowEditStart}
+        onRowEditStop={handleRowEditStop}
+        processRowUpdate={processRowUpdate}
+        components={
+          {
+            Toolbar: CustomToolbar
+          }
+        }
+        componentsProps={{
+          toolbar: { setRows, setRowModesModel, rows, dip, dipendentis },
         }}
-      >
-        <Button variant="primary" style={{ marginTop: "2vh" }}>
-          Salva
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={handleShow}
-          style={{ marginTop: "2vh", marginLeft: "10px" }}
-        >
-          + Aggiungi Dipendente
-        </Button>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Aggiungi Dipendente</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <input
-              value={first_name}
-              onChange={(e) => setFirstName(e.target.value)}
-              id="first_name"
-              type="text"
-              className="form-control"
-              placeholder="nome"
-              style={{ marginTop: "1vh" }}
-              required
-            ></input>
-            <input
-              value={last_name}
-              onChange={(e) => setLastName(e.target.value)}
-              id="last_name"
-              type="text"
-              className="form-control"
-              placeholder="cognome"
-              style={{ marginTop: "1vh" }}
-              required
-            ></input>
-            <input
-              value={cf}
-              onChange={(e) => setCf(e.target.value)}
-              id="cf"
-              className="form-control"
-              type="text"
-              placeholder="codice fiscale"
-              style={{ marginTop: "1vh" }}
-              required
-            ></input>
-            <input
-              value={iban}
-              onChange={(e) => setIban(e.target.value)}
-              id="iban"
-              className="form-control"
-              type="text"
-              placeholder="iban"
-              style={{ marginTop: "1vh" }}
-              required
-            ></input>
-            <input
-              value={id_contractType}
-              onChange={(e) => setId_contractType(e.target.value)}
-              id="id_contractType"
-              className="form-control"
-              type="text"
-              placeholder="tipo contratto"
-              style={{ marginTop: "1vh" }}
-              required
-            ></input>
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              id="email"
-              className="form-control"
-              type="email"
-              placeholder="email"
-              style={{ marginTop: "1vh" }}
-              required
-            ></input>
-            <input
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              id="phoneNumber"
-              type="tel"
-              className="form-control"
-              placeholder="telefono"
-              style={{ marginTop: "1vh" }}
-              required
-            ></input>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="success"
-              type="submit"
-              onClick={() => {
-                handleSubmit();
-                handleClose();
-              }}
-            >
-              Conferma
-            </Button>
-            <Button variant="danger" onClick={handleClose}>
-              Annulla
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+        experimentalFeatures={{ newEditingApi: true }}
+      />
+      {open && (
+        <div>
+          <Fade in={open}>
+            <Box sx={style}>
+              <Typography
+                id="transition-modal-title"
+                variant="h6"
+                component="h2">
+                Il Dipendente non può essere Cancellato,
+                Vuoi Disabilitarlo?
+              </Typography>
+              <div style={{ display: "flex" }}>
+                <Button
+                  onClick={handleDeleteClick()}
+                  style={{ margin: "10px", height: "40px", width: "90px" }}
+                  variant="outlined"
+                >
+                  SI
+                </Button>
+                <Button
+                  onClick={() => setOpen(false)}
+                  style={{ margin: "10px", height: "40px", width: "90px" }}
+                  variant="outlined"
+                >
+                  NO
+                </Button>
+              </div>
+            </Box>
+          </Fade>
+        </div>
+      )}
+    </Box>
 
-      <div style={{ height: "80vh", width: "100%" }} className="custom-grid">
-        <DataGrid
-          autoHeight
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          editMode="row"
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-
-        />
-      </div>
     </>
   );
-};
-export default ListaDipendenti;
+}

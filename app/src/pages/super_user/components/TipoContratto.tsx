@@ -9,25 +9,23 @@ import axios from "axios";
 
 const initialRows: GridRowsProp = [];
 
-const Account = () => {
+const TipoContratto = () => {
 
     const [pageSize, setPageSize] = React.useState<number>(14);
     const [rows, setRows] = React.useState(initialRows);
 
-    async function getAccounts() {
+    async function getTypeContracts() {
         axios
         .get(
-            `${process.env.REACT_APP_FASTAPI_URL}/account`).then((res) => {
+            `${process.env.REACT_APP_FASTAPI_URL}/type/contract`).then((res) => {
                 let arr: any = [];
                 let id = 1
                 Object.values(res.data.data).forEach((el: any) => {
                     arr.push({
                         id: id, 
-                        id_account: el.id_account, 
-                        user: el.user,
-                        password: el.password,
-                        abilitato: el.abilitato,
-                        id_tipo_account: el.id_tipo_account
+                        name: el.name, 
+                        info: el.info === null ? "Non vi sono presenti informazioni al momento" : el.info,
+                        id_contract_type: el.id_contract_type
                     });
                     id += 1
                 });
@@ -37,41 +35,27 @@ const Account = () => {
 
 
     React.useEffect(() => {
-        getAccounts();
-      }, []);
+        getTypeContracts();
+    }, []);
 
     const columns: GridColumns = [
         {
-            field: "id_account",
-            headerName: "id account",
+            field: "name",
+            headerName: "Nome",
             width: 350,
             editable: false,
             hide: false,
         },
         {
-            field: "user",
-            headerName: "nome utente",
+            field: "info",
+            headerName: "Info",
             width: 350,
             editable: false,
             hide: false,
         },
         {
-            field: "password",
-            headerName: "password",
-            width: 350,
-            editable: false,
-            hide: false,
-        },
-        {
-            field: "abilitato",
-            headerName: "abilitato",
-            width: 350,
-            editable: false,
-            hide: false,
-        },
-        {
-            field: "id_tipo_account",
-            headerName: "id tipo account",
+            field: "id_contract_type",
+            headerName: "id tipo contratto",
             width: 350,
             editable: false,
             hide: false,
@@ -103,4 +87,4 @@ const Account = () => {
   );
 }
 
-export default Account
+export default TipoContratto
