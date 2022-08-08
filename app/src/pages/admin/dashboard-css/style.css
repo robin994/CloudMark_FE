@@ -82,6 +82,17 @@ p {
   animation-delay: -5s;
   animation-duration: 20s;
 }
+.rowCont{
+  --n: 5;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,
+           minmax(max(200px,(100% - (var(--n) - 1)*10px)/var(--n)), 1fr));
+  gap: 10px;
+  margin: 5px;
+}
+.rowCont div{
+  width: 100%;
+}
 @keyframes move-forever {
   0% {
    transform: translate3d(-90px,0,0);
