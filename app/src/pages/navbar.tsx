@@ -3,7 +3,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { Offcanvas } from "react-bootstrap";
 import { useState } from "react";
 import './navbar.css'
-import { margin } from "@mui/system";
 
 export default function TopMenu() {
   const navigate = useNavigate();
@@ -16,8 +15,8 @@ export default function TopMenu() {
     <Navbar.Brand 
       href="/" 
       style={{
-        display: 'flex', 
-        alignItems: 'center', 
+        display: 'flex',
+        alignItems: 'center',
         marginLeft: '10px'
       }}>
       <img

@@ -25,9 +25,9 @@ export default function Dashboard() {
           transform: "translate(50%, -50%)",
         }}
       >
-        <Row className="my-5 justify-content-center align-items-center">
+        <Row className="mt-10 justify-content-center align-items-center Cont">
           <motion.div
-            className="col-3 d-flex justify-content-center"
+            className="col-xxl-3 col-lg-4 d-flex justify-content-center"
             initial={{ x: -100 }}
             animate={{ x: 0 }}
           >
@@ -40,7 +40,7 @@ export default function Dashboard() {
             />
           </motion.div>
           <motion.div
-            className="col-3 d-flex justify-content-center"
+            className="col-xxl-3 col-lg-4 d-flex justify-content-center"
             initial={{ y: -100 }}
             animate={{ y: 0 }}
           >
@@ -53,7 +53,7 @@ export default function Dashboard() {
             />
           </motion.div>
           <motion.div
-            className="col-3 d-flex justify-content-center"
+            className="col-xxl-3 col-lg-4 d-flex justify-content-center"
             initial={{ x: 100 }}
             animate={{ x: 0 }}
           >
@@ -67,7 +67,7 @@ export default function Dashboard() {
           </motion.div>
 
           <motion.div
-            className="col-3 d-flex justify-content-center"
+            className="col-xxl-3 col-lg-4 d-flex justify-content-center"
             initial={{ y: 100 }}
             animate={{ y: 0 }}
           >
@@ -81,14 +81,14 @@ export default function Dashboard() {
           </motion.div>
 
           <motion.div
-            className="col-3 d-flex justify-content-center"
+            className="col-xxl-3 col-lg-4 d-flex justify-content-center"
             initial={{ y: 100 }}
             animate={{ y: 0 }}
           >
             <CustomCard
               cardTitle="Grafico Commesse"
               imgSrc="https://www.svgrepo.com/show/35765/graph.svg"
-              navPath="/chart"
+              navPath="/grafico/commesse"
               buttonText="Mostra"
               textDesc={textDesc[4]}
             />

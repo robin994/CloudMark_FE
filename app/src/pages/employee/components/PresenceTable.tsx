@@ -417,7 +417,7 @@ const PresenceTable = (props: any) => {
       style={{ width: "100%" }}
     >
       <DataGrid
-	  	style={{ height: "90vh" }}
+        className="dataGrid_component"
         autoHeight
         // components={{
         //     LoadingOverlay: LinearProgress
@@ -429,9 +429,9 @@ const PresenceTable = (props: any) => {
         editMode="row"
         rowModesModel={rowsMode}
         onRowEditStart={handleRowEditStart}
-		onRowEditStop={handleRowEditStop}
+		  onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
-		onProcessRowUpdateError={console.log}
+		  onProcessRowUpdateError={console.log}
         rowsPerPageOptions={[20]}
         checkboxSelection
         components={{
