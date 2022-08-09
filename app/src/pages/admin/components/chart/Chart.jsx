@@ -35,10 +35,11 @@ import {
                     {
                         label: "chart alpha test",
                         data: [12, 55, 34, 120, 720],
-                        borderColor: "rgb(53, 162, 235)",
-                        BackgroundColor: "rgba(53, 162, 235, 0.4)",
+                        borderColor: "rgb(255,02,02)",
+                        backgroundColor: "rgba(210, 0, 0, 0.7)",
                     }
-                ]
+                ],
+                borderWidth: 1,
             });
             setChartOptions({
                 responsive: true,
