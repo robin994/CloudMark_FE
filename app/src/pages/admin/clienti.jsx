@@ -1,5 +1,5 @@
 import { ListGroup } from "react-bootstrap"
-import { useNavigate, Outlet } from "react-router-dom"
+import { useNavigate, Outlet, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from 'axios'
 import { DataGrid, GridActionsCellItem} from '@mui/x-data-grid';
@@ -22,11 +22,10 @@ export default function Clienti() {
     useEffect( () => {
       getDipendenti()
     }, [refresh])
-    useEffect(() => {
-      navigate(`/clienti/${id_customer}`)
-    }, [id_customer])
-    const handleEdit = id_customer => {
+  
+    const handleEdit = id_customer => { 
         setId_customer(id_customer)
+        navigate(`/clienti/${id_customer}`)
     }
     const handleDelete = id_customer => {
         axios.post(`${process.env.REACT_APP_FASTAPI_URL}/customer/delete/`, null, {
@@ -43,9 +42,8 @@ export default function Clienti() {
         setOpenAddCustomer(false)
         getDipendenti()
     }
-    console.log("id_customer = ", id_customer)
     const columns = [
-        { field: 'name', headerName: 'Nome', width: 150 },
+        { field: 'name', headerName: 'Nome', width: 100},
         { field: 'actions', type: "actions", getActions: customer_row => [
             <GridActionsCellItem icon={<EditIcon />} label="Info"
             onClick={() => handleEdit(customer_row.id)}
@@ -82,9 +80,7 @@ export default function Clienti() {
                     <DataGrid autoHeight rows={rows} columns={columns}/>
                 </div>
             </ListGroup.Item>
-            <ListGroup.Item>
-                <Outlet context={getDipendenti}/>
-            </ListGroup.Item>
+            <Outlet context={getDipendenti}/>
         </ListGroup>
         <Spacer margin="1rem" />
       </>

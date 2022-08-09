@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import * as Comps from "./components";
 import * as Admin from "./pages/admin"
 import * as Employee from "./pages/employee"
-import * as Superuser from "./pages/super_user"
+import * as SU from "./pages/super_user"
 
 export default function App() {
   return (
@@ -15,7 +15,12 @@ export default function App() {
             <Route path="/" element={<Comps.AccountCheck />} />
 
             <Route element={<Comps.SuperUserCheck />}>
-              <Route path="/superuser" element={<Superuser.Dashboard />} />
+              <Route path="/superuser" element={<SU.Dashboard />} />
+              <Route path="/azienda" element={<SU.Azienda />} />
+              <Route path="/accounts" element={<SU.Accounts />} />
+              <Route path="/tipo/account" element={<SU.TipoAccount />} />
+              <Route path="/tipo/contratto" element={<SU.TipoContratto />} />
+              <Route path="/tipo/presenza" element={<SU.TipoPresenza />} />
             </Route>
             
             <Route element={<Comps.AdminCheck />}>
@@ -27,6 +32,8 @@ export default function App() {
               </Route>
               <Route path="/commesse" element={<Admin.Commesse/>} />
               <Route path="/dipendente/:id_dipendente" element={<Admin.Dipendente />} />
+              <Route path="/add_dipendenti" element={<Admin.AddDipendente/>} />
+              <Route path="/grafico/commesse" element={<Admin.Chart/>} />
             </Route>
 
             <Route element={<Comps.EmployeeCheck />}>
@@ -39,6 +46,7 @@ export default function App() {
             <Route path="/addazienda" element={<Comps.AddAzienda/>}/>
             <Route path="/cercadipendente" element={<Comps.CercaDipendente />} />
             <Route path="/tabledipendenti" element={<Comps.TableDipendenti/>} />
+          
             <Route path="/pagination" element={<Comps.Pagination />} />
           </Route>
           <Route path="/signup" element={<Comps.Registrazione />} />

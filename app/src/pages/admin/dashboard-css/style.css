@@ -38,7 +38,7 @@ p {
   padding: 0;
 }
 
-.flex { /*Flexbox for containers*/
+.flex {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,7 +49,7 @@ p {
   position:relative;
   width: 100%;
   height:15vh;
-  margin-bottom:-7px; /*Fix for safari gap*/
+  margin-bottom:-7px;
   min-height:100px;
   max-height:150px;
 }
@@ -64,7 +64,7 @@ p {
 /* Animation */
 
 .parallax > use {
-  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
 }
 .parallax > use:nth-child(1) {
   animation-delay: -2s;
@@ -82,6 +82,17 @@ p {
   animation-delay: -5s;
   animation-duration: 20s;
 }
+.rowCont{
+  --n: 5;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,
+           minmax(max(200px,(100% - (var(--n) - 1)*10px)/var(--n)), 1fr));
+  gap: 10px;
+  margin: 5px;
+}
+.rowCont div{
+  width: 100%;
+}
 @keyframes move-forever {
   0% {
    transform: translate3d(-90px,0,0);
@@ -90,7 +101,7 @@ p {
     transform: translate3d(85px,0,0);
   }
 }
-/*Shrinking for mobile*/
+
 @media (max-width: 768px) {
   .waves {
     height:40px;

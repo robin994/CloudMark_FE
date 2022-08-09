@@ -19,18 +19,22 @@ import {
 } from "@mui/x-data-grid";
 import axios from "axios";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import "./css_components/TabellaPresenze.css";
 import EditToolbar from "./presenze-components/EditToolbar";
 
 const initialRows: GridRowsProp = [];
 
 export default function FullFeaturedCrudGrid() {
+
+  const [pageSize, setPageSize] = React.useState<number>(14);
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
   const [tipiPresenza, setTipiPresenza] = React.useState([]);
   const [aziende, setAziende] = React.useState([]);
+  const naviga = useNavigate()
 
   async function getPresenze() {
     axios
@@ -332,6 +336,10 @@ export default function FullFeaturedCrudGrid() {
       }}
     >
       <DataGrid
+        pageSize={pageSize}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        rowsPerPageOptions={[14]}
+        pagination
         style={{height: '89vh'}}
         autoHeight
         rows={rows}

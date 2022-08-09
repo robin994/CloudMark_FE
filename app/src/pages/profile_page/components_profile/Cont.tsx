@@ -3,8 +3,9 @@ import jwt_decode from "jwt-decode";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import "./Cont.css";
 import { motion } from "framer-motion";
-import ProfiloUtente from "../PaginaProfilo";
-import EmployeeCheck from "../../../components/EmployeeCheck";
+import * as Admin from '../../admin'
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
+
 
 interface ProfileInterface {
   employee: {
@@ -74,6 +75,13 @@ export default function ContProfile() {
   const [payload, setPayload] = useState<PayloadInterface>();
   const [business, setBusiness] = useState<BusinessInterface>();
   const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
+
+  const naviga = useNavigate()
+
+  function ChiamaPath(){
+    naviga("/employee")
+  }
 
   useEffect(() => {
     loadProfileData();
@@ -87,7 +95,6 @@ export default function ContProfile() {
       )
       .then((res) => {
         let profile: ProfileInterface = res.data.data;
-        console.log(profile.employee)
         loadTypeContract(profile.employee.id_contractType);
         loadBusiness(profile.id_business);
         setProfile(res.data.data);
@@ -131,7 +138,12 @@ export default function ContProfile() {
       setSuccess(true)
       setTimeout(()=>{
         setSuccess(false)
-      },3500)}
+      },3000)}
+      if(res.status === 404){
+        setError(true)
+        setTimeout(()=>{
+          setError(false)
+      },3000)}
     });
   }
 
@@ -160,6 +172,7 @@ export default function ContProfile() {
     setPayload(toUpdate);
   };
 
+//task optional: quando si avrà risposta da backend aggiungere validazione password prima di poter mandare dati
 
   const handleRevealProfilePage = () => {
     if (profile && tipoContratto && business) {
@@ -184,6 +197,7 @@ export default function ContProfile() {
                 <span className="text-black-50">{profile?.employee.email}</span>
                 <span className="text-black-50">{tipoContratto?.name}</span>
                 <span className="text-black-50">{business?.name}</span>
+                  <a href="#" onClick={ChiamaPath} className="link-primary">Vedi Presenze</a>
               </div>
             </div>
             <div className="col-md-5 border-right">
@@ -375,6 +389,9 @@ export default function ContProfile() {
         </motion.div>
         {success && <div className="alert alert-success position-fixed fixed-bottom start-50 w-30 translate-middle text-center">
           Dati correttamente inviati
+        </div>}
+        {error && <div className="alert alert-danger position-fixed fixed-bottom start-50 w-30 translate-middle text-center">
+          Errore server, riprovare tra qualche minuto
         </div>}
         </>
       )

@@ -3,6 +3,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { Button, Fade, Typography } from "@mui/material";
+import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -16,10 +17,13 @@ import {
   GridRowParams,
   GridRowsProp,
   MuiEvent,
+  ValueOptions,
 } from "@mui/x-data-grid";
 import axios from "axios";
 import * as React from "react";
+
 import EditToolbarCommesse from "./components/commessa-component/EditToolbarCommessa";
+import { Container, Row } from "react-bootstrap";
 // import "./css_components/TabellaPresenze.css";
 
 const initialRows: GridRowsProp = [];
@@ -31,11 +35,11 @@ export default function FullFeaturedCrudGrid() {
   );
   const [business, setBusiness] = React.useState([]);
   const [customer, setCustomer] = React.useState([]);
+  const navigate = useNavigate();
   async function getCommesse() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
       setRows(
         Object.values(res.data.data).map((el: any) => {
-          console.log(el);
           return {
             id: el["id_order"],
             description: el["description"],
@@ -55,7 +59,8 @@ export default function FullFeaturedCrudGrid() {
         arr.push({
           value: el.id_customer,
           label: `${
-            el.name.charAt(0).toUpperCase() + el.name.slice(1)} (p.iva: ${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
+            el.name.charAt(0).toUpperCase() + el.name.slice(1)
+          } (p.iva: ${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
         });
       });
       setCustomer(arr);
@@ -68,14 +73,22 @@ export default function FullFeaturedCrudGrid() {
         arr.push({
           value: el.id_business,
           label: `${
-            el.name.charAt(0).toUpperCase() + el.name.slice(1)} (p.iva:${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
+            el.name.charAt(0).toUpperCase() + el.name.slice(1)
+          } (p.iva:${el.p_iva.charAt(0).toUpperCase() + el.p_iva.slice(1)})`,
         });
       });
       setBusiness(arr);
     });
   }
-
-  console.log(rows);
+  let getCells: any = (value: any, field: any, api: any) => {
+    const colDef = api.getColumn(field);
+    const option = colDef.valueOptions.find((el: any) => {
+      if (el.value === value) {
+        return el;
+      }
+    });
+    return option && option.label ? option.label : null;
+  };
   React.useEffect(() => {
     getCommesse();
     getBusiness();
@@ -134,17 +147,24 @@ export default function FullFeaturedCrudGrid() {
     }
   };
 
+  const updateError = () => {
+    return "Errore";
+  };
+
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
-    console.log("aggiorno");
+    let startData = updatedRow.startDate.toString().split("T")[0];
+    let endDate = updatedRow.endDate.toString().split("T")[0];
+    let payload = {
+      id_order: updatedRow.id,
+      description: updatedRow.description,
+      id_customer: updatedRow.id_customer,
+      id_business: updatedRow.id_business,
+      startDate: startData,
+      endDate: endDate,
+    };
     axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update`, {
-        description: updatedRow.description,
-        id_customer: updatedRow.id_customer,
-        id_business: updatedRow.id_business,
-        startDate: updatedRow.startDate.toISOString().split("T")[0],
-        endDate: updatedRow.endDate.toISOString().split("T")[0],
-      })
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update/`, payload)
       .then((res) => {
         console.log(res);
       })
@@ -155,7 +175,7 @@ export default function FullFeaturedCrudGrid() {
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
-
+  console.log(rows);
   const columns: GridColumns = [
     {
       field: "id",
@@ -163,6 +183,7 @@ export default function FullFeaturedCrudGrid() {
       width: 279,
       editable: false,
       hide: true,
+      flex: 0.3,
     },
     {
       field: "description",
@@ -170,19 +191,62 @@ export default function FullFeaturedCrudGrid() {
       width: 279,
       editable: true,
       hide: false,
+      flex: 0.3,
     },
     {
-      field: "id_employee",
-      headerName: "Id Dipendente",
+      field: "id_customer",
+      headerName: "Cliente",
+      type: "singleSelect",
       width: 279,
-      editable: false,
-      hide: true,
+      editable: true,
+      hide: false,
+      valueOptions: customer,
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any) => {
+          if (el.value === value) {
+            return el;
+          }
+        });
+        return option && option.label ? option.label : null;
+      },
+      flex: 0.3,
+      renderCell: (el) => (
+        <Container>
+          <Row justify-center>
+            <div className="col-8">
+              <strong>{el.formattedValue}</strong>
+            </div>
+            <div className="col-2 offset-1">
+              <Button
+                // onClick={}
+                variant="contained"
+                size="small"
+                style={{ marginLeft: 0, blockSize: 25 }}
+              >
+                Open
+              </Button>
+            </div>
+          </Row>
+        </Container>
+      ),
     },
     {
       field: "id_business",
       headerName: "Id Azienda",
+      type: "singleSelect",
       width: 279,
       editable: false,
+      flex: 0.3,
+      // renderCell:(cellValues) =>{return <Link to="/clienti"/>},
+      valueOptions: business,
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
     },
     {
       field: "startDate",
@@ -190,6 +254,7 @@ export default function FullFeaturedCrudGrid() {
       headerName: "Data Inizio",
       width: 279,
       editable: true,
+      flex: 0.3,
     },
     {
       field: "endDate",
@@ -197,12 +262,14 @@ export default function FullFeaturedCrudGrid() {
       headerName: "Data Fine",
       width: 279,
       editable: true,
+      flex: 0.3,
     },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
       width: 100,
+      flex: 0.1,
       cellClassName: "actions",
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -285,17 +352,24 @@ export default function FullFeaturedCrudGrid() {
         rows={rows}
         columns={columns}
         editMode="row"
+        onRowClick={(el) => {}}
+        onCellDoubleClick={(el) => {
+          if (el.field === "id_customer")
+            return navigate(`/clienti/${el.row.id_customer}`);
+        }}
         rowModesModel={rowModesModel}
         onRowEditStart={handleRowEditStart}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
-        components={
-          {
-            Toolbar: EditToolbarCommesse,
-          }
-        }
+        onProcessRowUpdateError={updateError}
+        components={{
+          Toolbar: EditToolbarCommesse,
+        }}
         componentsProps={{
-          toolbar: { setRows, setRowModesModel, rows,getCommesse,business,customer },
+          toolbar: { getCommesse, business, customer },
+          row: {
+            style: { cursor: "context-menu" },
+          },
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />

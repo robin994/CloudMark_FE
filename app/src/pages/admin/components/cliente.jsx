@@ -1,9 +1,9 @@
-import { Card, ListGroup } from "react-bootstrap"
 import { useOutletContext, useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+import CommesseByCustomer from "./commesseByCustomer"
+import { Card, ListGroup } from "react-bootstrap"
 import { TextField, Button } from "@mui/material"
+import { useEffect, useState } from "react"
 import axios from "axios"
-import { getListaDipendenti } from "../../../data_mock"
 
 export default function Cliente() {
     const [customer, setCustomer] = useState({})
@@ -52,16 +52,19 @@ export default function Cliente() {
         {type: "text", id: "phone", label: `Phone: ${customer.phone}`}
     ]
     return (
-            <Card style={{ width: '18rem' }}>
-                <Card.Img src="/statics/customer.jpg" />
-                <ListGroup variant="flush">
-                {inputsAttrs.map(attrs => <TextField {...attrs} autoFocus margin="dense"
-                                          fullWidth variant="outlined"
-                                          onChange={e => handleChange(e)}
-                                      />
-                )}
-                </ListGroup>
-                <Button variant="contained" onClick={handleSendUpdate}>Save</Button>
-            </Card>
+            <>
+                <Card style={{ width: '18rem' }}>
+                    <Card.Img src="/statics/customer.jpg" />
+                    <ListGroup variant="flush">
+                    {inputsAttrs.map(attrs => <TextField {...attrs} autoFocus margin="dense"
+                                              fullWidth variant="outlined"
+                                              onChange={e => handleChange(e)}
+                                          />)
+                    }
+                    </ListGroup>
+                    <Button variant="contained" onClick={handleSendUpdate}>Save</Button>
+                </Card>
+                <CommesseByCustomer id_customer={id_customer}/>
+            </>
     )
 }

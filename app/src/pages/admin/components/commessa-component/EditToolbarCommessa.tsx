@@ -1,8 +1,5 @@
-import { Business } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import {
-  GridRowModesModel,
-  GridRowsProp,
   GridToolbarContainer,
   GridToolbarExport,
 } from "@mui/x-data-grid";
@@ -12,29 +9,26 @@ import { Modal } from "react-bootstrap";
 import Select from "react-select";
 
 interface EditToolbarProps {
-  customer:[]
-  getCommesse : any,
+  customer: []
+  getCommesse: any,
   business: [];
-  rows: any;
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-  setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-  ) => void;
 }
 
 function EditToolbarCommesse(props: EditToolbarProps) {
-  const { setRows, rows, business,getCommesse,customer } = props;
+  const { business, getCommesse, customer } = props;
   const [show, setShow] = React.useState(false);
   const [idCustomer, setIdCustomer] = React.useState("");
   const [idBusiness, setIdBusiness] = React.useState("");
-  const [startDate, setStartDate] = React.useState<any>("");
+  const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
   const [description, setDescription] = React.useState("");
   const handleClose = () => setShow(false);
   let handleShow = () => {
-    getCommesse();
     setShow(true);
   };
+  React.useEffect(() => {
+    getCommesse();
+  }, []);
 
   function createOrder() {
     handleClose();
@@ -46,25 +40,8 @@ function EditToolbarCommesse(props: EditToolbarProps) {
         endDate: endDate,
         description: description,
       })
-      .then((newRow) => {
-        getCommesse
-          .then((res:any) => {
-            setRows(
-              res.data.data?.map((el: any) => {
-                return {
-                  date_presence: el["date_presence"],
-                  first_name: el["first_name"],
-                  hours: el["hours"],
-                  id: el["id_presence"],
-                  id_employee: el["id_employee"],
-                  id_order: el["id_order"],
-                  last_name: el["last_name"],
-                  nome_azienda: el["id_business"],
-                  tipoPresenza: el["id_type_presence"],
-                };
-              })
-            );
-          });
+      .then((newRows) => {
+        getCommesse()
       })
       .catch((err) => {
         console.log(err);
@@ -81,7 +58,7 @@ function EditToolbarCommesse(props: EditToolbarProps) {
         </Modal.Header>
         <Modal.Body>
           <div>
-            <div>
+            <div className="mb-2">
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Cliente"
@@ -92,7 +69,7 @@ function EditToolbarCommesse(props: EditToolbarProps) {
                 options={customer}
               />
             </div>
-            <div>
+            <div className="mb-2">
               <Select
                 hideSelectedOptions={false}
                 placeholder="Seleziona Azienda"
@@ -103,8 +80,8 @@ function EditToolbarCommesse(props: EditToolbarProps) {
                 options={business}
               />
             </div>
-            <div>
-            <input
+            <div className="mb-2">
+              <input
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 id="description"
@@ -114,8 +91,8 @@ function EditToolbarCommesse(props: EditToolbarProps) {
               ></input>
             </div>
             <div>
-            <label htmlFor="startDate">Data Inizio</label> 
-            <input
+              <label htmlFor="startDate">Data Inizio</label>
+              <input
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 id="startDate"
@@ -125,7 +102,7 @@ function EditToolbarCommesse(props: EditToolbarProps) {
               ></input>
             </div>
             <div>
-               <label htmlFor="endDate">Data Fine </label> 
+              <label htmlFor="endDate">Data Fine </label>
               <input
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
