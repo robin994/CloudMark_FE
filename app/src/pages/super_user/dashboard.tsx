@@ -2,6 +2,8 @@ import CustomCard from '../../components/CustomCard';
 import Background from '../../components/Background';
 import Row from 'react-bootstrap/Row';
 import { motion } from "framer-motion";
+import "../super_user/dashboard-css/style.css"
+
 
 const textDesc: string[] = [];
 
@@ -17,7 +19,7 @@ export default function Dashboard() {
       <Background />
       {/* <h1 style={{position: "absolute", top: "20%", right: "50%", transform: "translateX(50%)"}}>Benvenuto Superuser</h1> */}
       <div className="container" style={{position: "absolute", top: "50%", right: "50%", transform: "translate(50%, -50%)"}}>
-        <Row className='my-5 justify-content-center align-items-center'>
+        <Row className='my-5 justify-content-center align-items-center rowCont'>
           <motion.div className='col-3 d-flex justify-content-center' initial={{ x: -100 }} animate={{ x: 0 }}>
             <CustomCard
               cardTitle='Azienda'
@@ -45,8 +47,6 @@ export default function Dashboard() {
               textDesc={textDesc[2]}
             />
           </motion.div>
-        </Row>
-        <Row className='my-5 justify-content-center align-items-center'>
           <motion.div className='col-3 d-flex justify-content-center' initial={{ y: 100 }} animate={{ y: 0 }}>
             <CustomCard
               cardTitle='Tipo Contratto'
