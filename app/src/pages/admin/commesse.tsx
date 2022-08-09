@@ -28,6 +28,7 @@ import { Container, Row } from "react-bootstrap";
 const initialRows: GridRowsProp = [];
 
 export default function FullFeaturedCrudGrid() {
+  
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
@@ -35,6 +36,8 @@ export default function FullFeaturedCrudGrid() {
   const [business, setBusiness] = React.useState([]);
   const [customer, setCustomer] = React.useState([]);
   const navigate = useNavigate();
+  const[employees, setEmployees] = React.useState([]);
+
   async function getCommesse() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
       setRows(
@@ -138,7 +141,6 @@ export default function FullFeaturedCrudGrid() {
     }
   };
   
-  console.log(rows)
   const updateError = () => {
     return "Errore";
   };
@@ -168,11 +170,9 @@ export default function FullFeaturedCrudGrid() {
     return updatedRow;
   };
   
-  async function openDipendenti(id : GridRowId) {
-    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/order/${id}`).then((res) => {
-    console.log(id)
-    console.log(res)
-    });
+  
+  function openDipendenti(id : GridRowId) {
+    navigate(`/commesse/dipendenti/${id}`)
   }
   const columns: GridColumns = [
     {
@@ -365,13 +365,13 @@ export default function FullFeaturedCrudGrid() {
         processRowUpdate={processRowUpdate}
         onProcessRowUpdateError={updateError}
         components={{
-          Toolbar: EditToolbarCommesse
+          Toolbar: EditToolbarCommesse,
         }}
         componentsProps={{
-          toolbar: { getCommesse, business, customer,getCustomers },
+          toolbar: { getCommesse, business, customer,getCustomers, employees },
           row: {
             style: { cursor: "context-menu" },
-          },
+          },  
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
