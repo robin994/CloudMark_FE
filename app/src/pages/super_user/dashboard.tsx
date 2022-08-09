@@ -19,8 +19,8 @@ export default function Dashboard() {
       <Background />
       {/* <h1 style={{position: "absolute", top: "20%", right: "50%", transform: "translateX(50%)"}}>Benvenuto Superuser</h1> */}
       <div className="container" style={{position: "absolute", top: "50%", right: "50%", transform: "translate(50%, -50%)"}}>
-        <Row className='my-5 justify-content-center align-items-center rowCont'>
-          <motion.div className='col-3 d-flex justify-content-center' initial={{ x: -100 }} animate={{ x: 0 }}>
+        <Row className='justify-content-center align-items-center Cont'>
+          <motion.div className='col-xxl-3 col-lg-4 d-flex justify-content-center' initial={{ x: -100 }} animate={{ x: 0 }}>
             <CustomCard
               cardTitle='Azienda'
               imgSrc='https://www.svgrepo.com/show/93436/business-bag.svg'
@@ -29,7 +29,7 @@ export default function Dashboard() {
               textDesc={textDesc[0]}
             />
           </motion.div>
-          <motion.div className='col-3 d-flex justify-content-center' initial={{ y: -100 }} animate={{ y: 0 }}>
+          <motion.div className='col-xxl-3 col-lg-4 d-flex justify-content-center' initial={{ y: -100 }} animate={{ y: 0 }}>
           <CustomCard
               cardTitle='Accounts'
               imgSrc='https://www.svgrepo.com/show/361411/account.svg'
@@ -38,7 +38,7 @@ export default function Dashboard() {
               textDesc={textDesc[1]}
             />
           </motion.div>
-          <motion.div className='col-3 d-flex justify-content-center' initial={{ x: 100 }} animate={{ x: 0 }}>
+          <motion.div className='col-xxl-3 col-lg-4 d-flex justify-content-center' initial={{ x: 100 }} animate={{ x: 0 }}>
           <CustomCard
               cardTitle='Tipo Account'
               imgSrc='https://www.svgrepo.com/show/10278/account-passkey.svg'
@@ -47,7 +47,7 @@ export default function Dashboard() {
               textDesc={textDesc[2]}
             />
           </motion.div>
-          <motion.div className='col-3 d-flex justify-content-center' initial={{ y: 100 }} animate={{ y: 0 }}>
+          <motion.div className='col-xxl-3 col-lg-4 d-flex justify-content-center' initial={{ y: 100 }} animate={{ y: 0 }}>
             <CustomCard
               cardTitle='Tipo Contratto'
               imgSrc='https://www.svgrepo.com/show/36743/contract.svg'
@@ -56,7 +56,7 @@ export default function Dashboard() {
               textDesc={textDesc[3]}
             />
           </motion.div>
-          <motion.div className='col-3 d-flex justify-content-center' initial={{ y: 100 }} animate={{ y: 0 }}>
+          <motion.div className='col-xxl-3 col-lg-4 d-flex justify-content-center' initial={{ y: 100 }} animate={{ y: 0 }}>
           <CustomCard
               cardTitle='Tipo Presenza'
               imgSrc='https://www.svgrepo.com/show/53043/signs.svg'
