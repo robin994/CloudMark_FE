@@ -26,32 +26,38 @@ import {
         const [chartData, setChartData] = useState({
             datasets: [],
         })
+        const [dat, setData] = useState()
         const [startOrderDate, setStartOrderDate] = useState()
         const [endOrderDate, setEndOrderDate] = useState()
-        const [finalDate, setFinalDate] = useState([])
         const mockDate1 = "2022-02-04"
         const mockDate2 = "2022-05-02"
-
+        var sus1 = []
+        var sus2 = []
+        var finalDate = []
 
         const value = 0
     
         const [chartOptions, setChartOptions] = useState({})
         function getCommesse(){
             axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then(res=>{
-                for(var x in res.data.data){
-                    setStartOrderDate(res.data.data[x].startDate)
-                    setEndOrderDate(res.data.data[x].endDate)
+                for(var i in res.data.data){
+                    sus1.push(res.data.data[i].startDate)
+                    sus2.push(res.data.data[i].endDate)
+                    setStartOrderDate(sus1)
+                    setEndOrderDate(sus2)
                 }
             })
         }
         function calcolaData(){
-            let startDat = new Date(mockDate1)
-            let endDat = new Date(mockDate2)
-            let diffTime = Math.abs(startDat - endDat)
-            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-            console.log("ci sono: ", diffDays, " giorni di differenza")
+            for(var i = 0; i < startOrderDate.length; i++){
+                let startDat = new Date(startOrderDate[i])
+                let endDat = new Date(endOrderDate[i])
+                let diffTime = Math.abs(startDat - endDat)
+                let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+                finalDate.push(diffDays)
+                console.log(finalDate)
+            }
         }
-        calcolaData()
 
         useEffect(() => {
             setChartData({
@@ -81,7 +87,8 @@ import {
         }, [value])
         const controlChart = ()=>{
             if(startOrderDate && endOrderDate){
-
+                calcolaData()
+                console.log(startOrderDate)
                 return (
                 <>
                     <div>
