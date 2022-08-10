@@ -1,0 +1,11 @@
+version: "3"
+services:
+  cloudmarkfe:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src:ro
+    env_file:
+      - ./.env
+    
