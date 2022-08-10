@@ -9,6 +9,7 @@ import {
     } from 'chart.js';
     import { Bar } from 'react-chartjs-2';
     import { useState, useEffect } from 'react';
+import axios from 'axios';
     
     ChartJS.register(
         CategoryScale,
@@ -23,11 +24,21 @@ import {
         const [chartData, setChartData] = useState({
             datasets: [],
         })
+        const [startOrderDate, setStartOrderDate] = useState([])
+        const [endOrderDate, setEndOrderDate] = useState([])
+        const [finalDate, setFinalDate] = useState([])
         
         const value = 0
     
         const [chartOptions, setChartOptions] = useState({})
-        
+        function getCommesse(){
+            axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then(res=>{
+                for(var x in res.data.data){
+                    setStartOrderDate(res.data.data[x].startDate)
+                    setEndOrderDate(res.data.data[x].endDate)
+                }
+            })
+        }
         useEffect(() => {
             setChartData({
                 labels: ["John", "Kevin", "George", "Micheal", "Oreo"],
@@ -52,8 +63,9 @@ import {
                     }
                 }
             })
+            getCommesse()
         }, [value])
-    
+        
         return (
             <div>
                 <Bar options={chartOptions} data={chartData} />
