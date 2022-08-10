@@ -65,7 +65,7 @@ import {
 
         useEffect(() => {
             setChartData({
-                labels: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio","Giugno","Luglio", "Agosto", "Settembre"],
+                labels: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio","Giugno","Luglio", "Agosto", "Settembre","Ottobre","Novembre","Dicembre"],
                 datasets: [
                     {
                         label: "chart alpha test",
