@@ -33,7 +33,7 @@ const StyledCalendar = styled(Calendar, {})({
 })
 
 const StyledPresenceTable = styled(PresenceTable, {})({
-  '.dataGrid_component': {
+  '.MuiDataGrid-root': {
     borderRadius: '15px',
     border: '0',
     boxShadow: '10px 10px 10px',

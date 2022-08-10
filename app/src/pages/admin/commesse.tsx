@@ -2,8 +2,9 @@ import CancelIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
+import PeopleIcon from '@mui/icons-material/People';
 import { Button, Fade, Typography } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import {
   DataGrid,
@@ -17,18 +18,17 @@ import {
   GridRowParams,
   GridRowsProp,
   MuiEvent,
-  ValueOptions,
 } from "@mui/x-data-grid";
 import axios from "axios";
 import * as React from "react";
 
 import EditToolbarCommesse from "./components/commessa-component/EditToolbarCommessa";
 import { Container, Row } from "react-bootstrap";
-// import "./css_components/TabellaPresenze.css";
 
 const initialRows: GridRowsProp = [];
 
 export default function FullFeaturedCrudGrid() {
+  
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
@@ -36,6 +36,8 @@ export default function FullFeaturedCrudGrid() {
   const [business, setBusiness] = React.useState([]);
   const [customer, setCustomer] = React.useState([]);
   const navigate = useNavigate();
+  const[employees, setEmployees] = React.useState([]);
+
   async function getCommesse() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders`).then((res) => {
       setRows(
@@ -80,15 +82,7 @@ export default function FullFeaturedCrudGrid() {
       setBusiness(arr);
     });
   }
-  let getCells: any = (value: any, field: any, api: any) => {
-    const colDef = api.getColumn(field);
-    const option = colDef.valueOptions.find((el: any) => {
-      if (el.value === value) {
-        return el;
-      }
-    });
-    return option && option.label ? option.label : null;
-  };
+
   React.useEffect(() => {
     getCommesse();
     getBusiness();
@@ -146,7 +140,7 @@ export default function FullFeaturedCrudGrid() {
       setRows(rows.filter((row) => row.id !== id));
     }
   };
-
+  
   const updateError = () => {
     return "Errore";
   };
@@ -175,7 +169,11 @@ export default function FullFeaturedCrudGrid() {
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
-  console.log(rows);
+  
+  
+  function openDipendenti(id : GridRowId) {
+    navigate(`/commesse/dipendenti/${id}`)
+  }
   const columns: GridColumns = [
     {
       field: "id",
@@ -203,6 +201,7 @@ export default function FullFeaturedCrudGrid() {
       valueOptions: customer,
       valueFormatter: ({ value, field, api }) => {
         const colDef = api.getColumn(field);
+        // eslint-disable-next-line array-callback-return
         const option = colDef.valueOptions.find((el: any) => {
           if (el.value === value) {
             return el;
@@ -219,7 +218,7 @@ export default function FullFeaturedCrudGrid() {
             </div>
             <div className="col-2 offset-1">
               <Button
-                // onClick={}
+                onClick={()=>navigate(`/clienti/${el.row.id_customer}`)}
                 variant="contained"
                 size="small"
                 style={{ marginLeft: 0, blockSize: 25 }}
@@ -242,6 +241,7 @@ export default function FullFeaturedCrudGrid() {
       valueOptions: business,
       valueFormatter: ({ value, field, api }) => {
         const colDef = api.getColumn(field);
+        // eslint-disable-next-line array-callback-return
         const option = colDef.valueOptions.find((el: any, val: any) => {
           if (el.value === value) return el;
         });
@@ -290,7 +290,6 @@ export default function FullFeaturedCrudGrid() {
             />,
           ];
         }
-
         return [
           <GridActionsCellItem
             icon={<EditIcon />}
@@ -305,10 +304,18 @@ export default function FullFeaturedCrudGrid() {
             onClick={() => handleOpen(id)}
             color="inherit"
           />,
+          <GridActionsCellItem
+          icon={<PeopleIcon/>}
+          label="View"
+          className="textPrimary"
+          onClick={()=>openDipendenti(id)}
+          color="inherit"
+        />,
         ];
       },
     },
   ];
+
 
   const style = {
     display: "flex",
@@ -352,11 +359,6 @@ export default function FullFeaturedCrudGrid() {
         rows={rows}
         columns={columns}
         editMode="row"
-        onRowClick={(el) => {}}
-        onCellDoubleClick={(el) => {
-          if (el.field === "id_customer")
-            return navigate(`/clienti/${el.row.id_customer}`);
-        }}
         rowModesModel={rowModesModel}
         onRowEditStart={handleRowEditStart}
         onRowEditStop={handleRowEditStop}
@@ -366,10 +368,10 @@ export default function FullFeaturedCrudGrid() {
           Toolbar: EditToolbarCommesse,
         }}
         componentsProps={{
-          toolbar: { getCommesse, business, customer },
+          toolbar: { getCommesse, business, customer,getCustomers, employees },
           row: {
             style: { cursor: "context-menu" },
-          },
+          },  
         }}
         experimentalFeatures={{ newEditingApi: true }}
       />
