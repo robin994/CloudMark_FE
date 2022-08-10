@@ -5,9 +5,11 @@ import {
         BarElement,
         Title,
         Tooltip,
-        Legend
+        Legend,
+        LineElement,
+        PointElement
     } from 'chart.js';
-    import { Bar } from 'react-chartjs-2';
+    import { Bar, Line } from 'react-chartjs-2';
     import { useState, useEffect } from 'react';
     import axios from 'axios';
     import { motion } from "framer-motion";
@@ -17,6 +19,8 @@ import {
         CategoryScale,
         LinearScale,
         BarElement,
+        LineElement,
+        PointElement,
         Title,
         Tooltip,
         Legend
@@ -61,7 +65,7 @@ import {
 
         useEffect(() => {
             setChartData({
-                labels: ["John", "Kevin", "George", "Micheal", "Oreo"],
+                labels: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio","Giugno","Luglio", "Agosto", "Settembre"],
                 datasets: [
                     {
                         label: "chart alpha test",
@@ -92,7 +96,7 @@ import {
                 return (
                 <>
                     <div>
-                        <Bar options={chartOptions} data={chartData} />
+                        <Line options={chartOptions} data={chartData} />
                     </div>
                 </>
             )
