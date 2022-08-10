@@ -9,7 +9,9 @@ import {
     } from 'chart.js';
     import { Bar } from 'react-chartjs-2';
     import { useState, useEffect } from 'react';
-import axios from 'axios';
+    import axios from 'axios';
+    import { motion } from "framer-motion";
+
     
     ChartJS.register(
         CategoryScale,
@@ -24,10 +26,13 @@ import axios from 'axios';
         const [chartData, setChartData] = useState({
             datasets: [],
         })
-        const [startOrderDate, setStartOrderDate] = useState([])
-        const [endOrderDate, setEndOrderDate] = useState([])
+        const [startOrderDate, setStartOrderDate] = useState()
+        const [endOrderDate, setEndOrderDate] = useState()
         const [finalDate, setFinalDate] = useState([])
-        
+        const mockDate1 = "2022-02-04"
+        const mockDate2 = "2022-05-02"
+
+
         const value = 0
     
         const [chartOptions, setChartOptions] = useState({})
@@ -39,6 +44,15 @@ import axios from 'axios';
                 }
             })
         }
+        function calcolaData(){
+            let startDat = new Date(mockDate1)
+            let endDat = new Date(mockDate2)
+            let diffTime = Math.abs(startDat - endDat)
+            let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+            console.log("ci sono: ", diffDays, " giorni di differenza")
+        }
+        calcolaData()
+
         useEffect(() => {
             setChartData({
                 labels: ["John", "Kevin", "George", "Micheal", "Oreo"],
@@ -65,12 +79,32 @@ import axios from 'axios';
             })
             getCommesse()
         }, [value])
-        
-        return (
-            <div>
-                <Bar options={chartOptions} data={chartData} />
-            </div>
-        )
+        const controlChart = ()=>{
+            if(startOrderDate && endOrderDate){
+
+                return (
+                <>
+                    <div>
+                        <Bar options={chartOptions} data={chartData} />
+                    </div>
+                </>
+            )
+            }else{
+                return (
+                    <motion.div
+                      className="container rounded bg-white mt-5 mb-5 text-center"
+                      initial={{ y: -100 }}
+                      animate={{ y: 0 }}
+                    >
+                      <span style={{ fontSize: "25px", letterSpacing: "3px" }}>
+                        LOADING
+                      </span>
+                      <div className="loadbar shadow"></div>
+                    </motion.div>
+                  );
+            }
+
+        }
+        return(<>{controlChart()}</>)
     }
-    
     export default Chart
