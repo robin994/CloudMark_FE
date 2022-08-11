@@ -129,6 +129,5 @@ function CommesseDipendenti() {
   }
 }
 
-<<<<<<< HEAD
 export default CommesseDipendenti
 
