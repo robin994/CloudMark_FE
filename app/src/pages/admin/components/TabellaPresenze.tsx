@@ -154,7 +154,6 @@ export default function FullFeaturedCrudGrid() {
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
-    console.log("aggiorno");
     axios
       .post(`${process.env.REACT_APP_FASTAPI_URL}/presence/insertUpdate`, {
         id_presence: updatedRow.id,

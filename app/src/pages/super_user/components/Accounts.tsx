@@ -139,7 +139,7 @@ const Accounts = () => {
             headerName: "id tipo account",
             width: 350,
             editable: true,
-            hide: false,
+            hide: true,
         },
         {
             field: "actions",
