@@ -1,4 +1,6 @@
 FROM node
-WORKDIR /usr/src/app
+WORKDIR /app
 COPY package*.json ./
-RUN ls
+RUN npm install
+COPY . .
+CMD ["npm", "start"]
