@@ -21,7 +21,7 @@ const AddDipendente = () => {
 
     const[user,setUser] =useState('')
     const[password,setPassword] =useState('')
-    const[abilitato,setAbilitato] =useState(0)
+    const[abilitato,setAbilitato] =useState(1)
     const[id_tipo_account,setIdTipoAccount] =useState('')
 
     const[id_business,setBusiness] =useState('')
@@ -31,18 +31,6 @@ const AddDipendente = () => {
 
 
 
-    const types: { [key: string]: string } = {
-
-      "52fbe812-08f6-11ed-861d-0242ac120002":"determinato",
-      "198ef11d-cf73-4245-8469-2ddfa9979acf":"indeterminato",
-      "7e55494c-08f4-11ed-861d-0242ac120002":"administrator",
-      "7e554b54-08f4-11ed-861d-0242ac120002":"dipendente",
-
-      "124e4567-e85b-1fd3-a456-426614474000":"markup",
-      "11111111-e85b-1fd3-a456-426614474000":"tamtung",
-      "12455557-444b-1333-a886-426699994000":"pokia",
-      "f565cec2-a3d9-4b9d-8600-0a3fd43dd5fb":"MARCO"
-    };
 
 const CreateEmployee=(e:any)=>{
     e.preventDefault()
@@ -90,10 +78,10 @@ const CreateEmployee=(e:any)=>{
     <>
  
 
-    <Card style={{ width: '50%',justifyContent: 'center',textAlign: 'center' }}>
+    <Card style={{ width: '100%', alignItems: "center",justifyContent: "center" }}>
      
       <Card.Body>
-        <Card.Title style={{ textAlign: 'center',fontSize:"50px" }}>Aggiungi Dipendente</Card.Title>
+        <Card.Title style={{ textAlign: 'center',fontSize:"50px",fontFamily:"Gill Sans, sans-serif"}}>Aggiungi Dipendente</Card.Title>
        
             <div style={{display: 'flex',marginTop:"1vh"}}>
             <input value={first_name} type="text" onChange={(e) => setFirstName(e.target.value)}placeholder="First Name" className="form-control" required ></input>
@@ -117,7 +105,7 @@ const CreateEmployee=(e:any)=>{
                 <input value={password}type="password" onChange={(e) => setPassword(e.target.value)}placeholder="password"className="form-control" required ></input>
             </div>
             <div style={{display: 'flex',marginTop:"1vh"}}>
-                <input value={abilitato}type="text" onChange={(e) => setAbilitato(e.target.valueAsNumber)}placeholder="abilitato"className="form-control" required ></input>
+                <input value={abilitato}type="text" onChange={(e) => setAbilitato(e.target.valueAsNumber)}placeholder="abilitato"className="form-control" disabled></input>
                 <input value={id_tipo_account}type="text" onChange={(e) => setIdTipoAccount(e.target.value)}placeholder="tipo account"className="form-control" required ></input>
             </div>
 
