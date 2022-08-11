@@ -7,6 +7,8 @@ import { Button, Fade, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 
 import CustomToolbar from "./components/dipendenti-component/export"
+import AggiungiDipendente from "./components/dipendenti-component/export"
+
 
 import {
   DataGrid,
@@ -29,7 +31,7 @@ const initialRows: GridRowsProp = [];
 
 export default function FullFeaturedCrudGrid() {
 
-
+  const [pageSize, setPageSize] = React.useState<number>(8);
 
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
@@ -37,6 +39,8 @@ export default function FullFeaturedCrudGrid() {
   );
   const [dip, setDip] = React.useState([]);
   const [dipendentis, setdipendentis] = React.useState([]);
+  
+
 
 
 
@@ -51,7 +55,9 @@ export default function FullFeaturedCrudGrid() {
     "124e4567-e85b-1fd3-a456-426614474000":"markup",
     "11111111-e85b-1fd3-a456-426614474000":"tamtung",
     "12455557-444b-1333-a886-426699994000":"pokia",
-    "f565cec2-a3d9-4b9d-8600-0a3fd43dd5fb":"MARCO"
+    "f565cec2-a3d9-4b9d-8600-0a3fd43dd5fb":"MARCO",
+    "0":"Disabilitato",
+    "1":"Abilitato"
   };
 
 
@@ -126,15 +132,23 @@ export default function FullFeaturedCrudGrid() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = () => () => {
+
+
+
+
+
+  
+  const Disabled = () =>{
+   
     let id: GridRowId = "";
+
     if (IDRowToDelete !== undefined) {
       id = IDRowToDelete;
 
       axios
         .request({
-          url: 'http://127.0.0.1:8000/employee/delete/',
-          method: "post",
+          url: `${process.env.REACT_APP_FASTAPI_URL}/employee/${id}/disabled`,
+          method: "get",
           params: {
             id_employee: id,
           },
@@ -145,6 +159,31 @@ export default function FullFeaturedCrudGrid() {
         });
     }
   };
+
+
+
+  const Enable = () =>  {
+    let id: GridRowId = "";
+    if (IDRowToDelete !== undefined) {
+      id = IDRowToDelete;
+
+      axios
+        .request({
+          url: `${process.env.REACT_APP_FASTAPI_URL}/employee/${id}/enabled`,
+          method: "get",
+          params: {
+            id_employee: id,
+          },
+        })
+        .then(() => {
+          setRows(rows.filter((row) => row.id !== id));
+          setOpen(false);
+        });
+    }
+  };
+
+
+
 
   const handleCancelClick = (id: GridRowId) => () => {
     setRowModesModel({
@@ -157,6 +196,12 @@ export default function FullFeaturedCrudGrid() {
       setRows(rows.filter((row) => row.id !== id));
     }
   };
+
+
+
+
+
+
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
@@ -179,6 +224,8 @@ export default function FullFeaturedCrudGrid() {
       .catch((err) => {
         console.log(err);
       });
+
+
 
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
@@ -268,6 +315,17 @@ export default function FullFeaturedCrudGrid() {
       type: "number",
       width: 279,
       editable: true,
+            
+      valueOptions: Object.keys(types).map((element) => {
+        return { label: types[element], value: element };
+      }),
+      valueFormatter: ({ value, field, api }) => {
+        const colDef = api.getColumn(field);
+        const option = colDef.valueOptions.find((el: any, val: any) => {
+          if (el.value === value) return el;
+        });
+        return option && option.label ? option.label : null;
+      },
      
     },
     {
@@ -417,25 +475,13 @@ export default function FullFeaturedCrudGrid() {
   };
 
 
-
-
-
   return (
   <>
   
-  <div style={{backgroundColor:"gainsboro",padding:"0.5rem",borderBottom: "1px solid solid black",borderTop: "1px solid black"}}>
-    
-    <a href="add_dipendenti">
-    <Button>
-      +Aggiungi Dipendente
-    </Button>
-    </a>
-    
- 
+   
 
-    
-          
-  </div>
+
+
     <Box
       sx={{
         height: "89vh",
@@ -449,6 +495,10 @@ export default function FullFeaturedCrudGrid() {
       }}
     >
       <DataGrid
+        pageSize={pageSize}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        rowsPerPageOptions={[8]}
+        pagination
         style={{ height: "89vh" }}
         autoHeight
         rows={rows}
@@ -481,18 +531,25 @@ export default function FullFeaturedCrudGrid() {
               </Typography>
               <div style={{ display: "flex" }}>
                 <Button
-                  onClick={handleDeleteClick()}
+                     onClick={()=>Disabled()}
+                    style={{ margin: "10px", height: "40px", width: "90px" }}
+                    variant="outlined"
+                >
+                  Disabilita
+                </Button>
+                <Button
+                  onClick={()=>Enable()}
                   style={{ margin: "10px", height: "40px", width: "90px" }}
                   variant="outlined"
                 >
-                  SI
+                  Abilita
                 </Button>
                 <Button
                   onClick={() => setOpen(false)}
                   style={{ margin: "10px", height: "40px", width: "90px" }}
                   variant="outlined"
                 >
-                  NO
+                  Annulla
                 </Button>
               </div>
             </Box>
