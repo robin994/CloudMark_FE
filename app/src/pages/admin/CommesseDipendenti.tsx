@@ -2,13 +2,12 @@ import { Box } from '@mui/material';
 import { DataGrid, GridColumns, GridRowsProp } from '@mui/x-data-grid';
 import axios from 'axios';
 import React from 'react'
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const initialRows: GridRowsProp = [];
 function CommesseDipendenti() {
   const [rows, setRows] = React.useState(initialRows);
-  const navigate = useNavigate()
+  const [empty, isEmpty] = React.useState(false)
   let params = useParams()
   let id_commessa = params.id_commessa
   React.useEffect(() => {
@@ -17,7 +16,7 @@ function CommesseDipendenti() {
 
   function getEmployeesFromOrder() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/order/${id_commessa}`).then((res) => {
-      if (res.data.data.length === 0) navigate("/commesse/dipendenti/noEmployees")
+      if (res.data.data.length === 0) isEmpty(true)
       else {
         return setRows(
           Object.values(res.data.data).map((el: any) => {
@@ -81,27 +80,54 @@ function CommesseDipendenti() {
       editable: false
     },
   ];
-
-  return (
-    <Box
-      sx={{
-        height: "89vh",
-        width: "100%",
-        "& .actions": {
-          color: "text.secondary",
-        },
-        "& .textPrimary": {
-          color: "text.primary",
-        },
-      }}
-    >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-      />
-    </Box>
-  );
+  if (empty===true) {
+    return (
+      <>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12">
+            <div className="error-template">
+              <h1>
+                Oops!</h1>
+              <h2>
+                Nessun Dipendente è su questa commessa</h2>
+              <div className="error-details">
+                Sorry, an error has occured, Requested page not found!
+              </div>
+              <div className="error-actions">
+                <Link to="/commesse" className="btn btn-primary btn-lg"><span className="glyphicon glyphicon-home"></span>
+                  Torna a Commesse </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+    )
+  }
+  else {
+    return (
+      <Box
+        sx={{
+          height: "89vh",
+          width: "100%",
+          "& .actions": {
+            color: "text.secondary",
+          },
+          "& .textPrimary": {
+            color: "text.primary",
+          },
+        }}
+      >
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          disableSelectionOnClick
+        />
+      </Box>
+    );
+  }
 }
 
 export default CommesseDipendenti
+
