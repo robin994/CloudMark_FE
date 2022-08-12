@@ -58,7 +58,7 @@ const TipoAccount = () => {
             headerName: "id tipo account",
             width: 350,
             editable: false,
-            hide: false,
+            hide: true,
         }
     ]
        

@@ -16,10 +16,9 @@ export default function CommesseByCustomer({id_customer}) {
         })
     }, [id_customer])
     const columns = [
-        { field: 'descrizione', headerName: 'Descrizione', width: 150, flex: 1 },
-        { field: 'cliente', headerName: 'Cliente', width: 150},
-        { field: 'data_inizio', headerName: 'Data inizio', width: 150},
-        { field: 'data_fine', headerName: 'Data fine', width: 150}
+        { field: 'descrizione', headerName: 'Descrizione', width: 150, flex: 0.3 },
+        { field: 'data_inizio', headerName: 'Data inizio', width: 150,flex: 0.3 },
+        { field: 'data_fine', headerName: 'Data fine', width: 150,flex: 0.3 }
     ];
     const rows = []
     for (const obj of commesseCustomer) {
@@ -32,7 +31,7 @@ export default function CommesseByCustomer({id_customer}) {
     }
     return (
         <>
-            <div style={{ display: 'flex', height: "100%", width: "100%" }}>
+            <div style={{ display: 'flex', height: "100%", width: "100%"}}>
                 <DataGrid autoHeight rows={rows} columns={columns}/>
             </div>
         </>

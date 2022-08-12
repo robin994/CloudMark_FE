@@ -4,11 +4,14 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import { DataGrid, GridActionsCellItem} from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Dialog, DialogTitle, DialogActions, 
-         DialogContent, DialogContentText, TextField } from "@mui/material"        
+         DialogContent, DialogContentText, TextField, List, Divider } from "@mui/material"        
 import Spacer from "../../components/Spacer";
+import { height } from "@mui/system";
 
 let newCustomer = {}
 
@@ -20,7 +23,7 @@ export default function Clienti() {
     const [id_customer, setId_customer] = useState("")
     const [openAddCustomer, setOpenAddCustomer] = useState(false)
     useEffect( () => {
-      getDipendenti()
+      getClienti()
     }, [refresh])
   
     const handleEdit = id_customer => { 
@@ -37,15 +40,17 @@ export default function Clienti() {
             console.log("errore ", err)
         })
     }
-    const handleAddCustomer = () => setOpenAddCustomer(true)
+    const handleAddCustomer = () => {
+      setOpenAddCustomer(true)
+    }
     const handleClose = () => {
         setOpenAddCustomer(false)
-        getDipendenti()
+        getClienti()
     }
     const columns = [
-        { field: 'name', headerName: 'Nome', width: 100},
-        { field: 'actions', type: "actions", getActions: customer_row => [
-            <GridActionsCellItem icon={<EditIcon />} label="Info"
+        { field: 'name', headerName: 'Nome',flex:1,},
+        { field: 'actions',headerName:'Actions',type: "actions",flex:1, getActions: customer_row => [
+            <GridActionsCellItem icon={<VisibilityIcon/>} label="Info"
             onClick={() => handleEdit(customer_row.id)}
             />,
             <GridActionsCellItem icon={<DeleteIcon />} label="Delete"
@@ -58,7 +63,7 @@ export default function Clienti() {
         rowsArr.push({id: id_customer, name: detailsObj.name})
     }
     const rows = rowsArr
-    async function getDipendenti() {
+    async function getClienti() {
         try {
           const response = await axios.get(`${process.env.REACT_APP_FASTAPI_URL}/customer`);
           setCustomers(response.data.data)
@@ -69,18 +74,17 @@ export default function Clienti() {
     return (
       <>
         <AddCustomerDialog onClose={handleClose} open={openAddCustomer}/>
-        <Spacer margin="1rem" />
+
         <Button color="primary" startIcon={<AddIcon />} onClick={handleAddCustomer}>
             ADD CUSTOMER
         </Button>
-        <ListGroup horizontal="md" >
-            <ListGroup.Item>
-              
-                <div style={{ display: 'flex', height: "100%" }}>
-                    <DataGrid autoHeight rows={rows} columns={columns}/>
+        <ListGroup horizontal style={{height:'85vh'}} >
+          <Divider>
+                <div style={{ display: 'flex',height:'85vh'}}>
+                    <DataGrid style={{borderRadius: '.5rem'}} disableSelectionOnClick={true} rows={rows} columns={columns}/>
                 </div>
-            </ListGroup.Item>
-            <Outlet context={getDipendenti}/>
+                </Divider>
+            <Outlet context={getClienti}/>
         </ListGroup>
         <Spacer margin="1rem" />
       </>
