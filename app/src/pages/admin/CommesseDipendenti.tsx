@@ -90,7 +90,7 @@ function CommesseDipendenti() {
               <h1>
                 Oops!</h1>
               <h2>
-                Nessun Dipendente su questa commessa</h2>
+                Nessun Dipendente è su questa commessa</h2>
               <div className="error-details">
                 Sorry, an error has occured, Requested page not found!
               </div>
@@ -130,3 +130,4 @@ function CommesseDipendenti() {
 }
 
 export default CommesseDipendenti
+

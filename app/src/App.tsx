@@ -36,17 +36,11 @@ export default function App() {
               <Route path="/clienti" element={<Admin.Clienti />}>
                 <Route path=":id_customer" element={<Admin.Cliente />} />
               </Route>
-              <Route path="/commesse" element={<Admin.Commesse />} />
-              <Route
-                path="/commesse/dipendenti/:id_commessa"
-                element={<Admin.CommesseDipendenti />}
-              />
-              <Route
-                path="/dipendente/:id_dipendente"
-                element={<Admin.Dipendente />}
-              />
-              <Route path="/add_dipendenti" element={<Admin.AddDipendente />} />
-              <Route path="/grafico/commesse" element={<Admin.Chart />} />
+              <Route path="/commesse" element={<Admin.Commesse/>} />
+              <Route path="/commesse/dipendenti/:id_commessa" element={<Admin.CommesseDipendenti/>} />
+              <Route path="/dipendente/:id_dipendente" element={<Admin.Dipendente />} />
+              <Route path="/add_dipendenti" element={<Admin.AddDipendente/>} />
+              <Route path="/grafico/commesse" element={<Admin.Chart/>} />
             </Route>
 
             <Route element={<Comps.EmployeeCheck />}>
