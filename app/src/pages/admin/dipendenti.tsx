@@ -31,7 +31,7 @@ const initialRows: GridRowsProp = [];
 
 export default function FullFeaturedCrudGrid() {
 
-  const [pageSize, setPageSize] = React.useState<number>(8);
+  const [pageSize, setPageSize] = React.useState<number>(14);
 
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
@@ -236,21 +236,21 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "first_name",
       headerName: "First Name",
-      width: 279,
+      width: 150,
       editable: true,
      
     },
     {
       field: "last_name",
       headerName: "Last Name",
-      width: 279,
+      width: 150,
       editable: true,
      
     },
     {
       field: "id_business",
       headerName: "Nome Azienda",
-      width: 279,
+      width: 150,
       editable: true,
       
       valueOptions: Object.keys(types).map((element) => {
@@ -268,7 +268,7 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "id_account",
       headerName: "Id Account",
-      width: 279,
+      width: 200,
       editable: true,
       hide: true,
      
@@ -277,9 +277,9 @@ export default function FullFeaturedCrudGrid() {
       field: "start_date",
       headerName: "Start Date",
       type: "date",
-      width: 279,
+      width: 200,
       editable: true,
-     
+      hide: true
     },
 
     {
@@ -288,14 +288,14 @@ export default function FullFeaturedCrudGrid() {
       type: "date",
       width: 279,
       editable: true,
-      
+      hide: true
     },
   
 
     {
       field: "id_tipo_account",
       headerName: "Tipo Account",
-      width: 279,
+      width: 150,
       editable: true,
       valueOptions: Object.keys(types).map((element) => {
         return { label: types[element], value: element };
@@ -313,7 +313,7 @@ export default function FullFeaturedCrudGrid() {
       field: "abilitato",
       headerName: "Abilitato",
       type: "number",
-      width: 279,
+      width: 120,
       editable: true,
             
       valueOptions: Object.keys(types).map((element) => {
@@ -331,15 +331,15 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "password",
       headerName: "Password",
-      width: 279,
+      width: 200,
       editable: true,
-      
+      hide: true
     },
 
     {
       field: "user",
       headerName: "User",
-      width: 279,
+      width: 200,
       editable: true,
       
     },
@@ -348,7 +348,7 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "id_employee",
       headerName: "Id Dipendente",
-      width: 279,
+      width: 200,
       editable: false,
       hide: true,
      
@@ -356,21 +356,21 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "cf",
       headerName: "CF",
-      width: 279,
+      width: 200,
       editable: false,
     },
     {
       field: "iban",
       
       headerName: "Iban",
-      width: 279,
+      width: 220,
       editable: true,
     },
     {
       field: "id_contractType",
       
       headerName: "Tipo Contratto",
-      width: 279,
+      width: 150,
       editable: true,
       valueOptions: Object.keys(types).map((element) => {
         return { label: types[element], value: element };
@@ -387,23 +387,23 @@ export default function FullFeaturedCrudGrid() {
       field: "email",
       
       headerName: "Email",
-      width: 279,
+      width: 200,
       editable: true,
     },
     {
       field: "phoneNumber",
       
       headerName: "Telephone",
-      width: 279,
+      width: 120,
       editable: true,
     },
     {
       field: "serial_num",
       headerName: "Serial Num",
       type: "number",
-      width: 279,
+      width: 200,
       editable: true,
-     
+      hide: true
      
     },
     {
@@ -497,7 +497,7 @@ export default function FullFeaturedCrudGrid() {
       <DataGrid
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        rowsPerPageOptions={[8]}
+        rowsPerPageOptions={[14]}
         pagination
         style={{ height: "89vh" }}
         autoHeight
