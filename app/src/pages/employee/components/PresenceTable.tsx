@@ -28,6 +28,7 @@ import { motion } from "framer-motion";
 import "../styles/PresenceTable.css";
 import { randomId } from "@mui/x-data-grid-generator";
 import { Box, Button, Fade, Typography } from "@mui/material";
+import React from "react";
 
 
 const id_account = sessionStorage.id_account;
@@ -62,6 +63,8 @@ const PresenceTable = (props: any) => {
   const [IDRowToDelete, setIDRowToDelete] = useState<GridRowId>();
   const [rowsBuffer, setRowsBuffer] = useState<GridRowsProp>([]);
   const [rowsMode, setRowsMode] = useState<GridRowModesModel>({});
+
+  console.log("PROPS PRESENCETABLE: ", props);
 
   const heading: GridColumns = [
     {
@@ -410,39 +413,22 @@ const PresenceTable = (props: any) => {
   };
 
   return (
-    <motion.div
-      initial={{ x: 100 }}
-      animate={{ x: 0 }}
-      className="custom-grid"
-      style={{ width: "100%" }}
-    >
+    <>
       <DataGrid
-        className="dataGrid_component"
-        autoHeight
-        // components={{
-        //     LoadingOverlay: LinearProgress
-        // }}
-        // loading
         rows={rowsBuffer}
         columns={heading}
-        pageSize={20}
         editMode="row"
         rowModesModel={rowsMode}
         onRowEditStart={handleRowEditStart}
-		  onRowEditStop={handleRowEditStop}
+		    onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
-		  onProcessRowUpdateError={console.log}
-        rowsPerPageOptions={[20]}
+		    onProcessRowUpdateError={console.log}
         checkboxSelection
         components={{
           Toolbar: CustomToolbar,
         }}
         experimentalFeatures={{ newEditingApi: true }}
-        /*             editable={{
-                    onRowAdd: (),
-                    onRowEdit: (),
-                    onRowDelete: ()
-                }} */
+        {...props}
       />
 	  {open && (
         <div>
@@ -475,7 +461,7 @@ const PresenceTable = (props: any) => {
           </Fade>
         </div>
       )}
-    </motion.div>
+    </>
   );
 };
 
