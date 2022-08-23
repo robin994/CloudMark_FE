@@ -1,25 +1,27 @@
-import { useParams } from "react-router-dom"
+import { useOutletContext, useParams } from "react-router-dom"
 import { Button } from "@mui/material"
 import { ChangeEvent, useEffect, useState } from "react"
 import axios from "axios"
-import Axios from "axios"
 import "./css_components/cliente.css"
 import { MDBCol, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography } from 'mdb-react-ui-kit';
 import Spacer from "../../../components/Spacer"
+
 interface CustomerInterface {
-    name: string;
-    p_iva: string;
-    address: string;
-    cap: string;
-    iban: string;
-    phone: string;
-    email: string;
-    pec: string;
-    fax: string;
-};
+    name: string
+    p_iva: string
+    address: string
+    cap: string
+    iban: string
+    phone: string
+    email: string
+    pec: string
+    fax: string
+}
+
 export default function Cliente() {
     const [payload, setPayload] = useState<CustomerInterface>();
     let params = useParams()
+    const getDipendenti = useOutletContext() as Function
     let id_customer = params.id_customer
     useEffect(() => {
         axios.post(`${process.env.REACT_APP_FASTAPI_URL}/customer/${id_customer}`).then(resp => {
@@ -32,7 +34,11 @@ export default function Cliente() {
     function handleUpdate() {
         axios.post(
             `${process.env.REACT_APP_FASTAPI_URL}/customer/update/`, payload   
-        ).catch((err) => {
+        ).then(resp => {
+            if (resp.data.description === null
+                && resp.data.status === "SUCCESS")
+                getDipendenti()
+        }).catch((err) => {
             console.log(err);
         })
     }

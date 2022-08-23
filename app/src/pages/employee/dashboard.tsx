@@ -13,13 +13,15 @@ import './styles/dashboard.css';
 const StyledCalendar = styled(Calendar, {})({
   borderRadius: '15px',
   border: '0',
-  boxShadow: '10px 10px 10px',
+  boxShadow: '0px 0px 50px 20px #e8e8e8',
   margin: '20px',
+  paddingTop: '5px',
   '.react-calendar__navigation': {
-    borderRadius: '10px',
+    borderRadius: '12px',
     marginTop: '10px',
-    marginLeft: '10px',
+    marginLeft: '15px',
     marginRight: '10px',
+    boxShadow: '0px 0px 10px 5px #e8e8e8',
   },
   '.react-calendar__tile': {
     borderRadius: '10px'
