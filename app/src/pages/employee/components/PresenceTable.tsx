@@ -423,7 +423,6 @@ const PresenceTable = (props: any) => {
 		    onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
 		    onProcessRowUpdateError={console.log}
-        checkboxSelection
         components={{
           Toolbar: CustomToolbar,
         }}
