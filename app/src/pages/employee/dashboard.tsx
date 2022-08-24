@@ -54,9 +54,22 @@ const StyledCalendar = styled(Calendar, {})({
 })
 
 const StyledCommesse = styled(CardCommessa, {})({
+  paddingBottom: '10px',
   border: '0',
   borderRadius: '15px',
   boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.15)',
+  '.commessa-card.card': {
+    height: '100px',
+    marginTop: '20px',
+    marginBottom: '10px',
+    border: '0',
+    borderRadius: '15px',
+    boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.15)',
+  },
+  '.customerName.card-text': {
+    border: '0',
+    borderRadius: '15px 15px 0px 0px',
+  }
 });
 
 export default function Dashboard() {
