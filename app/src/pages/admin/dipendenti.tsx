@@ -196,12 +196,6 @@ export default function FullFeaturedCrudGrid() {
     }
   };
 
-
-
-
-
-
-
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
     console.log("aggiorno");
@@ -223,8 +217,6 @@ export default function FullFeaturedCrudGrid() {
       .catch((err) => {
         console.log(err);
       });
-
-
 
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
