@@ -48,6 +48,7 @@ const Chart = () => {
     function getCommesse() {
         axios.get(`${process.env.REACT_APP_FASTAPI_URL}/orders/employee/${id_employee}`).then(res => {
             for (var i in res.data.data) {
+
                 setId_business(res.data.data[i].id_business)
                 sus1.push(res.data.data[i].startDate)
                 sus2.push(res.data.data[i].endDate)
@@ -74,17 +75,16 @@ const Chart = () => {
             }
         })
     }
-    // function calcolaRate(){
-    //     setFinRate(finalDate/rate)
-    // }
 
+    var rateMock = [210, 120, 310, 90, 230]
+    
     useEffect(() => {
         setChartData({
             labels: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"],
             datasets: [
                 {
                     label: "chart alpha test",
-                    data: [12, 55, 34, 120, 720],
+                    data: rateMock,
                     borderColor: "rgb(255,02,02)",
                     backgroundColor: "rgba(210, 0, 0, 0.7)",
                 }
@@ -108,10 +108,12 @@ const Chart = () => {
     }, [value])
     const controlChart = () => {
         if (startOrderDate && endOrderDate && rate) {
+            console.log(startOrderDate)
+            console.log(endOrderDate)
             calcolaData()
             return (
                 <>
-                    <div>
+                    <div className='container'>
                         <Line options={chartOptions} data={chartData} />
                     </div>
                 </>
@@ -130,7 +132,6 @@ const Chart = () => {
                 </motion.div>
             );
         }
-
     }
     return (<>{controlChart()}</>)
 }
