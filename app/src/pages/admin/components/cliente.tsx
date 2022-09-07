@@ -46,7 +46,7 @@ export default function Cliente() {
             <>
                 <MDBCard className="mb-3 w-100 h-100 card-clienti " style={{ borderRadius: '.5rem', marginRight: '2rem', display: 'flex' }}>
                     <MDBRow className="g-0">
-                        <MDBCol md="4" className="gradient-custom text-center text-white"
+                        <MDBCol md="3" className="gradient-custom text-center text-white"
                             style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
                             <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                 alt="Avatar" className="my-5" style={{ width: '80px' }} fluid />
@@ -64,7 +64,7 @@ export default function Cliente() {
                                 </div>
                             </MDBCol>
                         </MDBCol>
-                        <MDBCol md="8" className="h-100 ">
+                        <MDBCol md="9" className="h-100 ">
                             <MDBCardBody className="p-4 border h-100 ">
                                 <CardClienti />
                             </MDBCardBody>
@@ -81,7 +81,7 @@ export default function Cliente() {
             <>
                 <MDBCard className="mb-3 w-100 h-100 card-clienti " style={{ borderRadius: '.5rem', marginRight: '2rem', display: 'flex' }}>
                     <MDBRow className="g-0">
-                        <MDBCol md="4" className="gradient-custom text-center text-white"
+                        <MDBCol md="3" className="gradient-custom text-center text-white"
                             style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
                             <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                                 alt="Avatar" className="my-5" style={{ width: '80px' }} fluid />
@@ -100,7 +100,7 @@ export default function Cliente() {
                                 </div>
                             </MDBCol>
                         </MDBCol>
-                        <MDBCol md="8" className="h-100 ">
+                        <MDBCol md="9" className="h-100 ">
                             <MDBCardBody className="p-4 border h-100 ">
                                 <Button onClick={closeOrders} style={{ marginLeft: '-9px', fontSize: '12px', textDecoration: 'underline' }}><ArrowBackIcon style={{ fontSize: '15px' }} />Torna a Cliente</Button>
                                 <CommesseByCustomer id_customer={id_customer} />

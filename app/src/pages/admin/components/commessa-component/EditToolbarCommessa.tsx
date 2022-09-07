@@ -1,4 +1,5 @@
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import {
   GridToolbarContainer,
   GridToolbarExport,
@@ -7,6 +8,7 @@ import axios from "axios";
 import React from "react";
 import { Modal } from "react-bootstrap";
 import Select from "react-select";
+import AddCustomerOnOrders from "./AddCustomerOnOrder";
 
 interface EditToolbarProps {
   customer: []
@@ -17,14 +19,19 @@ interface EditToolbarProps {
 function EditToolbarCommesse(props: EditToolbarProps) {
   const { business, getCommesse, customer } = props;
   const [show, setShow] = React.useState(false);
+  const [show2, setShow2] = React.useState(false);
   const [idCustomer, setIdCustomer] = React.useState("");
-  const [idBusiness, setIdBusiness] = React.useState("");
+  const [employees, setEmployees] = React.useState([]);
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
   const [description, setDescription] = React.useState("");
   const handleClose = () => setShow(false);
+  const handleClose2 = () => setShow2(false);
   let handleShow = () => {
     setShow(true);
+  };
+  let handleShow2 = () => {
+    setShow2(true);
   };
   React.useEffect(() => {
     getCommesse();
@@ -35,7 +42,7 @@ function EditToolbarCommesse(props: EditToolbarProps) {
     axios
       .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/create/`, {
         id_customer: idCustomer,
-        id_business: idBusiness,
+        id_business: sessionStorage.getItem("business_id"),
         startDate: startDate,
         endDate: endDate,
         description: description,
@@ -47,14 +54,17 @@ function EditToolbarCommesse(props: EditToolbarProps) {
         console.log(err);
       });
   }
+
   return (
     <GridToolbarContainer>
-      <Button onClick={handleShow} style={{ height: "29.33px" }}>
-        <span style={{ fontSize: "30px", marginRight: "5px" }}>+</span>Aggiungi
-      </Button>
+      <Tooltip title="Aggiungi una Commessa">
+        <Button onClick={handleShow} style={{ height: "29.33px" }}>
+          <span style={{ fontSize: "30px", marginRight: "5px" }}>+</span>Aggiungi
+        </Button>
+      </Tooltip>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Aggiungi Presenza</Modal.Title>
+          <Modal.Title>Aggiungi Commessa</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
@@ -70,15 +80,6 @@ function EditToolbarCommesse(props: EditToolbarProps) {
               />
             </div>
             <div className="mb-2">
-              <Select
-                hideSelectedOptions={false}
-                placeholder="Seleziona Azienda"
-                isSearchable
-                onChange={(e: any) => {
-                  setIdBusiness(e.value);
-                }}
-                options={business}
-              />
             </div>
             <div className="mb-2">
               <input
@@ -121,8 +122,22 @@ function EditToolbarCommesse(props: EditToolbarProps) {
           <Button onClick={handleClose}>Annulla</Button>
         </Modal.Footer>
       </Modal>
-      <GridToolbarExport />
+      <Tooltip title="Esporta File">
+        <GridToolbarExport />
+      </Tooltip>
+      <Tooltip title="Lega Dipendente su una Commessa">
+      <Button onClick={handleShow2} style={{ height: "29.33px" }}>
+        <span style={{ fontSize: "30px", marginRight: "5px", marginBottom: "4px" }}><PersonAddAlt1Icon style={{ fontSize: "20px" }} /></span>Lega Dipendente
+      </Button>
+      </Tooltip>
+      <Modal show={show2} onHide={handleClose2}>
+        <AddCustomerOnOrders
+          customer={customer}
+          handleClose={handleClose2}
+        />
+      </Modal>
     </GridToolbarContainer>
+
   );
 }
 export default EditToolbarCommesse;

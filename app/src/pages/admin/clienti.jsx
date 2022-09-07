@@ -9,11 +9,11 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Button, Dialog, DialogTitle, DialogActions,
-  DialogContent, DialogContentText, TextField, Divider
+  DialogContent, DialogContentText, TextField, Divider, Tooltip
 } from "@mui/material"
 import Spacer from "../../components/Spacer";
 
-let newCustomer = {}
+let newCustomer = { id_business: sessionStorage.getItem("business_id") }
 
 export default function Clienti() {
   const id_business = sessionStorage.getItem("business_id")
@@ -49,15 +49,35 @@ export default function Clienti() {
     getClienti()
   }
   const columns = [
-    { field: 'name', headerName: 'Nome', flex: 1, },
     {
-      field: 'actions', headerName: 'Actions', type: "actions", flex: 1, getActions: customer_row => [
+      field: 'name',
+      renderHeader() {
+        return (
+          <strong className=""> Nome </strong>
+        )
+      },
+      flex: 1,
+    },
+    {
+      field: 'actions',
+      renderHeader() {
+        return (
+          <strong className=""> Actions </strong>
+        )
+      },
+      type: "actions",
+      flex: 1,
+      getActions: customer_row => [
+        <Tooltip title = "Visualizza dettagli Cliente">
         <GridActionsCellItem icon={<VisibilityIcon />} label="Info"
           onClick={() => handleEdit(customer_row.id)}
-        />,
+        />
+        </Tooltip>,
+        <Tooltip title = "Cancella Cliente">
         <GridActionsCellItem icon={<DeleteIcon />} label="Delete"
           onClick={() => handleDelete(customer_row.id)}
         />
+        </Tooltip>
       ]
     }
   ];
@@ -81,9 +101,9 @@ export default function Clienti() {
       <Button color="primary" startIcon={<AddIcon />} onClick={handleAddCustomer}>
         ADD CUSTOMER
       </Button>
-      <ListGroup horizontal style={{ height: '85vh' }} >
-        <Divider>
-          <div style={{ display: 'flex', height: '85vh' }}>
+      <ListGroup horizontal style={{ height: '90vh' }} >
+        <Divider style={{display:'flex', width:''}}>
+          <div className="m-auto" style={{ display: 'flex', height: '90vh' }}>
             <DataGrid style={{ borderRadius: '.5rem' }} disableSelectionOnClick={true} rows={rows} columns={columns} />
           </div>
         </Divider>
