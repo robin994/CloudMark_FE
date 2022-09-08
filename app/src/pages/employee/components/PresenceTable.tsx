@@ -404,7 +404,10 @@ const PresenceTable = (props: any) => {
         <GridToolbarColumnsButton />
         <GridToolbarFilterButton />
         <GridToolbarDensitySelector />
-        <GridToolbarExport />
+        <GridToolbarExport csvOptions={{
+          fileName: "PresenzeEmployee",
+          delimiter: ';'
+        }}/>
         <Button color="primary" startIcon={<AddIcon />} onClick={handleAdd}>
           AGGIUNGI
         </Button>

@@ -123,7 +123,10 @@ function EditToolbarCommesse(props: EditToolbarProps) {
         </Modal.Footer>
       </Modal>
       <Tooltip title="Esporta File">
-        <GridToolbarExport />
+        <GridToolbarExport csvOptions={{
+          fileName: "Commesse",
+          delimiter: ';'
+        }} />
       </Tooltip>
       <Tooltip title="Lega Dipendente su una Commessa">
       <Button onClick={handleShow2} style={{ height: "29.33px" }}>
