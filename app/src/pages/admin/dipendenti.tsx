@@ -248,7 +248,7 @@ export default function FullFeaturedCrudGrid() {
       field: "id_account",
       headerName: "Id Account",
       width: 200,
-      editable: true,
+      editable: false,
       hide: true,
     },
     {
@@ -272,7 +272,7 @@ export default function FullFeaturedCrudGrid() {
       headerName: "Tipo Account",
       width: 150,
       flex: 0.3,
-      editable: true,
+      editable: false,
       hide: true,
       valueOptions: Object.keys(types).map((element) => {
         return { label: types[element], value: element };
@@ -327,7 +327,7 @@ export default function FullFeaturedCrudGrid() {
       },
       width: 200,
       flex: 0.3,
-      editable: true,
+      editable: false,
 
     },
     {
@@ -348,7 +348,7 @@ export default function FullFeaturedCrudGrid() {
       },
       flex: 0.3,
       width: 200,
-      editable: false,
+      editable: true,
     },
     {
       field: "iban",
