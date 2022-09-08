@@ -115,7 +115,7 @@ const AddDipendente = () => {
           </div>
           <div className='container' style={{ display: 'flex', marginTop: "1vh" }}>
             <div className='col-md-6' style={{ display: 'flex' }}>
-              <input style={{ marginRight: '1vh' }} value={user} type="text" onChange={(e) => setUser(e.target.value)} placeholder="Utente" className="form-control" required ></input>
+              <input style={{ marginRight: '1vh' }} value={user} type="text" onChange={(e) => setUser(e.target.value)} placeholder="Username" className="form-control" required ></input>
             </div>
             <div className='col-md-6' style={{ display: 'flex' }}>
               <input value={password} type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="form-control" required ></input>
