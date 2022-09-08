@@ -4,6 +4,7 @@ import { type } from 'os';
 import React, { useState, useEffect, useRef } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useNavigate } from 'react-router-dom';
 
 const id_business = sessionStorage.business_id;
 
@@ -23,6 +24,7 @@ const AddDipendente = () => {
   const [end_date, setEndDate] = useState('')
   const [serial_num, setserial_num] = useState('')
   const ref = useRef()
+  const navigate = useNavigate()
 
   const CreateEmployee = (e: any) => {
     e.preventDefault()
@@ -49,6 +51,7 @@ const AddDipendente = () => {
     })
       .then(function (response) {
         console.log(response);
+        navigate("/dipendenti", {replace: true})
       })
       .catch(function (error) {
         console.log({
