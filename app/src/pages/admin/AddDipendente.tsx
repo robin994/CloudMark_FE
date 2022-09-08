@@ -101,6 +101,7 @@ const AddDipendente = () => {
               <select style={{ marginRight: '1vh' }} id="myselect" className="form-control form-select" onChange={(e) => {
                 setIdContractType(e.target.value)
               }}>
+                <option>-Seleziona-</option>
                 <option value={'52fbe812-08f6-11ed-861d-0242ac120002'} >Determinato</option>
                 <option value={'198ef11d-cf73-4245-8469-2ddfa9979acf'}>Indeterminato</option>
               </select>
@@ -147,7 +148,7 @@ const AddDipendente = () => {
                 onClick={CreateEmployee}>Conferma </Button>
             </div>
             <a href="dipendenti">
-              <Button variant="danger" style={{ width: "100%", marginTop: "1vh" }}>Annulla</Button>
+              <Button variant="secondary" style={{ width: "100%", marginTop: "1vh" }}>Torna Indietro</Button>
             </a>
 
           </div>
