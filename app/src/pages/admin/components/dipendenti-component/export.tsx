@@ -8,7 +8,10 @@ export default function CustomToolbar() {
     <>
         <GridToolbarContainer>
         <AggiungiDipendente/>
-        <GridToolbarExport />
+        <GridToolbarExport csvOptions={{
+          fileName: "Dipendenti",
+          delimiter: ';'
+        }} />
         </GridToolbarContainer>
 
     </>
