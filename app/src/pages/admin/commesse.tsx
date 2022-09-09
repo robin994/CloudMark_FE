@@ -7,6 +7,7 @@ import { Button, Fade, Typography } from "@mui/material";
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
+import moment from "moment"
 import {
   DataGrid,
   GridActionsCellItem,
@@ -144,29 +145,56 @@ export default function FullFeaturedCrudGrid() {
     return "Errore";
   };
 
+  // const processRowUpdate = (newRow: GridRowModel) => {
+  //   const updatedRow = { ...newRow, isNew: false };
+  //   let payload = {
+  //     id_order: updatedRow.id,
+  //     description: updatedRow.description,
+  //     id_customer: updatedRow.id_customer,
+  //     id_business: updatedRow.id_business,
+  //     startDate: updatedRow.startDate.toISOString(),
+  //     endDate: updatedRow.endDate.toISOString(),
+  //   };
+  //   axios
+  //     .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update/`, payload)
+  //     .then((res) => {
+  //       console.log(res)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+  //   return updatedRow;
+  // };
+  
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
-    let startData = updatedRow.startDate.toString().split("T")[0];
-    let endDate = updatedRow.endDate.toString().split("T")[0];
-    let payload = {
-      id_order: updatedRow.id,
-      description: updatedRow.description,
-      id_customer: updatedRow.id_customer,
-      id_business: updatedRow.id_business,
-      startDate: startData,
-      endDate: endDate,
-    };
+    console.log(updatedRow)
+    let data_inizio = moment(new Date(updatedRow.startDate)).format("YYYY-MM-DD").toLocaleString().split(",")[0].replaceAll("/","-");
+    let data_fine =  moment(new Date(updatedRow.endDate)).format("YYYY-MM-DD").toLocaleString().split(",")[0].replaceAll("/","-");
+    console.log("data inizio :" + data_inizio)
+    console.log("data fine :" + data_fine )
     axios
-      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update/`, payload)
+      .post(`${process.env.REACT_APP_FASTAPI_URL}/orders/update/`, {
+        id_order: updatedRow.id,
+        description: updatedRow.description,
+        id_customer: updatedRow.id_customer,
+        id_business: updatedRow.id_business,
+        startDate: data_inizio,
+        endDate: data_fine
+        
+      })
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
+
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
+
 
   function openDipendenti(id: GridRowId) {
     navigate(`/commesse/dipendenti/${id}`)
@@ -240,6 +268,7 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "startDate",
       type: "date",
+      valueFormatter: params => moment(params?.value).format("DD/MM/YYYY"),
       renderHeader() {
         return (
           <strong className=""> Data Inizio </strong>
@@ -251,6 +280,7 @@ export default function FullFeaturedCrudGrid() {
     },
     {
       field: "endDate",
+      valueFormatter: params => moment(params?.value).format("DD/MM/YYYY"),
       type: "date",
       renderHeader() {
         return (
