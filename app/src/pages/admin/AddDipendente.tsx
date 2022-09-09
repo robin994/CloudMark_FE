@@ -4,6 +4,7 @@ import { type } from 'os';
 import React, { useState, useEffect, useRef } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useNavigate } from 'react-router-dom';
 
 const id_business = sessionStorage.business_id;
 
@@ -23,6 +24,7 @@ const AddDipendente = () => {
   const [end_date, setEndDate] = useState('')
   const [serial_num, setserial_num] = useState('')
   const ref = useRef()
+  const navigate = useNavigate()
 
   const CreateEmployee = (e: any) => {
     e.preventDefault()
@@ -49,6 +51,7 @@ const AddDipendente = () => {
     })
       .then(function (response) {
         console.log(response);
+        navigate("/dipendenti", {replace: true})
       })
       .catch(function (error) {
         console.log({
@@ -112,7 +115,7 @@ const AddDipendente = () => {
           </div>
           <div className='container' style={{ display: 'flex', marginTop: "1vh" }}>
             <div className='col-md-6' style={{ display: 'flex' }}>
-              <input style={{ marginRight: '1vh' }} value={user} type="text" onChange={(e) => setUser(e.target.value)} placeholder="Utente" className="form-control" required ></input>
+              <input style={{ marginRight: '1vh' }} value={user} type="text" onChange={(e) => setUser(e.target.value)} placeholder="Username" className="form-control" required ></input>
             </div>
             <div className='col-md-6' style={{ display: 'flex' }}>
               <input value={password} type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" className="form-control" required ></input>

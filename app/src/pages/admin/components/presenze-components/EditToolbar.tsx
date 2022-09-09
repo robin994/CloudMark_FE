@@ -164,7 +164,10 @@ function EditToolbar(props: EditToolbarProps) {
           <Button onClick={handleClose}>Annulla</Button>
         </Modal.Footer>
       </Modal>
-      <GridToolbarExport />
+      <GridToolbarExport csvOptions={{
+        fileName: "Presenze",
+        delimiter: ';'
+      }} />
     </GridToolbarContainer>
   );
 }

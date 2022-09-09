@@ -310,15 +310,6 @@ export default function FullFeaturedCrudGrid() {
 
     },
     {
-      field: "password",
-      headerName: "Password",
-      width: 200,
-      flex: 0.3,
-      editable: false,
-      hide: true
-    },
-
-    {
       field: "user",
       renderHeader() {
         return (
