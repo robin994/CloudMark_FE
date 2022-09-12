@@ -37,6 +37,8 @@ function EditToolbar(props: EditToolbarProps) {
     setShow(true);
   };
 
+  console.log(idOrder);
+
   function getEmployees() {
     axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`).then((res) => {
       let arr: any = [];
@@ -67,7 +69,7 @@ function EditToolbar(props: EditToolbarProps) {
       .then((newRow) => {
         axios
           .get(
-            `${process.env.REACT_APP_FASTAPI_URL}/presence/all/first_name/last_name/`
+            `${process.env.REACT_APP_FASTAPI_URL}/presence/all/first_name/last_name/${idOrder}`
           )
           .then((res) => {
             setRows(
