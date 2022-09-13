@@ -4,6 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { Button, Fade, Tooltip, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import moment from "moment"
 import {
   DataGrid,
   GridActionsCellItem,
@@ -154,11 +155,12 @@ export default function FullFeaturedCrudGrid() {
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
+    let date = moment(new Date(updatedRow.date_presence)).format("YYYY-MM-DD").toLocaleString().split(",")[0].replaceAll("/","-");
     axios
       .post(`${process.env.REACT_APP_FASTAPI_URL}/presence/insertUpdate`, {
         id_presence: updatedRow.id,
         id_employee: updatedRow.id_employee,
-        date_presence: updatedRow.date_presence.toISOString().split("T")[0],
+        date_presence: date,
         id_tipoPresenza: updatedRow.tipoPresenza,
         id_order: updatedRow.nome_azienda,
         hours: updatedRow.hours,
@@ -271,6 +273,7 @@ export default function FullFeaturedCrudGrid() {
     },
     {
       field: "date_presence",
+      valueFormatter: params => moment(params?.value).format("DD/MM/YYYY"),
       renderHeader() {
         return(
           <strong> Data </strong>
@@ -280,7 +283,6 @@ export default function FullFeaturedCrudGrid() {
       flex: 0.3,
       editable: true,
       type: "date",
-      valueGetter: ({ value }) => value && new Date(value),
     },
     {
       field: "actions",
