@@ -2,8 +2,9 @@ import CancelIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
-import { Button, Fade, Typography } from "@mui/material";
+import { Button, Fade, Tooltip, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import moment from "moment"
 import {
   DataGrid,
   GridActionsCellItem,
@@ -39,7 +40,7 @@ export default function FullFeaturedCrudGrid() {
   async function getPresenze() {
     axios
       .get(
-        `${process.env.REACT_APP_FASTAPI_URL}/presence/all/first_name/last_name/`
+        `${process.env.REACT_APP_FASTAPI_URL}/presence/all/first_name/last_name/${sessionStorage.getItem("business_id")}`
       )
       .then((res) => {
         setRows(
@@ -154,12 +155,12 @@ export default function FullFeaturedCrudGrid() {
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
-    console.log("aggiorno");
+    let date = moment(new Date(updatedRow.date_presence)).format("YYYY-MM-DD").toLocaleString().split(",")[0].replaceAll("/","-");
     axios
       .post(`${process.env.REACT_APP_FASTAPI_URL}/presence/insertUpdate`, {
         id_presence: updatedRow.id,
         id_employee: updatedRow.id_employee,
-        date_presence: updatedRow.date_presence.toISOString().split("T")[0],
+        date_presence: date,
         id_tipoPresenza: updatedRow.tipoPresenza,
         id_order: updatedRow.nome_azienda,
         hours: updatedRow.hours,
@@ -182,6 +183,7 @@ export default function FullFeaturedCrudGrid() {
       width: 279,
       editable: false,
       hide: true,
+      flex: 0.3,
     },
     {
       field: "id_employee",
@@ -189,6 +191,7 @@ export default function FullFeaturedCrudGrid() {
       width: 279,
       editable: false,
       hide: true,
+      flex: 0.3,
     },
     {
       field: "id_order",
@@ -196,24 +199,40 @@ export default function FullFeaturedCrudGrid() {
       width: 279,
       editable: false,
       hide: true,
+      flex: 0.3,
     },
     {
       field: "first_name",
-      headerName: "First name",
+      renderHeader() {
+          return(
+            <strong> Nome </strong>
+          )
+      },
       width: 279,
       editable: false,
+      flex: 0.3,
     },
     {
       field: "last_name",
-      headerName: "Last name",
+      renderHeader() {
+        return(
+          <strong> Cognome</strong>
+        )
+    },
       width: 279,
       editable: false,
+      flex: 0.3,
     },
     {
       field: "tipoPresenza",
-      headerName: "tipoPresenza",
+      renderHeader() {
+        return(
+          <strong> Tipo Presenza </strong>
+        )
+    },
       type: "singleSelect",
       width: 279,
+      flex: 0.3,
       editable: true,
       valueOptions: tipiPresenza,
       valueFormatter: ({ value, field, api }) => {
@@ -226,8 +245,12 @@ export default function FullFeaturedCrudGrid() {
     },
     {
       field: "hours",
-      headerName: "Ore",
-      width: 279,
+      renderHeader() {
+        return(
+          <strong> Ore </strong>
+        )
+    },
+      width: 100,
       editable: true,
       type: "number",
     },
@@ -235,7 +258,9 @@ export default function FullFeaturedCrudGrid() {
       field: "nome_azienda",
       headerName: "Commessa",
       width: 279,
-      editable: true,
+      hide: true,
+      editable: false,
+      flex: 0.3,
       type: "singleSelect",
       valueOptions: aziende,
       valueFormatter: ({ value, field, api }) => {
@@ -248,16 +273,25 @@ export default function FullFeaturedCrudGrid() {
     },
     {
       field: "date_presence",
-      headerName: "Data",
+      valueFormatter: params => moment(params?.value).format("DD/MM/YYYY"),
+      renderHeader() {
+        return(
+          <strong> Data </strong>
+        )
+    },
       width: 279,
+      flex: 0.3,
       editable: true,
       type: "date",
-      valueGetter: ({ value }) => value && new Date(value),
     },
     {
       field: "actions",
       type: "actions",
-      headerName: "Actions",
+      renderHeader() {
+        return(
+          <strong className=""> Actions </strong>
+        )
+    },
       width: 100,
       cellClassName: "actions",
       getActions: ({ id }) => {
@@ -265,35 +299,43 @@ export default function FullFeaturedCrudGrid() {
 
         if (isInEditMode) {
           return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
+            <Tooltip title="Salva">
+              <GridActionsCellItem
+                icon={<SaveIcon />}
+                label="Save"
+                onClick={handleSaveClick(id)}
+              />
+            </Tooltip>,
+            <Tooltip title="Annulla Modifche">
+              <GridActionsCellItem
+                icon={<CancelIcon />}
+                label="Cancel"
+                className="textPrimary"
+                onClick={handleCancelClick(id)}
+                color="inherit"
+              />
+            </Tooltip>,
           ];
         }
 
         return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={() => handleOpen(id)}
-            color="inherit"
-          />,
+          <Tooltip title="Modifica Presenza">
+            <GridActionsCellItem
+              icon={<EditIcon />}
+              label="Edit"
+              className="textPrimary"
+              onClick={handleEditClick(id)}
+              color="inherit"
+            />
+          </Tooltip>,
+          <Tooltip title="Cancella Presenza">
+            <GridActionsCellItem
+              icon={<DeleteIcon />}
+              label="Delete"
+              onClick={() => handleOpen(id)}
+              color="inherit"
+            />
+          </Tooltip>
         ];
       },
     },
@@ -340,7 +382,7 @@ export default function FullFeaturedCrudGrid() {
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         rowsPerPageOptions={[14]}
         pagination
-        style={{height: '89vh'}}
+        style={{ height: '89vh' }}
         autoHeight
         rows={rows}
         columns={columns}

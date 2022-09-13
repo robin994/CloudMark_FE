@@ -27,7 +27,7 @@ export default function CardCommessa(props:CardCommessaProps) {
 
     const RenderListElements = (element: any, key:number) => {
         return (
-            <Card key={key}>
+            <Card key={key} className='commessa-card'>
                 <Container fluid>
                     <Row className='nomeCliente'>
                         <Col>
@@ -48,10 +48,10 @@ export default function CardCommessa(props:CardCommessaProps) {
     }
 
     return (
-        <Card style={{textAlign: 'center'}}>
+        <Card style={{textAlign: 'center'}} {...props}>
             <Container className='containerHeight'>
                 <Card.Header>
-                    <Card.Title>Commessa</Card.Title>
+                    <Card.Title>Commesse</Card.Title>
                 </Card.Header>
                 <Card.Body>
                     {commessa.map((element: any, key: number) => {

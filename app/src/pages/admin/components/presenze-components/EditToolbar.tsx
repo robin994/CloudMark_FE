@@ -21,7 +21,7 @@ interface EditToolbarProps {
 }
 
 function EditToolbar(props: EditToolbarProps) {
-  const { setRows, rows, tipiPresenza, aziende } = props;
+  const { setRows, tipiPresenza, aziende } = props;
   const [show, setShow] = React.useState(false);
   const [idEmployee, setIdEmployee] = React.useState("");
   const [employee, setEmployee] = React.useState([]);
@@ -30,15 +30,33 @@ function EditToolbar(props: EditToolbarProps) {
   );
   const [idTipoPresenza, setIdTipoPresenza] = React.useState<any>("");
   const [idOrder, setIdOrder] = React.useState("");
+  const [orders,setOrders] = React.useState([]);
   const [hours, setHours] = React.useState("");
   const handleClose = () => setShow(false);
   let handleShow = () => {
+    getOrders();
     getEmployees();
     setShow(true);
   };
 
+  function getOrders(){
+    axios.post(`${process.env.REACT_APP_FASTAPI_URL}/orders/business/${sessionStorage.getItem("business_id")}`).then((res) => {
+      let arr: any = [];
+      Object.values(res.data.data).forEach((el: any) => {
+        arr.push({
+          value: el.id_order,
+          label: `${el.id_order} (${el.description})`,
+        });
+      });
+      setOrders(arr);
+      console.log(arr)
+    });
+  }
+
+  console.log(idOrder);
+
   function getEmployees() {
-    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee`).then((res) => {
+    axios.get(`${process.env.REACT_APP_FASTAPI_URL}/employee/business/${sessionStorage.getItem("business_id")}`).then((res) => {
       let arr: any = [];
       Object.values(res.data.data).forEach((el: any) => {
         arr.push({
@@ -67,7 +85,7 @@ function EditToolbar(props: EditToolbarProps) {
       .then((newRow) => {
         axios
           .get(
-            `${process.env.REACT_APP_FASTAPI_URL}/presence/all/first_name/last_name/`
+            `${process.env.REACT_APP_FASTAPI_URL}/presence/all/first_name/last_name/${idOrder}`
           )
           .then((res) => {
             setRows(
@@ -142,7 +160,7 @@ function EditToolbar(props: EditToolbarProps) {
                 onChange={(e: any) => {
                   setIdOrder(e.value);
                 }}
-                options={aziende}
+                options={orders}
               />
             </div>
             <div className="my-2">
@@ -164,7 +182,10 @@ function EditToolbar(props: EditToolbarProps) {
           <Button onClick={handleClose}>Annulla</Button>
         </Modal.Footer>
       </Modal>
-      <GridToolbarExport />
+      <GridToolbarExport csvOptions={{
+        fileName: "Presenze",
+        delimiter: ';'
+      }} />
     </GridToolbarContainer>
   );
 }

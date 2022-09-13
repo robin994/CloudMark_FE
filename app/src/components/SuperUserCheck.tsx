@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 export default function SuperUserCheck() {
     let navigate = useNavigate()
     useEffect(() => {
-        if (sessionStorage.accountTypeName !== "super")
+        if (sessionStorage.accountTypeName !== "superuser")
             navigate("/", {replace: true})
     }, [])
     return <Outlet />

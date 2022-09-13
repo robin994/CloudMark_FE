@@ -24,7 +24,7 @@ export default function Dipendente() {
     return (
         <div className="mycentereddiv">
             <Card style={{ width: '18rem' }}>
-            <Card.Header className="text-center"><h3>{`${dipendente.first_name} ${dipendente.last_name}`}</h3></Card.Header>
+            <Card.Header className="text-center"><h3>{`${dipendente.first_name}${dipendente.last_name}`}</h3></Card.Header>
                 <Card.Img src="/statics/dipendente.jpg" />
                 <ListGroup variant="flush">
                     <ListGroup.Item>{`Codice Fiscale: ${dipendente.cf}`}</ListGroup.Item>
