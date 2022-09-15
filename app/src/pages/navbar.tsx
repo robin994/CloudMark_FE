@@ -50,7 +50,7 @@ export default function TopMenu() {
             </Nav>
             <Nav className="d-flex">
               {sessionStorage.bearer ? 
-              sessionStorage.accountTypeName === 'super' ? (
+              sessionStorage.accountTypeName === 'superuser' ? (
                 <Nav.Link
                     href="/login"
                     onClick={() => {
