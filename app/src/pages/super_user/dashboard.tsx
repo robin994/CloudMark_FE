@@ -17,7 +17,6 @@ export default function Dashboard() {
   return (
     <>
       <Background />
-      {/* <h1 style={{position: "absolute", top: "20%", right: "50%", transform: "translateX(50%)"}}>Benvenuto Superuser</h1> */}
       <div className="container" style={{position: "absolute", top: "50%", right: "50%", transform: "translate(50%, -50%)"}}>
         <Row className='justify-content-center align-items-center Cont'>
           <motion.div className='col-xxl-3 col-lg-4 d-flex justify-content-center' initial={{ x: -100 }} animate={{ x: 0 }}>

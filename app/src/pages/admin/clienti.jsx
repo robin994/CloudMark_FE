@@ -34,7 +34,7 @@ export default function Clienti() {
   const handleDelete = id_customer => {
     axios.post(`${process.env.REACT_APP_FASTAPI_URL}/customer/delete/`, null, {
       headers: { accept: "application/json" },
-      params: { id_customer: id_customer }
+      params: { id_customer: id_customer , id_business : sessionStorage.getItem("business_id")}
     }).then(() => {
       pressRefresh(!refresh)
     }).catch(err => {
